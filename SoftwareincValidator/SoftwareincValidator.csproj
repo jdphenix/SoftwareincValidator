@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gen\scenario.cs" />
+    <Compile Include="Model\ISoftincModification.cs" />
     <Compile Include="Model\SoftincModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

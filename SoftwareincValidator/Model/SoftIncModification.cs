@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoftwareincValidator.Model
 {
-    public sealed class SoftincModification
+    public sealed class SoftincModification : ISoftincModification
     {
         /// <summary>
         /// The name of the modification, as displayed in the game.

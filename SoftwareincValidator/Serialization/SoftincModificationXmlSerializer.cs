@@ -28,7 +28,7 @@ namespace SoftwareincValidator.Serialization
         public event EventHandler Serialized;
         public event EventHandler<SerializingEventArgs> Serializing;
 
-        public void Serialize(SoftincModification mod)
+        public void Serialize(ISoftincModification mod)
         {
             foreach (var scen in mod.Scenarios)
             {
@@ -41,12 +41,12 @@ namespace SoftwareincValidator.Serialization
                     ser.Serialize(memoryStream, scen);
                     memoryStream.Position = 0;
                     doc = new XmlDocument();
+                    // TODO: Refactor out filesystem dependency
                     doc.Schemas.Add(null, "xsd\\scenario.xsd");
                     doc.Load(memoryStream);
                     doc.Validate((s, e) => Console.WriteLine($"{e.Severity}: {e.Message}"));
                 }
 
-                // TODO: Refactor output stream out to an abstraction so can be unit tested
                 using (var writer = writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
                 using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
                 {

@@ -12,7 +12,7 @@ namespace SoftwareincValidator.Serialization
         /// Serialize the provided Software Inc modification. 
         /// </summary>
         /// <param name="mod">The modification to serialize.</param>
-        void Serialize(SoftincModification mod);
+        void Serialize(ISoftincModification mod);
 
 		/// <summary>
         /// Fired immediately before serialization is started.

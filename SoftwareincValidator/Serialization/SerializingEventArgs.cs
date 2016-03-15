@@ -17,6 +17,6 @@ namespace SoftwareincValidator.Serialization
         /// <summary>
         /// The modification that is being serialized.
         /// </summary>
-        public SoftincModification Modification { get; set; }
+        public ISoftincModification Modification { get; set; }
     }
 }
