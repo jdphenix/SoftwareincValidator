@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,17 +43,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gen\scenario.cs" />
+    <Compile Include="Model\SoftincModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\Impl\FileBackedWriterProvider.cs" />
+    <Compile Include="Proxy\IWriterProvider.cs" />
+    <Compile Include="Serialization\SerializingEventArgs.cs" />
+    <Compile Include="Serialization\SoftincModificationXmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Serialization\ISoftincModificationSerializer.cs" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\scenario.xsd">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ex\OperatingSystems.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

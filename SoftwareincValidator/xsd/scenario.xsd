@@ -28,7 +28,7 @@
         <xs:element name="Events" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="Event" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="Event" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SoftwareincValidator.Model;
+using SoftwareincValidator.Proxy.Impl;
+using SoftwareincValidator.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,79 +13,80 @@ namespace SoftwareincValidator
 {
     class Program
     {
-        static void AddTextnodeIfEmpty(XmlNode node)
-        {
-            if (node.NodeType == XmlNodeType.Text) return;
-
-            if (node.HasChildNodes)
-            {
-                foreach (XmlNode child in node.ChildNodes)
-                {
-                    AddTextnodeIfEmpty(child);
-                }
-            }
-            else
-            {
-                node.AppendChild(node.OwnerDocument.CreateTextNode(string.Empty));
-            }
-        }
-
         static void Main(string[] args)
         {
-            Scenario scen = new Scenario
+            ISoftincModificationSerializer ser = new SoftincModificationXmlSerializer(
+                new FileBackedWriterProvider()
+            );
+
+            RegisterBaseXmlMutations(ser);
+
+            SoftincModification mod = new SoftincModification("Test");
+
+            mod.Scenarios.Add(new Scenario
             {
-                Name = "Test",
+                Name = "Low Money Test",
                 Money = new uint[] { 5000, 15000, 35000 },
                 Goals = new[] { "Money 200000" },
                 Years = new ushort[] { 1976, 1978 },
                 Simulation = ScenarioSimulation.TRUE,
-                SimulationSpecified = true, 
-                Trees = ScenarioTrees.FALSE,
-                TreesSpecified = true, 
+                SimulationSpecified = true,
                 ForceEnvironment = 3,
-                ForceEnvironmentSpecified = true, 
+                ForceEnvironmentSpecified = true,
                 Events = new string[0]
-            };
+            });
 
-            XmlSerializer ser = new XmlSerializer(scen.GetType());
-            XmlDocument doc = null;
-            XmlReaderSettings readerSettings = new XmlReaderSettings
+            mod.Scenarios.Add(new Scenario
             {
-                IgnoreWhitespace = true
-            };
-            XmlWriterSettings writerSettings = new XmlWriterSettings
+                Name = "High Money Test",
+                Money = new uint[] { 5000, 15000, 35000 },
+                Goals = new[] { "Money 200000000" },
+                Years = new ushort[] { 1976, 1978 },
+                Simulation = ScenarioSimulation.TRUE,
+                SimulationSpecified = true,
+                ForceEnvironment = 3,
+                ForceEnvironmentSpecified = true,
+                Events = new string[0]
+            });
+
+            ser.Serialize(mod);
+        }
+
+        private static void RegisterBaseXmlMutations(ISoftincModificationSerializer ser)
+        {
+            // TODO: Refactor these out to a.. plugin? 
+            ser.Serializing += (s, e) =>
             {
-                OmitXmlDeclaration = true,
-                NewLineChars = "\r\n",
-                NewLineHandling = NewLineHandling.Replace,
-                Indent = true, 
-                IndentChars = "\t"
-
-            };
-
-            using (var memoryStream = new MemoryStream())
-            using (var xmlReader = XmlReader.Create(memoryStream, readerSettings))
-            {
-                ser.Serialize(memoryStream, scen);
-                memoryStream.Position = 0;
-                doc = new XmlDocument();
-                doc.Load(memoryStream);
-
                 // Hackish removing of XML declaration.
-                if (doc.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
+                if (e.Document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
                 {
-                    doc.RemoveChild(doc.FirstChild);
+                    e.Document.RemoveChild(e.Document.FirstChild);
                 }
+            };
 
-                // Hackish ensuring there's no self-closing tags.
-                AddTextnodeIfEmpty(doc);
-            }
-
-            using (var writer = new StreamWriter($@"b:\out\Scenarios\{scen.Name}.xml"))
-            using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
+            // TODO: Refactor these out to a.. plugin? 
+            ser.Serializing += (s, e) =>
             {
-                doc.Save(xmlWriter);
-            }
+                Action<XmlNode> AddTextnodeIfEmpty = null;
+                AddTextnodeIfEmpty = node =>
+                {
+                    if (node.NodeType == XmlNodeType.Text) return;
+
+                    if (node.HasChildNodes)
+                    {
+                        foreach (XmlNode child in node.ChildNodes)
+                        {
+                            AddTextnodeIfEmpty(child);
+                        }
+                    }
+                    else
+                    {
+                        node.AppendChild(node.OwnerDocument.CreateTextNode(string.Empty));
+                    }
+                };
+
+                AddTextnodeIfEmpty(e.Document);
+            };
         }
     }
 }
