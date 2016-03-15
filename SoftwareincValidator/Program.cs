@@ -26,9 +26,9 @@ namespace SoftwareincValidator
             mod.Scenarios.Add(new Scenario
             {
                 Name = "Low Money Test",
-                Money = new uint[] { 5000, 15000, 35000 },
+                Money = new[] { 5000, 15000, 35000 },
                 Goals = new[] { "Money 200000" },
-                Years = new ushort[] { 1976, 1978 },
+                Years = new[] { 1976, 1978 },
                 Simulation = ScenarioSimulation.TRUE,
                 SimulationSpecified = true,
                 ForceEnvironment = 3,
@@ -39,9 +39,9 @@ namespace SoftwareincValidator
             mod.Scenarios.Add(new Scenario
             {
                 Name = "High Money Test",
-                Money = new uint[] { 5000, 15000, 35000 },
+                Money = new[] { 5000, 15000, 35000 },
                 Goals = new[] { "Money 200000000" },
-                Years = new ushort[] { 1976, 1978 },
+                Years = new[] { 1976, 1978 },
                 Simulation = ScenarioSimulation.TRUE,
                 SimulationSpecified = true,
                 ForceEnvironment = 3,

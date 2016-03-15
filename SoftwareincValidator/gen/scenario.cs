@@ -26,11 +26,11 @@ public partial class Scenario {
     
     private string nameField;
     
-    private uint[] moneyField;
+    private int[] moneyField;
     
     private string[] goalsField;
     
-    private ushort[] yearsField;
+    private int[] yearsField;
     
     private string[] eventsField;
     
@@ -72,7 +72,7 @@ public partial class Scenario {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlArrayItemAttribute("Amount", IsNullable=false)]
-    public uint[] Money {
+    public int[] Money {
         get {
             return this.moneyField;
         }
@@ -94,7 +94,7 @@ public partial class Scenario {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlArrayItemAttribute("Year", IsNullable=false)]
-    public ushort[] Years {
+    public int[] Years {
         get {
             return this.yearsField;
         }

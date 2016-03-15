@@ -7,7 +7,14 @@
         <xs:element name="Money" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="Amount" type="xs:unsignedInt" />
+              <xs:element minOccurs="1" maxOccurs="unbounded" name="Amount">
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <xs:minInclusive value="0" />
+                    <xs:maxInclusive value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -21,7 +28,15 @@
         <xs:element name="Years" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="Year" type="xs:unsignedShort" />
+              <xs:element minOccurs="1" maxOccurs="unbounded" name="Year">
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <!-- TODO: Does Software Inc actually practically or actually require a 1970 earliest starting year? Maybe I want to develop the antikythera mechanism... -->
+                    <xs:minInclusive value="1970" />
+                    <xs:maxInclusive value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
