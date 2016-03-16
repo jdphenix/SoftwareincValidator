@@ -11,6 +11,7 @@
     <AssemblyName>SoftwareincValidator</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <XsdPath>NotSet</XsdPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gen\scenario.cs" />
+    <Compile Include="gen\*.cs" />
     <Compile Include="Model\ISoftincModification.cs" />
     <Compile Include="Model\SoftincModification.cs" />
     <Compile Include="Program.cs" />
@@ -67,11 +68,23 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets. -->
+  <Target Name="GetXsdPath" BeforeTargets="BeforeBuild">
+    <GetFrameworkSdkPath>
+      <Output TaskParameter="Path" PropertyName="WindowsSdkPath" />
+    </GetFrameworkSdkPath>
+    <PropertyGroup>
+      <XsdPath>$(WindowsSdkPath)bin\xsd.exe</XsdPath>
+    </PropertyGroup>
+    <PropertyGroup>
+      <XsdPath Condition="!Exists($(XsdPath))">$(WindowsSdkPath)bin\NETFX 4.6.1 Tools\xsd.exe</XsdPath>
+    </PropertyGroup>
+  </Target>
   <Target Name="BeforeBuild">
+    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated"
+      WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
 </Project>

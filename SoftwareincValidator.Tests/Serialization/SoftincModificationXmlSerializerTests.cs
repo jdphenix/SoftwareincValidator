@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using SoftwareincValidator.Model;
+using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Serialization;
 using System;

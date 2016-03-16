@@ -1,4 +1,5 @@
 ﻿using SoftwareincValidator.Model;
+using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy.Impl;
 using SoftwareincValidator.Serialization;
 using System;

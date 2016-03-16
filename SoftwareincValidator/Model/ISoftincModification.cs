@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SoftwareincValidator.Model.Generated;
+using System.Collections.Generic;
 
 namespace SoftwareincValidator.Model
 {
