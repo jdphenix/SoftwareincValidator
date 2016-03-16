@@ -9,13 +9,13 @@ namespace SoftwareincValidator.Proxy.Impl
 {
     class FileBackedWriterProvider : IWriterProvider
     {
-        private static readonly string outPath = ConfigurationManager.AppSettings["outputPath"];
+        private static readonly string OutPath = ConfigurationManager.AppSettings["outputPath"];
 
         public TextWriter GetWriter(string writerParameter)
         {
-            var fullOutputPath = Path.Combine(outPath, writerParameter);
-            FileInfo fi = new FileInfo(fullOutputPath);
-            fi.Directory.Create();
+            var fullOutputPath = Path.Combine(OutPath, writerParameter);
+            var fi = new FileInfo(fullOutputPath);
+            fi.Directory?.Create();
 
             var fileStream = new FileStream(fullOutputPath, FileMode.Create);
             var writer = new StreamWriter(fileStream);

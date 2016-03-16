@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SoftwareincValidator.Model;
-using System.Xml.Serialization;
-using System.Xml;
 using System.IO;
-using System.Configuration;
+using System.Xml;
+using System.Xml.Serialization;
+using SoftwareincValidator.Model;
 using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator.Serialization
 {
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
-        private readonly IWriterProvider writerProvider;
+        private readonly IWriterProvider _writerProvider;
 
         public SoftincModificationXmlSerializer(IWriterProvider writerProvider)
         {
@@ -22,7 +18,7 @@ namespace SoftwareincValidator.Serialization
                 throw new ArgumentNullException(nameof(writerProvider));
             }
 
-            this.writerProvider = writerProvider;
+            _writerProvider = writerProvider;
         }
 
         public event EventHandler Serialized;
@@ -32,9 +28,9 @@ namespace SoftwareincValidator.Serialization
         {
             foreach (var scen in mod.Scenarios)
             {
-                XmlSerializer ser = new XmlSerializer(scen.GetType());
+                var ser = new XmlSerializer(scen.GetType());
+                var writerSettings = GetSoftwareincWriterSettings();
                 XmlDocument doc = null;
-                XmlWriterSettings writerSettings = GetSoftwareincWriterSettings();
 
                 using (var memoryStream = new MemoryStream())
                 {
@@ -47,7 +43,7 @@ namespace SoftwareincValidator.Serialization
                     doc.Validate((s, e) => Console.WriteLine($"{e.Severity}: {e.Message}"));
                 }
 
-                using (var writer = writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
+                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
                 using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
                 {
                     OnSerializing(new SerializingEventArgs

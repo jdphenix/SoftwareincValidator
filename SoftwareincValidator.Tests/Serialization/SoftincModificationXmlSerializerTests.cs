@@ -15,24 +15,24 @@ namespace SoftwareincValidator.Tests.Serialization
     [TestClass]
     public class SoftincModificationXmlSerializerTests
     {
-        private SoftincModificationXmlSerializer ser;
-        private IWriterProvider writerProvider;
-        private TextWriter writer;
+        private SoftincModificationXmlSerializer _ser;
+        private IWriterProvider _writerProvider;
+        private TextWriter _writer;
 
         [TestInitialize]
         public void Initialize()
         {
-            writer = Substitute.For<TextWriter>();
-            writerProvider = Substitute.For<IWriterProvider>();
-            writerProvider.GetWriter(null).ReturnsForAnyArgs(writer);
-            ser = new SoftincModificationXmlSerializer(writerProvider);
+            _writer = Substitute.For<TextWriter>();
+            _writerProvider = Substitute.For<IWriterProvider>();
+            _writerProvider.GetWriter(null).ReturnsForAnyArgs(_writer);
+            _ser = new SoftincModificationXmlSerializer(_writerProvider);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullWriterProvider_ThrowsException()
         {
-            ser = new SoftincModificationXmlSerializer(null);
+            _ser = new SoftincModificationXmlSerializer(null);
         }
 
         [TestMethod]
@@ -43,9 +43,9 @@ namespace SoftwareincValidator.Tests.Serialization
             mod.Name.Returns(expected);
             mod.Scenarios.Returns(new List<Scenario> { new Scenario { Name = expected } });
 
-            ser.Serialize(mod);
+            _ser.Serialize(mod);
 
-            writerProvider.Received(1).GetWriter($@"{expected}\Scenarios\{expected}.xml");
+            _writerProvider.Received(1).GetWriter($@"{expected}\Scenarios\{expected}.xml");
         }
 
         [TestMethod]
@@ -58,9 +58,9 @@ namespace SoftwareincValidator.Tests.Serialization
             mod.Name.Returns(expectedModName);
             mod.Scenarios.Returns(new List<Scenario> { new Scenario { Name = expectedScenarioName } });
 
-            ser.Serialize(mod);
+            _ser.Serialize(mod);
 
-            writerProvider.Received(1).GetWriter($@"{expectedModName}\Scenarios\{expectedScenarioName}.xml");
+            _writerProvider.Received(1).GetWriter($@"{expectedModName}\Scenarios\{expectedScenarioName}.xml");
         }
 
         [TestMethod]
@@ -71,9 +71,9 @@ namespace SoftwareincValidator.Tests.Serialization
             mod.Name.Returns("kittens");
             mod.Scenarios.Returns(new List<Scenario>());
 
-            ser.Serialize(mod);
+            _ser.Serialize(mod);
 
-            var receivedCount = writerProvider.ReceivedCalls()
+            var receivedCount = _writerProvider.ReceivedCalls()
                 .Select(x => x.GetArguments()
                     .Select(ar => ar.ToString()
                     .Contains("Scenarios")))
@@ -89,9 +89,9 @@ namespace SoftwareincValidator.Tests.Serialization
             mod.Name.Returns("kittens");
             mod.Scenarios.Returns(new List<Scenario> { new Scenario { Name = "puppies" } });
 
-            ser.Serialize(mod);
+            _ser.Serialize(mod);
 
-            var receivedCount = writerProvider.ReceivedCalls()
+            var receivedCount = _writerProvider.ReceivedCalls()
                 .Select(x => x.GetArguments()
                     .Select(ar => ar.ToString()
                     .Contains("Scenarios")))
@@ -107,9 +107,9 @@ namespace SoftwareincValidator.Tests.Serialization
             mod.Name.Returns("kittens");
             mod.Scenarios.Returns(new List<Scenario>(Enumerable.Repeat(new Scenario { Name = "puppies" }, 200)));
 
-            ser.Serialize(mod);
+            _ser.Serialize(mod);
 
-            var receivedCount = writerProvider.ReceivedCalls()
+            var receivedCount = _writerProvider.ReceivedCalls()
                 .Select(x => x.GetArguments()
                     .Select(ar => ar.ToString()
                     .Contains("Scenarios")))

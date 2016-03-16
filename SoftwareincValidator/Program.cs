@@ -4,6 +4,7 @@ using SoftwareincValidator.Proxy.Impl;
 using SoftwareincValidator.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,10 @@ using System.Xml.Serialization;
 
 namespace SoftwareincValidator
 {
-    class Program
+    [ExcludeFromCodeCoverage]
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             ISoftincModificationSerializer ser = new SoftincModificationXmlSerializer(
                 new FileBackedWriterProvider()
@@ -22,7 +24,7 @@ namespace SoftwareincValidator
 
             RegisterBaseXmlMutations(ser);
 
-            SoftincModification mod = new SoftincModification("Test");
+            var mod = new SoftincModification("Test");
 
             mod.Scenarios.Add(new Scenario
             {
@@ -68,8 +70,8 @@ namespace SoftwareincValidator
             // TODO: Refactor these out to a.. plugin? 
             ser.Serializing += (s, e) =>
             {
-                Action<XmlNode> AddTextnodeIfEmpty = null;
-                AddTextnodeIfEmpty = node =>
+                Action<XmlNode> addTextnodeIfEmpty = null;
+                addTextnodeIfEmpty = node =>
                 {
                     if (node.NodeType == XmlNodeType.Text) return;
 
@@ -77,7 +79,7 @@ namespace SoftwareincValidator
                     {
                         foreach (XmlNode child in node.ChildNodes)
                         {
-                            AddTextnodeIfEmpty(child);
+                            addTextnodeIfEmpty(child);
                         }
                     }
                     else
@@ -86,7 +88,7 @@ namespace SoftwareincValidator
                     }
                 };
 
-                AddTextnodeIfEmpty(e.Document);
+                addTextnodeIfEmpty(e.Document);
             };
         }
     }

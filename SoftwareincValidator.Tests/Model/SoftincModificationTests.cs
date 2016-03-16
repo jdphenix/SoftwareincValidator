@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SoftwareincValidator.Model;
 
-namespace SoftwareincValidator.Model.Tests
+namespace SoftwareincValidator.Tests.Model
 {
     [TestClass]
     public class SoftincModificationTests
@@ -11,6 +11,7 @@ namespace SoftwareincValidator.Model.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void Constructor_PassedEmptyName_ShouldThrowException()
         {
+            // ReSharper disable once ObjectCreationAsStatement
             new SoftincModification(string.Empty);
         }
 
@@ -18,6 +19,7 @@ namespace SoftwareincValidator.Model.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void Constructor_PassedNullName_ShouldThrowException()
         {
+            // ReSharper disable once ObjectCreationAsStatement
             new SoftincModification(null);
         }
 
