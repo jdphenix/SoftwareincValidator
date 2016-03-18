@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using SoftwareincValidator.Validation.Impl;
 
 namespace SoftwareincValidator
 {
@@ -19,6 +20,7 @@ namespace SoftwareincValidator
         private static void Main(string[] args)
         {
             ISoftincModificationSerializer ser = new SoftincModificationXmlSerializer(
+                new ScenarioValidator(), 
                 new FileBackedWriterProvider()
             );
 
