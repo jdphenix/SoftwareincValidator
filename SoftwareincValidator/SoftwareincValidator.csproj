@@ -50,7 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\Impl\FileBackedWriterProvider.cs" />
     <Compile Include="Proxy\IWriterProvider.cs" />
+    <Compile Include="Serialization\ISoftincModificationLoader.cs" />
+    <Compile Include="Serialization\ModificationLoadException.cs" />
     <Compile Include="Serialization\SerializingEventArgs.cs" />
+    <Compile Include="Serialization\SoftincFileModificationLoader.cs" />
     <Compile Include="Serialization\SoftincModificationXmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,8 +85,7 @@
     </PropertyGroup>
   </Target>
   <Target Name="BeforeBuild">
-    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated"
-      WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

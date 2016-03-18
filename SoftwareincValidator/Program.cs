@@ -22,35 +22,11 @@ namespace SoftwareincValidator
                 new FileBackedWriterProvider()
             );
 
+            ISoftincModificationLoader loader = new SoftincFileModificationLoader();
+
             RegisterBaseXmlMutations(ser);
 
-            var mod = new SoftincModification("Test");
-
-            mod.Scenarios.Add(new Scenario
-            {
-                Name = "Low Money Test",
-                Money = new[] { 5000, 15000, 35000 },
-                Goals = new[] { "Money 200000" },
-                Years = new[] { 1976, 1978 },
-                Simulation = ScenarioSimulation.TRUE,
-                SimulationSpecified = true,
-                ForceEnvironment = 3,
-                ForceEnvironmentSpecified = true,
-                Events = new string[0]
-            });
-
-            mod.Scenarios.Add(new Scenario
-            {
-                Name = "High Money Test",
-                Money = new[] { 5000, 15000, 35000 },
-                Goals = new[] { "Money 200000000" },
-                Years = new[] { 1976, 1978 },
-                Simulation = ScenarioSimulation.TRUE,
-                SimulationSpecified = true,
-                ForceEnvironment = 3,
-                ForceEnvironmentSpecified = true,
-                Events = new string[0]
-            });
+            var mod = loader.Load(@"D:\SteamLibrary\steamapps\common\Software Inc\Mods\Mo' Stuff Mod (v0.1.6)");
 
             ser.Serialize(mod);
         }
