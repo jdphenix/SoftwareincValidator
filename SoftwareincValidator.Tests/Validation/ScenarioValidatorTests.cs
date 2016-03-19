@@ -145,6 +145,34 @@ namespace SoftwareincValidator.Tests.Validation
         }
 
         [TestMethod]
+        public void Validate_PassedEmptyGoals_PassesValidation()
+        {
+            const int expectedCount = 1;
+            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
+            var scenario = new Scenario
+            {
+                Name = "Low Money Test",
+                Money = new[] { 5000, 15000, 35000 },
+                Goals = new string[] { },
+                Years = new[] { 1976, 1978 },
+                Simulation = ScenarioSimulation.TRUE,
+                SimulationSpecified = true,
+                ForceEnvironment = 3,
+                ForceEnvironmentSpecified = true,
+                Events = new string[0]
+            };
+
+            var actual = Validator.Validate(scenario);
+
+            var validationResults = actual as ValidationResult[] ?? actual.ToArray();
+
+            Assert.AreEqual(expectedCount, validationResults.Length);
+            Assert.AreEqual(expectedMessage, validationResults.Single().Message);
+            Assert.AreEqual(ValidationSource.Undefined, validationResults.Single().Source);
+            Assert.AreEqual(ValidationLevel.Success, validationResults.Single().Level);
+        }
+
+        [TestMethod]
         public void Validate_PassedValidScenario_PassesValidation()
         {
             const int expectedCount = 1;
