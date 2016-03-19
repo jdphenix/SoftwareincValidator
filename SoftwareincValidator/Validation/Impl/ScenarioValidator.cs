@@ -35,14 +35,16 @@ namespace SoftwareincValidator.Validation.Impl
                 doc.Load(memoryStream);
                 doc.Validate((s, e) =>
                 {
-                    results.Add(new ValidationResult(e.Message, SeverityDictionary[e.Severity], ValidationSource.XmlSchema));
+                    results.Add(new ValidationResult(
+                        $"[{component.GetType().Name}] [{component.Name}] {e.Message}", 
+                        SeverityDictionary[e.Severity], ValidationSource.XmlSchema));
                 });
             }
 
             if (!results.Any())
             {
                 results.Add(new ValidationResult(
-                    message: $"Successful validation of {component.GetType().Name}:{component.Name}", 
+                    message: $"[{component.GetType().Name}] [{component.Name}] Valid.", 
                     level: ValidationLevel.Success));
             }
 

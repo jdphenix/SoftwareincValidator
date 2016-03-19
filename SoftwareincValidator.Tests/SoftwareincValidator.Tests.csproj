@@ -73,11 +73,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="xsd\scenario.xsd">
+    <None Include="..\SoftwareincValidator\xsd\scenario.xsd">
+      <Link>xsd\scenario.xsd</Link>
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
