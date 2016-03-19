@@ -21,7 +21,7 @@
         <xs:element name="Goals" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="Goal" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="Goal" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
