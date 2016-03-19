@@ -148,7 +148,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedValidScenario_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "Successful validation of Scenario:Low Money Test";
+            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",
@@ -272,7 +272,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedLowRangeEnvironmentScenario_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "Successful validation of Scenario:Low Money Test";
+            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",
@@ -298,7 +298,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedHighRangeEnvironmentScenario_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "Successful validation of Scenario:Low Money Test";
+            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",

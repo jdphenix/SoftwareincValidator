@@ -37,6 +37,12 @@ namespace SoftwareincValidator.Serialization
         {
             foreach (var scen in mod.Scenarios)
             {
+                foreach (var result in _validator.Validate(scen))
+                {
+                    // todo: refactor
+                    Console.WriteLine(result);
+                }
+
                 var ser = new XmlSerializer(scen.GetType());
                 var writerSettings = GetSoftwareincWriterSettings();
                 XmlDocument doc = null;
@@ -49,7 +55,6 @@ namespace SoftwareincValidator.Serialization
                     // TODO: Refactor out filesystem dependency
                     doc.Schemas.Add(null, "xsd\\scenario.xsd");
                     doc.Load(memoryStream);
-                    doc.Validate((s, e) => Console.WriteLine($"{e.Severity}: {e.Message}"));
                 }
 
                 using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
