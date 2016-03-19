@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Tests.Serialization
 {
@@ -18,6 +19,7 @@ namespace SoftwareincValidator.Tests.Serialization
         private SoftincModificationXmlSerializer _ser;
         private IWriterProvider _writerProvider;
         private TextWriter _writer;
+        private IModComponentValidator<Scenario> _validator;
 
         [TestInitialize]
         public void Initialize()
@@ -25,14 +27,24 @@ namespace SoftwareincValidator.Tests.Serialization
             _writer = Substitute.For<TextWriter>();
             _writerProvider = Substitute.For<IWriterProvider>();
             _writerProvider.GetWriter(null).ReturnsForAnyArgs(_writer);
-            _ser = new SoftincModificationXmlSerializer(_writerProvider);
+
+            _validator = Substitute.For<IModComponentValidator<Scenario>>();
+
+            _ser = new SoftincModificationXmlSerializer(_validator, _writerProvider);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_PassedNullValidator_ThrowsException()
+        {
+            _ser = new SoftincModificationXmlSerializer(null, _writerProvider);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullWriterProvider_ThrowsException()
         {
-            _ser = new SoftincModificationXmlSerializer(null);
+            _ser = new SoftincModificationXmlSerializer(_validator, null);
         }
 
         [TestMethod]

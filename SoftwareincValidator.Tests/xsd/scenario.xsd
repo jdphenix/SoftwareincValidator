@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Scenario">
+    <xs:complexType>
+      <xs:sequence maxOccurs="1">
+        <xs:element name="Name" type="xs:string" />
+        <xs:element name="Money" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="unbounded" name="Amount">
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <xs:minInclusive value="0" />
+                    <xs:maxInclusive value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Goals" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Goal" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Years" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" maxOccurs="unbounded" name="Year">
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <!-- TODO: Does Software Inc actually practically or actually require a 1970 earliest starting year? Maybe I want to develop the antikythera mechanism... -->
+                    <xs:minInclusive value="1970" />
+                    <xs:maxInclusive value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Events" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="Event" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Simulation" minOccurs="0" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="TRUE" />
+              <xs:enumeration value="FALSE" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Trees" minOccurs="0" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="TRUE" />
+              <xs:enumeration value="FALSE" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MinFloor" type="xs:int" minOccurs="0" maxOccurs="1" />
+        <xs:element name="MaxFloor" type="xs:int" minOccurs="0" maxOccurs="1" />
+        <xs:element name="CanExpand" minOccurs="0" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="TRUE" />
+              <xs:enumeration value="FALSE" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="ForceEnvironment" minOccurs="0" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="0" />
+              <xs:maxInclusive value="3" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="StartingArea" type="xs:string" minOccurs="0" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

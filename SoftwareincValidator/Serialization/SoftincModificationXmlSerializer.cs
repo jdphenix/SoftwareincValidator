@@ -3,21 +3,30 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
+using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
+using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Serialization
 {
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
+        private readonly IModComponentValidator<Scenario> _validator;
 
-        public SoftincModificationXmlSerializer(IWriterProvider writerProvider)
+        public SoftincModificationXmlSerializer(IModComponentValidator<Scenario> validator, IWriterProvider writerProvider)
         {
+            if (validator == null)
+            {
+                throw new ArgumentNullException(nameof(validator));
+            }
+
             if (writerProvider == null)
             {
                 throw new ArgumentNullException(nameof(writerProvider));
             }
 
+            _validator = validator;
             _writerProvider = writerProvider;
         }
 

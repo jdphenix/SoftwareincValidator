@@ -12,6 +12,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Autofac;
 using SoftwareincValidator.Proxy;
+using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator
 {
@@ -24,6 +25,7 @@ namespace SoftwareincValidator
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterModule<ValidationModule>();
             builder.RegisterModule<ModelModule>();
             builder.RegisterModule<ProxyModule>();
             builder.RegisterModule<SerializationModule>();
@@ -32,7 +34,7 @@ namespace SoftwareincValidator
         }
 
         private static void Main(string[] args)
-        {
+            {
             var ser = _container.Resolve<ISoftincModificationSerializer>();
             var loader = _container.Resolve<ISoftincModificationLoader>();
 
