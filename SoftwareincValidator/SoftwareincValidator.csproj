@@ -56,7 +56,11 @@
     <Compile Include="Proxy\IDirectoryInfo.cs" />
     <Compile Include="Proxy\IFileInfo.cs" />
     <Compile Include="Proxy\IFileSystem.cs" />
+    <Compile Include="Proxy\Impl\DirectoryInfoProxy.cs" />
     <Compile Include="Proxy\Impl\FileBackedWriterProvider.cs" />
+    <Compile Include="Proxy\Impl\FileInfoProxy.cs" />
+    <Compile Include="Proxy\Impl\FileSystemProxy.cs" />
+    <Compile Include="Proxy\Impl\XmlSerializerProxy.cs" />
     <Compile Include="Proxy\IWriterProvider.cs" />
     <Compile Include="Proxy\ProxyModule.cs" />
     <Compile Include="Serialization\ISoftincModificationLoader.cs" />

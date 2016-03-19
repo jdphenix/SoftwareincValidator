@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Autofac;
@@ -12,6 +13,16 @@ namespace SoftwareincValidator.Proxy
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<FileBackedWriterProvider>().As<IWriterProvider>();
+            builder.RegisterType<FileSystemProxy>().As<IFileSystem>();
+            builder.RegisterGeneric(typeof(XmlSerializerProxy<>))
+                .As(typeof(IXmlSerializer<>));
+
+            builder.RegisterType<FileInfoProxy>().As<IFileInfo>();
+            builder.RegisterType<FileInfo>().AsSelf();
+
+            builder.RegisterType<DirectoryInfoProxy>().As<IDirectoryInfo>();
+            builder.RegisterType<DirectoryInfo>().AsSelf();
+
         }
     }
 }

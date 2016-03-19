@@ -7,7 +7,7 @@ using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Proxy
 {
-    public interface IXmlSerializer<T>
+    public interface IXmlSerializer<out T>
     {
         T Deserialize(TextReader reader);
     }
