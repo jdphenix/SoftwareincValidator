@@ -26,7 +26,8 @@ namespace SoftwareincValidator.Validation.Impl
 
             _keyedSchemata = new Dictionary<Type, XmlSchema>
             {
-                { typeof(Scenario), Load("xsd\\scenario.xsd")}
+                { typeof(Scenario), Load("xsd\\scenario.xsd")},
+                { typeof(PersonalityGraph), Load("xsd\\personalities.xsd") }
             };
         }
 

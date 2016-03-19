@@ -40,7 +40,7 @@ namespace SoftwareincValidator
 
             RegisterBaseXmlMutations(ser);
 
-            var mod = loader.Load(@"D:\SteamLibrary\steamapps\common\Software Inc\Mods\Mo' Stuff Mod (v0.1.6)");
+            var mod = loader.Load(@"C:\Users\jdphe\Downloads\Resources");
 
             ser.Serialize(mod);
         }

@@ -70,7 +70,9 @@ namespace SoftwareincValidator.Serialization
             var personalities = directory
                 .GetFiles()
                 // todo: refactor, magic string
-                .Single(f => f.Name.Equals("Personalities.xml"));
+                .SingleOrDefault(f => f.Name.Equals("Personalities.xml"));
+
+            if (personalities == null) return null;
 
             using (var reader = personalities.OpenText())
             {
@@ -116,6 +118,8 @@ namespace SoftwareincValidator.Serialization
             {
                 mod.Scenarios.Add(scenario);
             }
+
+            mod.Personalities = LoadPersonalityGraph(location);
 
             return mod;
         }

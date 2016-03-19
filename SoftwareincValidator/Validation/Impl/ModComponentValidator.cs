@@ -50,7 +50,7 @@ namespace SoftwareincValidator.Validation.Impl
 
                 var doc = new XmlDocument();
                 // TODO: Refactor out filesystem dependency
-                doc.Schemas.Add(_schemaProvider.Schema(typeof(Scenario)));
+                doc.Schemas.Add(_schemaProvider.Schema(typeof(T)));
                 doc.Load(memoryStream);
                 doc.Validate((s, e) =>
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
@@ -12,13 +13,22 @@ namespace SoftwareincValidator.Serialization
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
-        private readonly IModComponentValidator<Scenario> _validator;
+        private readonly IModComponentValidator<Scenario> _scenarioValidator;
+        private readonly IModComponentValidator<PersonalityGraph> _personalitiesValidator;
 
-        public SoftincModificationXmlSerializer(IModComponentValidator<Scenario> validator, IWriterProvider writerProvider)
+        public SoftincModificationXmlSerializer(
+            IModComponentValidator<PersonalityGraph> personalitiesValidator,
+            IModComponentValidator<Scenario> scenarioValidator, 
+            IWriterProvider writerProvider)
         {
-            if (validator == null)
+            if (personalitiesValidator == null)
             {
-                throw new ArgumentNullException(nameof(validator));
+                throw new ArgumentNullException(nameof(personalitiesValidator));
+            }
+
+            if (scenarioValidator == null)
+            {
+                throw new ArgumentNullException(nameof(scenarioValidator));
             }
 
             if (writerProvider == null)
@@ -26,7 +36,8 @@ namespace SoftwareincValidator.Serialization
                 throw new ArgumentNullException(nameof(writerProvider));
             }
 
-            _validator = validator;
+            _personalitiesValidator = personalitiesValidator;
+            _scenarioValidator = scenarioValidator;
             _writerProvider = writerProvider;
         }
 
@@ -35,9 +46,14 @@ namespace SoftwareincValidator.Serialization
 
         public void Serialize(ISoftincModification mod)
         {
+            if (mod.Personalities != null)
+            {
+                _personalitiesValidator.Validate(mod.Personalities).ToList().ForEach(x => Console.WriteLine(x));
+            }
+
             foreach (var scen in mod.Scenarios)
             {
-                foreach (var result in _validator.Validate(scen))
+                foreach (var result in _scenarioValidator.Validate(scen))
                 {
                     // todo: refactor
                     Console.WriteLine(result);
