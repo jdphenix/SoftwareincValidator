@@ -73,6 +73,7 @@
     <Compile Include="Validation\IModComponentValidator.cs" />
     <Compile Include="Validation\Impl\ScenarioValidator.cs" />
     <Compile Include="Validation\ValidationLevel.cs" />
+    <Compile Include="Validation\ValidationModule.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="Validation\ValidationSource.cs" />
   </ItemGroup>
