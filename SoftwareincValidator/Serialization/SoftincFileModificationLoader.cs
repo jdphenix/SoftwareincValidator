@@ -6,50 +6,66 @@ using System.Text;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator.Serialization
 {
     internal class SoftincFileModificationLoader : ISoftincModificationLoader
     {
-        private static XmlSerializer ScenarioSerializer = new XmlSerializer(typeof(Scenario));
+        private readonly IFileSystem _fileSystem;
+        private readonly Func<string, IDirectoryInfo> _directoryFactory;
+        private readonly IXmlSerializer<Scenario> _xmlSerializer; 
 
-        private static string GetModName(string location)
+        public SoftincFileModificationLoader(
+            IFileSystem fileSystem, 
+            Func<string, IDirectoryInfo> directoryFactory,
+            IXmlSerializer<Scenario> xmlSerializer)
         {
-            if (Directory.Exists(location))
+            if (fileSystem == null)
             {
-                return location
-                    .Split(Path.DirectorySeparatorChar)
-                    .Last();
+                throw new ArgumentNullException(nameof(fileSystem));
             }
 
-            if (File.Exists(location))
+            if (directoryFactory == null)
             {
-                try
-                {
-                    return Path.GetDirectoryName(location)
-                        ?.Split(Path.DirectorySeparatorChar)
-                        .Last();
-                }
-                catch (PathTooLongException ex)
-                {
-                    throw new ModificationLoadException(ex.Message, ex);
-                }
+                throw new ArgumentNullException(nameof(directoryFactory));
+            }
+
+            if (xmlSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(xmlSerializer));
+            }
+
+            _fileSystem = fileSystem;
+            _directoryFactory = directoryFactory;
+            _xmlSerializer = xmlSerializer;
+        }
+
+        private string GetModName(string location)
+        {
+            if (_fileSystem.DirectoryExists(location))
+            {
+                return location
+                    .Split(_fileSystem.PathDirectorySeparatorChar)
+                    .Last();
             }
 
             throw new ModificationLoadException($"Provided location {location} doesn't appear to be a mod directory.", null);
         }
 
-        private static IEnumerable<Scenario> LoadScenarios(string location)
+        private IEnumerable<Scenario> LoadScenarios(string location)
         {
-            var directory = new DirectoryInfo(Path.Combine(location, "Scenarios"));
-            var files = directory.GetFiles();
+            var directory = _directoryFactory(_fileSystem.PathCombine(location, "Scenarios"));
 
-            foreach (var file in files)
+            if (directory.Exists)
             {
+                foreach (var file in directory.GetFiles())
                 {
-                    using (TextReader reader = file.OpenText())
                     {
-                        yield return (Scenario) ScenarioSerializer.Deserialize(reader);
+                        using (var reader = file.OpenText())
+                        {
+                            yield return _xmlSerializer.Deserialize(reader);
+                        }
                     }
                 }
             }
@@ -57,7 +73,17 @@ namespace SoftwareincValidator.Serialization
 
         public ISoftincModification Load(string location)
         {
-            var absolutePath = Path.GetFullPath(location);
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
+            if (location == string.Empty)
+            {
+                location = _fileSystem.DirectoryGetCurrentDirectory();
+            }
+
+            var absolutePath = _fileSystem.PathGetFullPath(location);
 
             var mod = new SoftincModification(GetModName(absolutePath));
             foreach (var scenario in LoadScenarios(absolutePath))

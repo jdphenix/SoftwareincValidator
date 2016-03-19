@@ -10,19 +10,31 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Autofac;
+using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator
 {
     [ExcludeFromCodeCoverage]
     internal class Program
     {
+        private static readonly IContainer _container;
+
+        static Program()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<ModelModule>();
+            builder.RegisterModule<ProxyModule>();
+            builder.RegisterModule<SerializationModule>();
+
+            _container = builder.Build();
+        }
+
         private static void Main(string[] args)
         {
-            ISoftincModificationSerializer ser = new SoftincModificationXmlSerializer(
-                new FileBackedWriterProvider()
-            );
-
-            ISoftincModificationLoader loader = new SoftincFileModificationLoader();
+            var ser = _container.Resolve<ISoftincModificationSerializer>();
+            var loader = _container.Resolve<ISoftincModificationLoader>();
 
             RegisterBaseXmlMutations(ser);
 
