@@ -21,5 +21,6 @@ namespace SoftwareincValidator.Proxy.Impl
         }
 
         public TextReader OpenText() => _fileInfo.OpenText();
+        public string Name => _fileInfo.Name;
     }
 }

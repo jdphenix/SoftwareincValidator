@@ -14,12 +14,14 @@ namespace SoftwareincValidator.Serialization
     {
         private readonly IFileSystem _fileSystem;
         private readonly Func<string, IDirectoryInfo> _directoryFactory;
-        private readonly IXmlSerializer<Scenario> _xmlSerializer; 
+        private readonly IXmlSerializer<Scenario> _scenarioSerializer;
+        private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer; 
 
         public SoftincFileModificationLoader(
             IFileSystem fileSystem, 
             Func<string, IDirectoryInfo> directoryFactory,
-            IXmlSerializer<Scenario> xmlSerializer)
+            IXmlSerializer<Scenario> scenarioSerializer,
+            IXmlSerializer<PersonalityGraph> personalityGraphSerializer)
         {
             if (fileSystem == null)
             {
@@ -31,14 +33,20 @@ namespace SoftwareincValidator.Serialization
                 throw new ArgumentNullException(nameof(directoryFactory));
             }
 
-            if (xmlSerializer == null)
+            if (scenarioSerializer == null)
             {
-                throw new ArgumentNullException(nameof(xmlSerializer));
+                throw new ArgumentNullException(nameof(scenarioSerializer));
+            }
+
+            if (personalityGraphSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(personalityGraphSerializer));
             }
 
             _fileSystem = fileSystem;
             _directoryFactory = directoryFactory;
-            _xmlSerializer = xmlSerializer;
+            _scenarioSerializer = scenarioSerializer;
+            _personalityGraphSerializer = personalityGraphSerializer;
         }
 
         private string GetModName(string location)
@@ -53,8 +61,26 @@ namespace SoftwareincValidator.Serialization
             throw new ModificationLoadException($"Provided location {location} doesn't appear to be a mod directory.", null);
         }
 
+        private PersonalityGraph LoadPersonalityGraph(string location)
+        {
+            var directory = _directoryFactory(location);
+
+            if (!directory.Exists) return null;
+
+            var personalities = directory
+                .GetFiles()
+                // todo: refactor, magic string
+                .Single(f => f.Name.Equals("Personalities.xml"));
+
+            using (var reader = personalities.OpenText())
+            {
+                return _personalityGraphSerializer.Deserialize(reader);
+            }
+        }
+
         private IEnumerable<Scenario> LoadScenarios(string location)
         {
+            // todo: refactor, magic string
             var directory = _directoryFactory(_fileSystem.PathCombine(location, "Scenarios"));
 
             if (directory.Exists)
@@ -64,7 +90,7 @@ namespace SoftwareincValidator.Serialization
                     {
                         using (var reader = file.OpenText())
                         {
-                            yield return _xmlSerializer.Deserialize(reader);
+                            yield return _scenarioSerializer.Deserialize(reader);
                         }
                     }
                 }

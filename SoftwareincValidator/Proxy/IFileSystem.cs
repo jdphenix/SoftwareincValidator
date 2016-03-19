@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -16,5 +17,6 @@ namespace SoftwareincValidator.Proxy
         string PathGetFullPath(string path);
 
         bool FileExists(string path);
+        TextReader FileOpenText(string location);
     }
 }

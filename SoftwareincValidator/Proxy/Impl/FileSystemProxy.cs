@@ -15,5 +15,6 @@ namespace SoftwareincValidator.Proxy.Impl
         public string PathGetDirectoryName(string path) => Path.GetDirectoryName(path);
         public string PathGetFullPath(string path) => Path.GetFullPath(path);
         public bool FileExists(string path) => File.Exists(path);
+        public TextReader FileOpenText(string location) => File.OpenText(location);
     }
 }

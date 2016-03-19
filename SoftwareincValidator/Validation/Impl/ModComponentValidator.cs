@@ -7,10 +7,11 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator.Validation.Impl
 {
-    internal class ScenarioValidator : IModComponentValidator<Scenario>
+    internal class ModComponentValidator<T> : IModComponentValidator<T>
     {
         private static readonly IDictionary<XmlSeverityType, ValidationLevel> SeverityDictionary =
             new Dictionary<XmlSeverityType, ValidationLevel>()
@@ -18,33 +19,52 @@ namespace SoftwareincValidator.Validation.Impl
                 { XmlSeverityType.Error, ValidationLevel.Error },
                 { XmlSeverityType.Warning, ValidationLevel.Warning }
             };
-        private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(Scenario));
 
-        public IEnumerable<ValidationResult> Validate(Scenario component)
+        private readonly IXmlSerializer<T> _serializer;
+        private readonly ISchemaProvider _schemaProvider;
+
+        public ModComponentValidator(IXmlSerializer<T> serializer, ISchemaProvider schemaProvider)
+        {
+            if (serializer == null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
+            if (schemaProvider == null)
+            {
+                throw new ArgumentNullException(nameof(schemaProvider));
+            }
+
+            _serializer = serializer;
+            _schemaProvider = schemaProvider;
+        }
+
+        public IEnumerable<ValidationResult> Validate(T component)
         {
             var results = new List<ValidationResult>();
 
             using (var memoryStream = new MemoryStream())
             {
-                Serializer.Serialize(memoryStream, component);
+                _serializer.Serialize(memoryStream, component);
                 memoryStream.Position = 0;
 
                 var doc = new XmlDocument();
                 // TODO: Refactor out filesystem dependency
-                doc.Schemas.Add(null, "xsd\\scenario.xsd");
+                doc.Schemas.Add(_schemaProvider.Schema(typeof(Scenario)));
                 doc.Load(memoryStream);
                 doc.Validate((s, e) =>
                 {
                     results.Add(new ValidationResult(
-                        $"[{component.GetType().Name}] [{component.Name}] {e.Message}", 
-                        SeverityDictionary[e.Severity], ValidationSource.XmlSchema));
+                        $"[{component.GetType().Name}] {e.Message}, first lines of document: {doc.OuterXml.Substring(0, 100)}", 
+                        SeverityDictionary[e.Severity], 
+                        ValidationSource.XmlSchema));
                 });
             }
 
             if (!results.Any())
             {
                 results.Add(new ValidationResult(
-                    message: $"[{component.GetType().Name}] [{component.Name}] Valid.", 
+                    message: $"[{component.GetType().Name}] Valid.", 
                     level: ValidationLevel.Success));
             }
 

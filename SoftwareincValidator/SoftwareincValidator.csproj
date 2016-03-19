@@ -71,7 +71,9 @@
     <Compile Include="Serialization\SoftincFileModificationLoader.cs" />
     <Compile Include="Serialization\SoftincModificationXmlSerializer.cs" />
     <Compile Include="Validation\IModComponentValidator.cs" />
-    <Compile Include="Validation\Impl\ScenarioValidator.cs" />
+    <Compile Include="Validation\Impl\ModComponentValidator.cs" />
+    <Compile Include="Validation\Impl\SchemaProvider.cs" />
+    <Compile Include="Validation\ISchemaProvider.cs" />
     <Compile Include="Validation\ValidationLevel.cs" />
     <Compile Include="Validation\ValidationModule.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
@@ -83,6 +85,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="xsd\personalities.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="xsd\scenario.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -108,6 +114,7 @@
   </Target>
   <Target Name="BeforeBuild">
     <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

@@ -12,8 +12,6 @@ namespace SoftwareincValidator.Serialization
         {
             builder.RegisterType<SoftincFileModificationLoader>().As<ISoftincModificationLoader>();
             builder.RegisterType<SoftincModificationXmlSerializer>().As<ISoftincModificationSerializer>();
-
-
         }
     }
 }

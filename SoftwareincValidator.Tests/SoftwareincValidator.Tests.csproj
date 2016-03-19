@@ -73,6 +73,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\SoftwareincValidator\xsd\personalities.xsd">
+      <Link>xsd\personalities.xsd</Link>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\SoftwareincValidator\xsd\scenario.xsd">
       <Link>xsd\scenario.xsd</Link>
       <SubType>Designer</SubType>

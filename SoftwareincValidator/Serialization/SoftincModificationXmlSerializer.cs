@@ -45,7 +45,7 @@ namespace SoftwareincValidator.Serialization
 
                 var ser = new XmlSerializer(scen.GetType());
                 var writerSettings = GetSoftwareincWriterSettings();
-                XmlDocument doc = null;
+                XmlDocument doc;
 
                 using (var memoryStream = new MemoryStream())
                 {
