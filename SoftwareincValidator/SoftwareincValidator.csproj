@@ -47,7 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gen\*.cs" />
+    <Compile Include="Model\Generated\company-type.cs" />
+    <Compile Include="Model\Generated\personalities.cs" />
+    <Compile Include="Model\Generated\scenario.cs" />
+    <Compile Include="Model\Generated\SoftwareType.cs" />
     <Compile Include="Model\ISoftincModification.cs" />
     <Compile Include="Model\ModelModule.cs" />
     <Compile Include="Model\SoftincModification.cs" />
@@ -117,9 +120,9 @@
     </PropertyGroup>
   </Target>
   <Target Name="BeforeBuild">
-    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
-    <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
-    <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
