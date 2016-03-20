@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CompanyType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Specialization" type="xs:string" />
+        <xs:element name="PerYear" type="xs:double" />
+        <xs:element name="Min">
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="1" />
+              <xs:maxInclusive value="2147483647" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Max">
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="1" />
+              <xs:maxInclusive value="2147483647" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Types">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Type">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:double">
+                      <xs:attribute name="Software" type="xs:string" use="required" />
+                      <xs:attribute name="Category" type="xs:string" use="optional" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -15,13 +15,15 @@ namespace SoftwareincValidator.Serialization
         private readonly IFileSystem _fileSystem;
         private readonly Func<string, IDirectoryInfo> _directoryFactory;
         private readonly IXmlSerializer<Scenario> _scenarioSerializer;
-        private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer; 
+        private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
+        private readonly IXmlSerializer<CompanyType> _companyTypeSerializer; 
 
         public SoftincFileModificationLoader(
             IFileSystem fileSystem, 
             Func<string, IDirectoryInfo> directoryFactory,
             IXmlSerializer<Scenario> scenarioSerializer,
-            IXmlSerializer<PersonalityGraph> personalityGraphSerializer)
+            IXmlSerializer<PersonalityGraph> personalityGraphSerializer, 
+            IXmlSerializer<CompanyType> companyTypeSerializer)
         {
             if (fileSystem == null)
             {
@@ -43,10 +45,16 @@ namespace SoftwareincValidator.Serialization
                 throw new ArgumentNullException(nameof(personalityGraphSerializer));
             }
 
+            if (companyTypeSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(companyTypeSerializer));
+            }
+
             _fileSystem = fileSystem;
             _directoryFactory = directoryFactory;
             _scenarioSerializer = scenarioSerializer;
             _personalityGraphSerializer = personalityGraphSerializer;
+            _companyTypeSerializer = companyTypeSerializer;
         }
 
         private string GetModName(string location)
@@ -99,6 +107,25 @@ namespace SoftwareincValidator.Serialization
             }
         }
 
+        private IEnumerable<CompanyType> LoadCompanyTypes(string location)
+        {
+            // todo: refactor, magic string
+            var directory = _directoryFactory(_fileSystem.PathCombine(location, "CompanyTypes"));
+
+            if (directory.Exists)
+            {
+                foreach (var file in directory.GetFiles())
+                {
+                    {
+                        using (var reader = file.OpenText())
+                        {
+                            yield return _companyTypeSerializer.Deserialize(reader);
+                        }
+                    }
+                }
+            }
+        } 
+
         public ISoftincModification Load(string location)
         {
             if (location == null)
@@ -114,9 +141,15 @@ namespace SoftwareincValidator.Serialization
             var absolutePath = _fileSystem.PathGetFullPath(location);
 
             var mod = new SoftincModification(GetModName(absolutePath));
+
             foreach (var scenario in LoadScenarios(absolutePath))
             {
                 mod.Scenarios.Add(scenario);
+            }
+
+            foreach (var companyType in LoadCompanyTypes(absolutePath))
+            {
+                mod.CompanyTypes.Add(companyType);
             }
 
             mod.Personalities = LoadPersonalityGraph(location);

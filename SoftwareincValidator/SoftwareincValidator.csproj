@@ -85,6 +85,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="xsd\company-type.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="xsd\personalities.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -115,6 +119,7 @@
   <Target Name="BeforeBuild">
     <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
     <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\gen\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

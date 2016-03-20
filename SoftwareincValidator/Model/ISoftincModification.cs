@@ -16,6 +16,11 @@ namespace SoftwareincValidator.Model
         IList<Scenario> Scenarios { get; }
 
         /// <summary>
+        /// All company types defined in this modification.
+        /// </summary>
+        IList<CompanyType> CompanyTypes { get; }
+
+        /// <summary>
         /// The personality graph, if present, associated with this modification.
         /// </summary>
         PersonalityGraph Personalities { get; }
