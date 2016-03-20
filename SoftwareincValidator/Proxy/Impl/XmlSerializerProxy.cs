@@ -10,6 +10,7 @@ namespace SoftwareincValidator.Proxy.Impl
     internal class XmlSerializerProxy<T> : IXmlSerializer<T>
     {
         private static readonly XmlSerializer Serializer = new XmlSerializer(typeof (T));
+        public void Serialize(Stream stream, T component) => Serializer.Serialize(stream, component);
         public T Deserialize(TextReader reader) => (T) Serializer.Deserialize(reader);
     }
 }

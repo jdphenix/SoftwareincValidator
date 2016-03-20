@@ -19,7 +19,8 @@ namespace SoftwareincValidator.Tests.Serialization
         private SoftincModificationXmlSerializer _ser;
         private IWriterProvider _writerProvider;
         private TextWriter _writer;
-        private IModComponentValidator<Scenario> _validator;
+        private IModComponentValidator<PersonalityGraph> _personalitiesValidator; 
+        private IModComponentValidator<Scenario> _scenarioValidator;
 
         [TestInitialize]
         public void Initialize()
@@ -28,23 +29,32 @@ namespace SoftwareincValidator.Tests.Serialization
             _writerProvider = Substitute.For<IWriterProvider>();
             _writerProvider.GetWriter(null).ReturnsForAnyArgs(_writer);
 
-            _validator = Substitute.For<IModComponentValidator<Scenario>>();
+            _personalitiesValidator = Substitute.For<IModComponentValidator<PersonalityGraph>>();
 
-            _ser = new SoftincModificationXmlSerializer(_validator, _writerProvider);
+            _scenarioValidator = Substitute.For<IModComponentValidator<Scenario>>();
+
+            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, _scenarioValidator, _writerProvider);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Constructor_PassedNullValidator_ThrowsException()
+        public void Constructor_PassedNullPersonalitiesValidator_ThrowsException()
         {
-            _ser = new SoftincModificationXmlSerializer(null, _writerProvider);
+            _ser = new SoftincModificationXmlSerializer(null, _scenarioValidator, _writerProvider);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_PassedNullScenarioValidator_ThrowsException()
+        {
+            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, null, _writerProvider);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullWriterProvider_ThrowsException()
         {
-            _ser = new SoftincModificationXmlSerializer(_validator, null);
+            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, _scenarioValidator, null);
         }
 
         [TestMethod]

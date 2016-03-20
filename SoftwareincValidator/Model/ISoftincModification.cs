@@ -14,5 +14,10 @@ namespace SoftwareincValidator.Model
         /// All Scenarios defined in this modification.
         /// </summary>
         IList<Scenario> Scenarios { get; }
+
+        /// <summary>
+        /// The personality graph, if present, associated with this modification.
+        /// </summary>
+        PersonalityGraph Personalities { get; }
     }
 }

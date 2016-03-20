@@ -19,7 +19,8 @@ namespace SoftwareincValidator.Tests.Serialization
         private IFileSystem _fileSystem;
         private Func<string, IDirectoryInfo> _directoryFactory; 
         private SoftincFileModificationLoader _modificationLoader;
-        private IXmlSerializer<Scenario> _xmlSerializer;
+        private IXmlSerializer<Scenario> _scenarioSerializer;
+        private IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
 
         [TestInitialize]
         public void Init()
@@ -31,30 +32,39 @@ namespace SoftwareincValidator.Tests.Serialization
 
             _directoryFactory = Substitute.For<Func<string, IDirectoryInfo>>();
 
-            _xmlSerializer = Substitute.For<IXmlSerializer<Scenario>>();
+            _scenarioSerializer = Substitute.For<IXmlSerializer<Scenario>>();
 
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _xmlSerializer);
+            _personalityGraphSerializer = Substitute.For<IXmlSerializer<PersonalityGraph>>();
+
+            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _scenarioSerializer, _personalityGraphSerializer);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullFileSystem_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(null, _directoryFactory, _xmlSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(null, _directoryFactory, _scenarioSerializer, _personalityGraphSerializer);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullDirectoryFactory_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, null, _xmlSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, null, _scenarioSerializer, _personalityGraphSerializer);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Constructor_PassedNullXmlSerializer_ThrowsException()
+        public void Constructor_PassedNullScenarioSerializer_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, null);
+            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, null, _personalityGraphSerializer);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_PassedNullPersonalityGraphSerializer_ThrowsException()
+        {
+            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _scenarioSerializer, null);
         }
 
         [TestMethod]

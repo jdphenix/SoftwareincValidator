@@ -64,6 +64,7 @@
     <Compile Include="Model\SoftincModificationTests.cs" />
     <Compile Include="Serialization\SoftincFileModificationLoaderTests.cs" />
     <Compile Include="Serialization\SoftincModificationXmlSerializerTests.cs" />
+    <Compile Include="Validation\PersonalityGraphValidatorTests.cs" />
     <Compile Include="Validation\ScenarioValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\SoftwareincValidator\xsd\personalities.xsd">
+      <Link>xsd\personalities.xsd</Link>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\SoftwareincValidator\xsd\scenario.xsd">
       <Link>xsd\scenario.xsd</Link>
       <SubType>Designer</SubType>
