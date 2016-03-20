@@ -62,11 +62,11 @@ namespace SoftwareincValidator.Model.Generated {
         
         private string nameField;
         
-        private decimal aptitudeField;
+        private double aptitudeField;
         
-        private decimal leadershipField;
+        private double leadershipField;
         
-        private decimal diligenceField;
+        private double diligenceField;
         
         private PersonalityGraphPersonalityRelationships relationshipsField;
         
@@ -81,7 +81,7 @@ namespace SoftwareincValidator.Model.Generated {
         }
         
         /// <remarks/>
-        public decimal Aptitude {
+        public double Aptitude {
             get {
                 return this.aptitudeField;
             }
@@ -91,7 +91,7 @@ namespace SoftwareincValidator.Model.Generated {
         }
         
         /// <remarks/>
-        public decimal Leadership {
+        public double Leadership {
             get {
                 return this.leadershipField;
             }
@@ -101,7 +101,7 @@ namespace SoftwareincValidator.Model.Generated {
         }
         
         /// <remarks/>
-        public decimal Diligence {
+        public double Diligence {
             get {
                 return this.diligenceField;
             }
@@ -166,7 +166,7 @@ namespace SoftwareincValidator.Model.Generated {
         
         private string nameField;
         
-        private decimal valueField;
+        private double valueField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -181,7 +181,7 @@ namespace SoftwareincValidator.Model.Generated {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlTextAttribute()]
-        public decimal Value {
+        public double Value {
             get {
                 return this.valueField;
             }

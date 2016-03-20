@@ -64,6 +64,7 @@
     <Compile Include="Model\SoftincModificationTests.cs" />
     <Compile Include="Serialization\SoftincFileModificationLoaderTests.cs" />
     <Compile Include="Serialization\SoftincModificationXmlSerializerTests.cs" />
+    <Compile Include="Validation\PersonalityGraphValidatorTests.cs" />
     <Compile Include="Validation\ScenarioValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>

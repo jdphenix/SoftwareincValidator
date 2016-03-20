@@ -10,16 +10,16 @@
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="Name" type="xs:string" />
-                    <xs:element name="Aptitude" type="xs:decimal" />
-                    <xs:element name="Leadership" type="xs:decimal" />
-                    <xs:element name="Diligence" type="xs:decimal" />
+                    <xs:element name="Aptitude" type="xs:double" />
+                    <xs:element name="Leadership" type="xs:double" />
+                    <xs:element name="Diligence" type="xs:double" />
                     <xs:element name="Relationships">
                       <xs:complexType mixed="true">
                         <xs:sequence minOccurs="0">
                           <xs:element maxOccurs="unbounded" name="Relation">
                             <xs:complexType>
                               <xs:simpleContent>
-                                <xs:extension base="xs:decimal">
+                                <xs:extension base="xs:double">
                                   <xs:attribute name="Name" type="xs:string" use="required" />
                                 </xs:extension>
                               </xs:simpleContent>

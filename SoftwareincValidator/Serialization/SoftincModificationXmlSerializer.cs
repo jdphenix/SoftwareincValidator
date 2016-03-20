@@ -48,6 +48,7 @@ namespace SoftwareincValidator.Serialization
         {
             if (mod.Personalities != null)
             {
+                // todo: refactor to emit events or something other than console call
                 _personalitiesValidator.Validate(mod.Personalities).ToList().ForEach(x => Console.WriteLine(x));
             }
 
@@ -55,7 +56,7 @@ namespace SoftwareincValidator.Serialization
             {
                 foreach (var result in _scenarioValidator.Validate(scen))
                 {
-                    // todo: refactor
+                    // todo: refactor to emit events or something other than console call
                     Console.WriteLine(result);
                 }
 
@@ -67,13 +68,17 @@ namespace SoftwareincValidator.Serialization
                 {
                     ser.Serialize(memoryStream, scen);
                     memoryStream.Position = 0;
+                    // todo: refactor concrete instantiation
                     doc = new XmlDocument();
                     // TODO: Refactor out filesystem dependency
+                    // todo: refactor magic string
                     doc.Schemas.Add(null, "xsd\\scenario.xsd");
                     doc.Load(memoryStream);
                 }
 
+                // todo: refactor magic string
                 using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
+                    // todo: refactor out, writer provider? 
                 using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
                 {
                     OnSerializing(new SerializingEventArgs
