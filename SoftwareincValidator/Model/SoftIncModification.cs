@@ -16,6 +16,7 @@ namespace SoftwareincValidator.Model
             Name = name;
             Scenarios = new List<Scenario>();
             CompanyTypes = new List<CompanyType>();
+            SoftwareTypes = new List<SoftwareType>();
         }
 
         /// <summary>
@@ -37,5 +38,10 @@ namespace SoftwareincValidator.Model
         ///     The Personality Graph, if exists, associated with this modification.
         /// </summary>
         public PersonalityGraph Personalities { get; set; }
+
+        /// <summary>
+        ///     All software types defined in this modification.
+        /// </summary>
+        public IList<SoftwareType> SoftwareTypes { get; }
     }
 }

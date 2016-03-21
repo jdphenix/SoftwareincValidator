@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model.Generated;
@@ -43,23 +44,15 @@ namespace SoftwareincValidator.Validation.Impl
         {
             var results = new List<ValidationResult>();
 
-            using (var memoryStream = new MemoryStream())
+            var doc = _serializer.Serialize(component);
+            doc.Schemas.Add(_schemaProvider.Schema(typeof(T)));
+            doc.Validate((s, e) =>
             {
-                _serializer.Serialize(memoryStream, component);
-                memoryStream.Position = 0;
-
-                var doc = new XmlDocument();
-                // TODO: Refactor out filesystem dependency
-                doc.Schemas.Add(_schemaProvider.Schema(typeof(T)));
-                doc.Load(memoryStream);
-                doc.Validate((s, e) =>
-                {
-                    results.Add(new ValidationResult(
-                        $"[{component.GetType().Name}] {e.Message}, first lines of document: {doc.OuterXml.Substring(0, 100)}", 
-                        SeverityDictionary[e.Severity], 
-                        ValidationSource.XmlSchema));
-                });
-            }
+                results.Add(new ValidationResult(
+                    $"[{component.GetType().Name}] {e.Message}, first lines of document: {doc.OuterXml.Substring(0, 100)}",
+                    SeverityDictionary[e.Severity],
+                    ValidationSource.XmlSchema));
+            });
 
             if (!results.Any())
             {
@@ -72,6 +65,11 @@ namespace SoftwareincValidator.Validation.Impl
         }
 
         public IEnumerable<ValidationResult> Validate(XmlDocument component)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ValidationResult> Validate(XDocument component)
         {
             throw new NotImplementedException();
         }

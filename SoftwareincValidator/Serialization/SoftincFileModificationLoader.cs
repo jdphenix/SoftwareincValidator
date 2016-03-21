@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
+using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Serialization
 {
@@ -16,14 +18,16 @@ namespace SoftwareincValidator.Serialization
         private readonly Func<string, IDirectoryInfo> _directoryFactory;
         private readonly IXmlSerializer<Scenario> _scenarioSerializer;
         private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
-        private readonly IXmlSerializer<CompanyType> _companyTypeSerializer; 
+        private readonly IXmlSerializer<CompanyType> _companyTypeSerializer;
+        private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
 
         public SoftincFileModificationLoader(
             IFileSystem fileSystem, 
             Func<string, IDirectoryInfo> directoryFactory,
             IXmlSerializer<Scenario> scenarioSerializer,
             IXmlSerializer<PersonalityGraph> personalityGraphSerializer, 
-            IXmlSerializer<CompanyType> companyTypeSerializer)
+            IXmlSerializer<CompanyType> companyTypeSerializer, 
+            IXmlSerializer<SoftwareType> softwareTypeSerializer)
         {
             if (fileSystem == null)
             {
@@ -50,11 +54,17 @@ namespace SoftwareincValidator.Serialization
                 throw new ArgumentNullException(nameof(companyTypeSerializer));
             }
 
+            if (softwareTypeSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(softwareTypeSerializer));
+            }
+
             _fileSystem = fileSystem;
             _directoryFactory = directoryFactory;
             _scenarioSerializer = scenarioSerializer;
             _personalityGraphSerializer = personalityGraphSerializer;
             _companyTypeSerializer = companyTypeSerializer;
+            _softwareTypeSerializer = softwareTypeSerializer;
         }
 
         private string GetModName(string location)
@@ -85,6 +95,25 @@ namespace SoftwareincValidator.Serialization
             using (var reader = personalities.OpenText())
             {
                 return _personalityGraphSerializer.Deserialize(reader);
+            }
+        }
+
+        private IEnumerable<SoftwareType> LoadSoftwareTypes(string location)
+        {
+            // todo: refactor, magic string
+            var directory = _directoryFactory(_fileSystem.PathCombine(location, "SoftwareTypes"));
+
+            if (directory.Exists)
+            {
+                foreach (var file in directory.GetFiles().Where(x => !x.Name.Equals("Base.xml", StringComparison.OrdinalIgnoreCase)))
+                {
+                    {
+                        using (var reader = file.OpenText())
+                        {
+                            yield return _softwareTypeSerializer.Deserialize(reader);
+                        }
+                    }
+                }
             }
         }
 
@@ -141,6 +170,11 @@ namespace SoftwareincValidator.Serialization
             var absolutePath = _fileSystem.PathGetFullPath(location);
 
             var mod = new SoftincModification(GetModName(absolutePath));
+
+            foreach (var softwareType in LoadSoftwareTypes(absolutePath))
+            {
+                mod.SoftwareTypes.Add(softwareType);
+            }
 
             foreach (var scenario in LoadScenarios(absolutePath))
             {

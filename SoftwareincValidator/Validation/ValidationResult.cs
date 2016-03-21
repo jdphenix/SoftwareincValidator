@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoftwareincValidator.Validation
 {
-    public struct ValidationResult : IEquatable<ValidationResult>
+    public class ValidationResult : EventArgs, IEquatable<ValidationResult>
     {
         public static bool operator ==(ValidationResult left, ValidationResult right)
         {

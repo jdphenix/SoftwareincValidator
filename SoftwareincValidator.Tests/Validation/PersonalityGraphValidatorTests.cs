@@ -22,7 +22,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Init()
         {
             // Concrete dependencies are passed in because these are tests of the xsd schema.
-            _serializer = new XmlSerializerProxy<PersonalityGraph>();
+            _serializer = new XmlSerializerProxy<PersonalityGraph>(new SchemaProvider(new FileSystemProxy()));
             _schemaProvider = new SchemaProvider(new FileSystemProxy());
 
             _validator = new ModComponentValidator<PersonalityGraph>(_serializer, _schemaProvider);
