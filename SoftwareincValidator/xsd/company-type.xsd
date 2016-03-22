@@ -2,9 +2,10 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="CompanyType">
     <xs:complexType>
-      <xs:sequence>
+      <xs:all>
         <xs:element name="Specialization" type="xs:string" />
         <xs:element name="PerYear" type="xs:double" />
+        <xs:element name="Force" type="xs:string" minOccurs="0" />
         <xs:element name="Min">
           <xs:simpleType>
             <xs:restriction base="xs:int">
@@ -24,7 +25,7 @@
         <xs:element name="Types">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Type">
+              <xs:element name="Type" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:simpleContent>
                     <xs:extension base="xs:double">
@@ -37,7 +38,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-      </xs:sequence>
+      </xs:all>
     </xs:complexType>
   </xs:element>
 </xs:schema>
