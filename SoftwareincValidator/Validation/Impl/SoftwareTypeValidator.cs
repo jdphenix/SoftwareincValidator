@@ -49,7 +49,11 @@ namespace SoftwareincValidator.Validation.Impl
 
         public IEnumerable<ValidationResult> Validate(XmlDocument component)
         {
-            throw new NotImplementedException();
+            using (var reader = new XmlNodeReader(component))
+            {
+                reader.MoveToContent();
+                return Validate(XDocument.Load(reader));
+            }
         }
     }
 }

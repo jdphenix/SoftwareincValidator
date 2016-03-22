@@ -21,22 +21,16 @@ namespace SoftwareincValidator.Validation.Impl
                 { XmlSeverityType.Warning, ValidationLevel.Warning }
             };
 
-        private readonly IXmlSerializer<T> _serializer;
         private readonly ISchemaProvider _schemaProvider;
 
-        public ModComponentValidator(IXmlSerializer<T> serializer, ISchemaProvider schemaProvider)
+        public ModComponentValidator(ISchemaProvider schemaProvider)
         {
-            if (serializer == null)
-            {
-                throw new ArgumentNullException(nameof(serializer));
-            }
 
             if (schemaProvider == null)
             {
                 throw new ArgumentNullException(nameof(schemaProvider));
             }
 
-            _serializer = serializer;
             _schemaProvider = schemaProvider;
         }
 
@@ -44,20 +38,12 @@ namespace SoftwareincValidator.Validation.Impl
         {
             var results = new List<ValidationResult>();
 
-            var doc = _serializer.Serialize(component);
-            doc.Schemas.Add(_schemaProvider.Schema(typeof(T)));
-            doc.Validate((s, e) =>
-            {
-                results.Add(new ValidationResult(
-                    $"[{component.GetType().Name}] {e.Message}, first lines of document: {doc.OuterXml.Substring(0, 100)}",
-                    SeverityDictionary[e.Severity],
-                    ValidationSource.XmlSchema));
-            });
+            // TODO: Validation for model objects
 
             if (!results.Any())
             {
                 results.Add(new ValidationResult(
-                    message: $"[{component.GetType().Name}] Valid.", 
+                    message: $"[{component.GetType().Name}] TODO: Validation for model objects.", 
                     level: ValidationLevel.Success));
             }
 
@@ -66,12 +52,24 @@ namespace SoftwareincValidator.Validation.Impl
 
         public IEnumerable<ValidationResult> Validate(XmlDocument component)
         {
-            throw new NotImplementedException();
+            var results = new List<ValidationResult>();
+
+            component.Schemas.Add(_schemaProvider.Schema(typeof(T)));
+            component.Validate((s, e) =>
+            {
+                results.Add(new ValidationResult(
+                    $"[{component.GetType().Name}] {e.Message}, first lines of document: {component.OuterXml.Substring(0, 100)}",
+                    SeverityDictionary[e.Severity],
+                    ValidationSource.XmlSchema));
+            });
+            return results;
         }
 
         public IEnumerable<ValidationResult> Validate(XDocument component)
         {
-            throw new NotImplementedException();
+            var doc = new XmlDocument();
+            doc.LoadXml(component.ToString());
+            return Validate(doc);
         }
     }
 }

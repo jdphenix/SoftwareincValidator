@@ -4,33 +4,23 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
-using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
-using SoftwareincValidator.Validation.Impl;
 
-namespace SoftwareincValidator.Serialization
+namespace SoftwareincValidator.Serialization.Impl
 {
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
-        private readonly IModValidator _validator;
 
         public SoftincModificationXmlSerializer(
-            IModValidator modValidator,
             IWriterProvider writerProvider)
         {
-            if (modValidator == null)
-            {
-                throw new ArgumentNullException(nameof(modValidator));
-            }
-
             if (writerProvider == null)
             {
                 throw new ArgumentNullException(nameof(writerProvider));
             }
 
-            _validator = modValidator;
             _writerProvider = writerProvider;
         }
 
@@ -41,27 +31,14 @@ namespace SoftwareincValidator.Serialization
         {
             if (mod.Personalities != null)
             {
-                // todo: refactor to emit events or something other than console call
-                _validator.Validate(mod.Personalities).ToList().ForEach(x => Console.WriteLine(x));
             }
 
             foreach (var softwareType in mod.SoftwareTypes)
             {
-                foreach (var result in _validator.Validate(softwareType))
-                {
-                    // todo: refactor to emit events or something other than console call
-                    Console.WriteLine(result);
-                }
             }
 
             foreach (var companyType in mod.CompanyTypes)
             {
-                foreach (var result in _validator.Validate(companyType))
-                {
-                    // todo: refactor to emit events or something other than console call
-                    Console.WriteLine(result);
-                }
-
                 var ser = new XmlSerializer(companyType.GetType());
                 var writerSettings = GetSoftwareincWriterSettings();
                 XmlDocument doc;
@@ -97,12 +74,6 @@ namespace SoftwareincValidator.Serialization
 
             foreach (var scen in mod.Scenarios)
             {
-                foreach (var result in _validator.Validate(scen))
-                {
-                    // todo: refactor to emit events or something other than console call
-                    Console.WriteLine(result);
-                }
-
                 var ser = new XmlSerializer(scen.GetType());
                 var writerSettings = GetSoftwareincWriterSettings();
                 XmlDocument doc;

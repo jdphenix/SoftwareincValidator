@@ -72,9 +72,9 @@
     <Compile Include="Serialization\ModificationLoadException.cs" />
     <Compile Include="Serialization\SerializationModule.cs" />
     <Compile Include="Serialization\SerializingEventArgs.cs" />
-    <Compile Include="Serialization\SoftincFileModificationLoader.cs" />
-    <Compile Include="Serialization\SoftincModificationXmlSerializer.cs" />
-    <Compile Include="Serialization\SoftwareTypeXmlSerializer.cs" />
+    <Compile Include="Serialization\Impl\SoftincFileModificationLoader.cs" />
+    <Compile Include="Serialization\Impl\SoftincModificationXmlSerializer.cs" />
+    <Compile Include="Serialization\Impl\SoftwareTypeXmlSerializer.cs" />
     <Compile Include="Validation\IModComponentValidator.cs" />
     <Compile Include="Validation\Impl\ModComponentValidator.cs" />
     <Compile Include="Validation\Impl\ModValidator.cs" />

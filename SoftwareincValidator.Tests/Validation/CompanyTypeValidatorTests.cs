@@ -15,17 +15,15 @@ namespace SoftwareincValidator.Tests.Validation
     public class CompanyTypeValidatorTests
     {
         private ModComponentValidator<CompanyType> _validator;
-        private IXmlSerializer<CompanyType> _serializer;
         private ISchemaProvider _schemaProvider;
 
         [TestInitialize]
         public void Init()
         {
             // Concrete dependencies are passed in because these are tests of the xsd schema.
-            _serializer = new XmlSerializerProxy<CompanyType>(new SchemaProvider(new FileSystemProxy()));
             _schemaProvider = new SchemaProvider(new FileSystemProxy());
 
-            _validator = new ModComponentValidator<CompanyType>(_serializer, _schemaProvider);
+            _validator = new ModComponentValidator<CompanyType>(_schemaProvider);
         }
 
         [TestMethod]

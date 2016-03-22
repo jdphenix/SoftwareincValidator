@@ -6,16 +6,15 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SoftwareincValidator.Model.Generated;
-using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Proxy
 {
     public interface IXmlSerializer<T>
     {
         T Deserialize(TextReader reader);
-        XmlDocument Serialize(T component);
-        XDocument XSerialize(T component);
-
-        event EventHandler<ValidationResult> Validation;
+        T Deserialize(XmlDocument doc);
+        T Deserialize(XDocument doc);
+        void Serialize(Stream stream, T component);
+        Stream Serialize(T component);
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Autofac;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
+using SoftwareincValidator.Serialization.Impl;
 
 namespace SoftwareincValidator.Serialization
 {

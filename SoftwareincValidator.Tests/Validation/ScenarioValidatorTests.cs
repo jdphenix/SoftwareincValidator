@@ -16,17 +16,15 @@ namespace SoftwareincValidator.Tests.Validation
     public class ScenarioValidatorTests
     {
         private ModComponentValidator<Scenario> _validator;
-        private IXmlSerializer<Scenario> _serializer;
         private ISchemaProvider _schemaProvider;
 
         [TestInitialize]
         public void Init()
         {
             // Concrete dependencies are passed in because these are tests of the xsd schema.
-            _serializer = new XmlSerializerProxy<Scenario>(new SchemaProvider(new FileSystemProxy()));
             _schemaProvider = new SchemaProvider(new FileSystemProxy());
 
-            _validator = new ModComponentValidator<Scenario>(_serializer, _schemaProvider);
+            _validator = new ModComponentValidator<Scenario>(_schemaProvider);
         }
 
         [TestMethod]

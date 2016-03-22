@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices;
+using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
+using System.Xml.Schema;
 using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 
-namespace SoftwareincValidator.Serialization
+namespace SoftwareincValidator.Serialization.Impl
 {
     internal class SoftincFileModificationLoader : ISoftincModificationLoader
     {
@@ -20,6 +20,7 @@ namespace SoftwareincValidator.Serialization
         private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
         private readonly IXmlSerializer<CompanyType> _companyTypeSerializer;
         private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+        private readonly IModValidator _validator;
 
         public SoftincFileModificationLoader(
             IFileSystem fileSystem, 
@@ -27,7 +28,8 @@ namespace SoftwareincValidator.Serialization
             IXmlSerializer<Scenario> scenarioSerializer,
             IXmlSerializer<PersonalityGraph> personalityGraphSerializer, 
             IXmlSerializer<CompanyType> companyTypeSerializer, 
-            IXmlSerializer<SoftwareType> softwareTypeSerializer)
+            IXmlSerializer<SoftwareType> softwareTypeSerializer,
+            IModValidator validator)
         {
             if (fileSystem == null)
             {
@@ -59,12 +61,18 @@ namespace SoftwareincValidator.Serialization
                 throw new ArgumentNullException(nameof(softwareTypeSerializer));
             }
 
+            if (validator == null)
+            {
+                throw new ArgumentNullException(nameof(validator));
+            }
+
             _fileSystem = fileSystem;
             _directoryFactory = directoryFactory;
             _scenarioSerializer = scenarioSerializer;
             _personalityGraphSerializer = personalityGraphSerializer;
             _companyTypeSerializer = companyTypeSerializer;
             _softwareTypeSerializer = softwareTypeSerializer;
+            _validator = validator;
         }
 
         private string GetModName(string location)
@@ -94,7 +102,12 @@ namespace SoftwareincValidator.Serialization
 
             using (var reader = personalities.OpenText())
             {
-                return _personalityGraphSerializer.Deserialize(reader);
+                var doc = new XmlDocument();
+                doc.Load(reader);
+                _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
+                var component = _personalityGraphSerializer.Deserialize(doc);
+                _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
+                return component;
             }
         }
 
@@ -110,7 +123,12 @@ namespace SoftwareincValidator.Serialization
                     {
                         using (var reader = file.OpenText())
                         {
-                            yield return _softwareTypeSerializer.Deserialize(reader);
+                            var doc = new XmlDocument();
+                            doc.Load(reader);
+                            _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
+                            var component = _softwareTypeSerializer.Deserialize(doc);
+                            _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
+                            yield return component;
                         }
                     }
                 }
@@ -129,7 +147,12 @@ namespace SoftwareincValidator.Serialization
                     {
                         using (var reader = file.OpenText())
                         {
-                            yield return _scenarioSerializer.Deserialize(reader);
+                            var doc = new XmlDocument();
+                            doc.Load(reader);
+                            _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
+                            var component = _scenarioSerializer.Deserialize(doc);
+                            _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
+                            yield return component;
                         }
                     }
                 }
@@ -148,7 +171,12 @@ namespace SoftwareincValidator.Serialization
                     {
                         using (var reader = file.OpenText())
                         {
-                            yield return _companyTypeSerializer.Deserialize(reader);
+                            var doc = new XmlDocument();
+                            doc.Load(reader);
+                            _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
+                            var component = _companyTypeSerializer.Deserialize(doc);
+                            _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
+                            yield return component;
                         }
                     }
                 }
@@ -190,5 +218,15 @@ namespace SoftwareincValidator.Serialization
 
             return mod;
         }
+
+        public event EventHandler<ValidationResult> XmlValidation;
+
+        public event EventHandler<ValidationResult> ModComponentValidation;
+
+        private void OnXmlValidation(object sender, ValidationResult e) => 
+            XmlValidation?.Invoke(sender, e);
+
+        private void OnModComponentValidation(object sender, ValidationResult e) => 
+            ModComponentValidation?.Invoke(sender, e);
     }
 }

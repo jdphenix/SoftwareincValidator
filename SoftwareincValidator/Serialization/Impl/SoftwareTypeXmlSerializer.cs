@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 
-namespace SoftwareincValidator.Serialization
+namespace SoftwareincValidator.Serialization.Impl
 {
     public class SoftwareTypeXmlSerializer : IXmlSerializer<SoftwareType>
     {
@@ -90,16 +89,26 @@ namespace SoftwareincValidator.Serialization
             var doc = XDocument.Load(reader);
 
             Console.WriteLine("SoftwareType begin results");
-            //foreach (var result in _validator.Validate(doc))
-            //{
-            //    Console.WriteLine(result);
-            //}
 
             if (doc.Nodes().Count() != 1)
             {
                 throw new ModificationLoadException($"Unexpected count of nodes, expected 1 but got {doc.Nodes().Count()}", null);
             }
 
+            return Deserialize(doc);
+        }
+
+        public SoftwareType Deserialize(XmlDocument doc)
+        {
+            using (var reader = new XmlNodeReader(doc))
+            {
+                reader.MoveToContent();
+                return Deserialize(XDocument.Load(reader));
+            }
+        }
+
+        public SoftwareType Deserialize(XDocument doc)
+        {
             SoftwareType sw = new SoftwareType
             {
                 Name = doc.Root.Element("Name")?.Value,
@@ -122,13 +131,20 @@ namespace SoftwareincValidator.Serialization
             return sw;
         }
 
-        public XmlDocument Serialize(SoftwareType component)
+        public void Serialize(Stream stream, SoftwareType component)
         {
-            throw new NotImplementedException();
+            using (var inputStream = Serialize(component))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(inputStream);
+                doc.Save(stream);
+            }
         }
 
-        public XDocument XSerialize(SoftwareType component)
+        public Stream Serialize(SoftwareType component)
         {
+            throw new NotImplementedException();
+
             XElement softwareType = new XElement("SoftwareType", 
                 new XElement("Name", component.Name), 
                 new XElement("Category", component.Category), 
@@ -136,11 +152,11 @@ namespace SoftwareincValidator.Serialization
 
             var doc = new XDocument();
             doc.Add(softwareType);
-            return doc;
+            
+            var stream = new MemoryStream();
+            doc.Save(stream);
+            stream.Position = 0;
+            return stream;
         }
-
-        public event EventHandler<ValidationResult> Validation;
-
-        private void OnValidation(ValidationResult result) => Validation?.Invoke(this, result);
     }
 }

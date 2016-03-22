@@ -10,6 +10,7 @@ using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Serialization;
+using SoftwareincValidator.Serialization.Impl;
 using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Tests.Serialization
@@ -24,6 +25,7 @@ namespace SoftwareincValidator.Tests.Serialization
         private IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
         private IXmlSerializer<CompanyType> _companyTypeSerializer;
         private IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+        private IModValidator _validator;
 
         [TestInitialize]
         public void Init()
@@ -43,49 +45,114 @@ namespace SoftwareincValidator.Tests.Serialization
 
             _softwareTypeSerializer = Substitute.For<IXmlSerializer<SoftwareType>>();
 
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _scenarioSerializer, _personalityGraphSerializer, _companyTypeSerializer, _softwareTypeSerializer);
+            _validator = Substitute.For<IModValidator>();
+
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                _directoryFactory, 
+                _scenarioSerializer, 
+                _personalityGraphSerializer, 
+                _companyTypeSerializer,
+                _softwareTypeSerializer,
+                _validator);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullFileSystem_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(null, _directoryFactory, _scenarioSerializer, _personalityGraphSerializer, _companyTypeSerializer, _softwareTypeSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(
+                null, 
+                _directoryFactory, 
+                _scenarioSerializer, 
+                _personalityGraphSerializer, 
+                _companyTypeSerializer, 
+                _softwareTypeSerializer, 
+                _validator);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullDirectoryFactory_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, null, _scenarioSerializer, _personalityGraphSerializer, _companyTypeSerializer, _softwareTypeSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                null, 
+                _scenarioSerializer, 
+                _personalityGraphSerializer, 
+                _companyTypeSerializer, 
+                _softwareTypeSerializer, 
+                _validator);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullScenarioSerializer_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, null, _personalityGraphSerializer, _companyTypeSerializer, _softwareTypeSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                _directoryFactory, 
+                null, 
+                _personalityGraphSerializer, 
+                _companyTypeSerializer, 
+                _softwareTypeSerializer, 
+                _validator);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullPersonalityGraphSerializer_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _scenarioSerializer, null, _companyTypeSerializer, _softwareTypeSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                _directoryFactory, 
+                _scenarioSerializer, 
+                null, 
+                _companyTypeSerializer, 
+                _softwareTypeSerializer, 
+                _validator);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullCompanyTypeSerializer_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _scenarioSerializer, _personalityGraphSerializer, null, _softwareTypeSerializer);
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                _directoryFactory, 
+                _scenarioSerializer, 
+                _personalityGraphSerializer, 
+                null, 
+                _softwareTypeSerializer, 
+                _validator);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullSoftwareTypeSerializer_ThrowsException()
         {
-            _modificationLoader = new SoftincFileModificationLoader(_fileSystem, _directoryFactory, _scenarioSerializer, _personalityGraphSerializer, _companyTypeSerializer, null);
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                _directoryFactory, 
+                _scenarioSerializer, 
+                _personalityGraphSerializer, 
+                _companyTypeSerializer, 
+                null, 
+                _validator);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_PassedNullValidator_ThrowsException()
+        {
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem, 
+                _directoryFactory, 
+                _scenarioSerializer, 
+                _personalityGraphSerializer, 
+                _companyTypeSerializer, 
+                _softwareTypeSerializer, 
+                null);
         }
 
         [TestMethod]

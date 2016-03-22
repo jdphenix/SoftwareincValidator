@@ -35,51 +35,12 @@ namespace SoftwareincValidator
 
         private static void Main(string[] args)
             {
-            var ser = _container.Resolve<ISoftincModificationSerializer>();
             var loader = _container.Resolve<ISoftincModificationLoader>();
 
-            RegisterBaseXmlMutations(ser);
+            loader.ModComponentValidation += (s, e) => Console.WriteLine(e);
+            loader.XmlValidation += (s, e) => Console.WriteLine(e);
 
             var mod = loader.Load(@"C:\Users\jdphe\Downloads\Resources");
-
-            ser.Serialize(mod);
-        }
-
-        private static void RegisterBaseXmlMutations(ISoftincModificationSerializer ser)
-        {
-            // TODO: Refactor these out to a.. plugin? 
-            ser.Serializing += (s, e) =>
-            {
-                // Hackish removing of XML declaration.
-                if (e.Document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    e.Document.RemoveChild(e.Document.FirstChild);
-                }
-            };
-
-            // TODO: Refactor these out to a.. plugin? 
-            ser.Serializing += (s, e) =>
-            {
-                Action<XmlNode> addTextnodeIfEmpty = null;
-                addTextnodeIfEmpty = node =>
-                {
-                    if (node.NodeType == XmlNodeType.Text) return;
-
-                    if (node.HasChildNodes)
-                    {
-                        foreach (XmlNode child in node.ChildNodes)
-                        {
-                            addTextnodeIfEmpty(child);
-                        }
-                    }
-                    else
-                    {
-                        node.AppendChild(node.OwnerDocument.CreateTextNode(string.Empty));
-                    }
-                };
-
-                addTextnodeIfEmpty(e.Document);
-            };
         }
     }
 }

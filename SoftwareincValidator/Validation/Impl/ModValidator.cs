@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Validation.Impl
 {
     public class ModValidator : IModValidator
     {
+        private IDictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>> _validations;
+
         private readonly IModComponentValidator<Scenario> _scenarioValidator;
         private readonly IModComponentValidator<PersonalityGraph> _personalitiesValidator;
         private readonly IModComponentValidator<CompanyType> _companyTypeValidator;
@@ -43,6 +48,42 @@ namespace SoftwareincValidator.Validation.Impl
             _scenarioValidator = scenarioValidator;
             _companyTypeValidator = companyTypeValidator;
             _softwareTypeValidator = softwareTypeValidator;
+            _validations = new Dictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>>
+            {
+                { "SoftwareType", document => _softwareTypeValidator.Validate(document) },
+                { "CompanyType", document => _companyTypeValidator.Validate(document) },
+                { "PersonalityGraph", document => _personalitiesValidator.Validate(document) },
+                { "Scenario", document => _scenarioValidator.Validate(document) }
+            };
+        }
+
+        public IEnumerable<ValidationResult> Validate(XmlDocument doc)
+        {
+            var results = new List<ValidationResult>();
+
+            if (doc.FirstChild.NodeType != XmlNodeType.Element)
+            {
+                results.Add(new ValidationResult(
+                    $"Unexpected first node type of document, expected element but got {doc.FirstChild}, document: {doc}"));
+                return results;
+            }
+
+            var type = doc.FirstChild.Name;
+            if (!_validations.ContainsKey(type))
+            {
+                results.Add(new ValidationResult(
+                    $"Expected first element, expected one of [{string.Join(",", _validations.Keys)}] but got {type}, document: {doc}"));
+                return results;
+            }
+
+            return _validations[type](doc);
+        }
+
+        public IEnumerable<ValidationResult> Validate(XDocument doc)
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml(doc.ToString());
+            return Validate(xml);
         }
 
         public IEnumerable<ValidationResult> Validate(CompanyType component)
