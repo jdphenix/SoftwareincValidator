@@ -4,48 +4,23 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
-using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 
-namespace SoftwareincValidator.Serialization
+namespace SoftwareincValidator.Serialization.Impl
 {
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
-        private readonly IModComponentValidator<Scenario> _scenarioValidator;
-        private readonly IModComponentValidator<PersonalityGraph> _personalitiesValidator;
-        private readonly IModComponentValidator<CompanyType> _companyTypeValidator; 
 
         public SoftincModificationXmlSerializer(
-            IModComponentValidator<PersonalityGraph> personalitiesValidator,
-            IModComponentValidator<Scenario> scenarioValidator, 
-            IModComponentValidator<CompanyType> companyTypeValidator, 
             IWriterProvider writerProvider)
         {
-            if (personalitiesValidator == null)
-            {
-                throw new ArgumentNullException(nameof(personalitiesValidator));
-            }
-
-            if (scenarioValidator == null)
-            {
-                throw new ArgumentNullException(nameof(scenarioValidator));
-            }
-
             if (writerProvider == null)
             {
                 throw new ArgumentNullException(nameof(writerProvider));
             }
 
-            if (companyTypeValidator == null)
-            {
-                throw new ArgumentNullException(nameof(companyTypeValidator));
-            }
-
-            _personalitiesValidator = personalitiesValidator;
-            _scenarioValidator = scenarioValidator;
-            _companyTypeValidator = companyTypeValidator;
             _writerProvider = writerProvider;
         }
 
@@ -56,18 +31,14 @@ namespace SoftwareincValidator.Serialization
         {
             if (mod.Personalities != null)
             {
-                // todo: refactor to emit events or something other than console call
-                _personalitiesValidator.Validate(mod.Personalities).ToList().ForEach(x => Console.WriteLine(x));
+            }
+
+            foreach (var softwareType in mod.SoftwareTypes)
+            {
             }
 
             foreach (var companyType in mod.CompanyTypes)
             {
-                foreach (var result in _companyTypeValidator.Validate(companyType))
-                {
-                    // todo: refactor to emit events or something other than console call
-                    Console.WriteLine(result);
-                }
-
                 var ser = new XmlSerializer(companyType.GetType());
                 var writerSettings = GetSoftwareincWriterSettings();
                 XmlDocument doc;
@@ -85,7 +56,7 @@ namespace SoftwareincValidator.Serialization
                 }
 
                 // todo: refactor magic string
-                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Scenarios\{companyType.Specialization}.xml"))
+                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\CompanyTypes\{companyType.Specialization}.xml"))
                 // todo: refactor out, writer provider? 
                 using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
                 {
@@ -103,12 +74,6 @@ namespace SoftwareincValidator.Serialization
 
             foreach (var scen in mod.Scenarios)
             {
-                foreach (var result in _scenarioValidator.Validate(scen))
-                {
-                    // todo: refactor to emit events or something other than console call
-                    Console.WriteLine(result);
-                }
-
                 var ser = new XmlSerializer(scen.GetType());
                 var writerSettings = GetSoftwareincWriterSettings();
                 XmlDocument doc;

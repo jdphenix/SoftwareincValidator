@@ -28,11 +28,13 @@ namespace SoftwareincValidator.Model.Generated {
         
         private double perYearField;
         
+        private string forceField;
+        
         private int minField;
         
         private int maxField;
         
-        private CompanyTypeTypes typesField;
+        private CompanyTypeType[] typesField;
         
         /// <remarks/>
         public string Specialization {
@@ -51,6 +53,16 @@ namespace SoftwareincValidator.Model.Generated {
             }
             set {
                 this.perYearField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Force {
+            get {
+                return this.forceField;
+            }
+            set {
+                this.forceField = value;
             }
         }
         
@@ -75,7 +87,8 @@ namespace SoftwareincValidator.Model.Generated {
         }
         
         /// <remarks/>
-        public CompanyTypeTypes Types {
+        [System.Xml.Serialization.XmlArrayItemAttribute("Type", IsNullable=false)]
+        public CompanyTypeType[] Types {
             get {
                 return this.typesField;
             }
@@ -91,28 +104,7 @@ namespace SoftwareincValidator.Model.Generated {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
-    public partial class CompanyTypeTypes {
-        
-        private CompanyTypeTypesType typeField;
-        
-        /// <remarks/>
-        public CompanyTypeTypesType Type {
-            get {
-                return this.typeField;
-            }
-            set {
-                this.typeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
-    public partial class CompanyTypeTypesType {
+    public partial class CompanyTypeType {
         
         private string softwareField;
         

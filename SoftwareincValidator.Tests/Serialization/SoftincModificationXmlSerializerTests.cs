@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SoftwareincValidator.Serialization.Impl;
 using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Tests.Serialization
@@ -19,9 +20,6 @@ namespace SoftwareincValidator.Tests.Serialization
         private SoftincModificationXmlSerializer _ser;
         private IWriterProvider _writerProvider;
         private TextWriter _writer;
-        private IModComponentValidator<PersonalityGraph> _personalitiesValidator;
-        private IModComponentValidator<Scenario> _scenarioValidator;
-        private IModComponentValidator<CompanyType> _companyTypeValidator;
 
         [TestInitialize]
         public void Initialize()
@@ -30,41 +28,14 @@ namespace SoftwareincValidator.Tests.Serialization
             _writerProvider = Substitute.For<IWriterProvider>();
             _writerProvider.GetWriter(null).ReturnsForAnyArgs(_writer);
 
-            _personalitiesValidator = Substitute.For<IModComponentValidator<PersonalityGraph>>();
-
-            _scenarioValidator = Substitute.For<IModComponentValidator<Scenario>>();
-
-            _companyTypeValidator = Substitute.For<IModComponentValidator<CompanyType>>();
-
-            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, _scenarioValidator, _companyTypeValidator, _writerProvider);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Constructor_PassedNullPersonalitiesValidator_ThrowsException()
-        {
-            _ser = new SoftincModificationXmlSerializer(null, _scenarioValidator, _companyTypeValidator, _writerProvider);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Constructor_PassedNullScenarioValidator_ThrowsException()
-        {
-            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, null, _companyTypeValidator, _writerProvider);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Constructor_PassedNullCompanyTypeValidator_ThrowsException()
-        {
-            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, _scenarioValidator, null, _writerProvider);
+            _ser = new SoftincModificationXmlSerializer(_writerProvider);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullWriterProvider_ThrowsException()
         {
-            _ser = new SoftincModificationXmlSerializer(_personalitiesValidator, _scenarioValidator, _companyTypeValidator, null);
+            _ser = new SoftincModificationXmlSerializer(null);
         }
 
         [TestMethod]
