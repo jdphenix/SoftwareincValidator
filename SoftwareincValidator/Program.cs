@@ -40,7 +40,7 @@ namespace SoftwareincValidator
             loader.ModComponentValidation += (s, e) => Console.WriteLine(e);
             loader.XmlValidation += (s, e) => Console.WriteLine(e);
 
-            var mod = loader.Load(@"C:\Users\jdphe\Downloads\Resources");
+            var mod = loader.Load(@"C:\Users\jdphe\Downloads\resmod");
         }
     }
 }

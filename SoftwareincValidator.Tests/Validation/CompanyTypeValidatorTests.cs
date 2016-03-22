@@ -36,9 +36,9 @@ namespace SoftwareincValidator.Tests.Validation
                 Max = 2,
                 Specialization = "Test Spec",
                 PerYear = 0.2,
-                Types = new CompanyTypeTypes
+                Types = new []
                 {
-                    Type = new CompanyTypeTypesType
+                    new CompanyTypeType
                     {
                         Category = "Computer",
                         Software = "Test Spec",

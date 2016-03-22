@@ -29,58 +29,99 @@ namespace SoftwareincValidator.Serialization.Impl
                 throw new ModificationLoadException("Feature provided doesn't have any features defined.", null);
             }
 
-            return element.Elements().Select(x => new SoftwareTypeFeature
+            return element.Elements().Select(x =>
             {
-                From = x.Attribute("From")?.Value,
-                Research = x.Attribute("Research")?.Value,
-                Forced = MapBoolean(x.Attribute("Forced")?.Value),
-                Vital = MapBoolean(x.Attribute("Vital")?.Value),
-                Name = x.Element("Name")?.Value,
-                Category = x.Element("Category")?.Value,
-                Description = x.Element("Description")?.Value,
-                Unlock = Convert.ToInt32(x.Element("Unlock")?.Value),
-                DevTime = Convert.ToDouble(x.Element("DevTime")?.Value),
-                Innovation = Convert.ToInt32(x.Element("Innovation")?.Value),
-                Usability = Convert.ToInt32(x.Element("Usability")?.Value),
-                Stability = Convert.ToInt32(x.Element("Stability")?.Value),
-                CodeArt = Convert.ToDouble(x.Element("CodeArt")?.Value),
-                Server = Convert.ToDouble(x.Element("Server")?.Value),
-                Dependencies = LoadDependencies(x),
-                SoftwareCategories = LoadSoftwareCategories(x)
+                try
+                {
+                    return new SoftwareTypeFeature
+                    {
+                        From = x.Attribute("From")?.Value,
+                        Research = x.Attribute("Research")?.Value,
+                        Forced = MapBoolean(x.Attribute("Forced")?.Value),
+                        Vital = MapBoolean(x.Attribute("Vital")?.Value),
+                        Name = x.Element("Name")?.Value,
+                        Category = x.Element("Category")?.Value,
+                        Description = x.Element("Description")?.Value,
+                        Unlock = Convert.ToInt32(x.Element("Unlock")?.Value),
+                        DevTime = Convert.ToDouble(x.Element("DevTime")?.Value),
+                        Innovation = Convert.ToInt32(x.Element("Innovation")?.Value),
+                        Usability = Convert.ToInt32(x.Element("Usability")?.Value),
+                        Stability = Convert.ToInt32(x.Element("Stability")?.Value),
+                        CodeArt = Convert.ToDouble(x.Element("CodeArt")?.Value),
+                        Server = Convert.ToDouble(x.Element("Server")?.Value),
+                        Dependencies = LoadDependencies(x),
+                        SoftwareCategories = LoadSoftwareCategories(x)
+                    };
+                }
+                catch (FormatException ex)
+                {
+                    throw new ModificationLoadException($"Error occured reading software type feature, doc: {x}", ex);
+                }
             }).ToList();
         }
 
         private IList<FeatureSoftwareCategory> LoadSoftwareCategories(XElement xElement)
         {
-            return xElement.Elements("SoftwareCategory").Select(x => new FeatureSoftwareCategory
-            {
-                Category = x.Attribute("Category")?.Value,
-                Unlock = Convert.ToInt32(x.Value)
-            }).ToList();
+                return xElement.Elements("SoftwareCategory").Select(x =>
+                {
+                    try
+                    {
+                        return new FeatureSoftwareCategory
+                        {
+                            Category = x.Attribute("Category")?.Value,
+                            Unlock = Convert.ToInt32(x.Value)
+                        };
+                    }
+                    catch (FormatException ex)
+                    {
+                        throw new ModificationLoadException($"Error occured reading software type feature category, doc: {x}", ex);
+                    }
+                }).ToList();
         }
 
         private IList<FeatureDependency> LoadDependencies(XElement xElement)
         {
-            return xElement.Elements("Dependency").Select(x => new FeatureDependency
+            return xElement.Elements("Dependency").Select(x =>
             {
-                SoftwareType = x.Attribute("Software")?.Value,
-                Feature = x.Value
+                try
+                {
+                    var dependency = new FeatureDependency
+                    {
+                        SoftwareType = x.Attribute("Software")?.Value,
+                        Feature = x.Value
+                    };
+                    return dependency;
+                }
+                catch (FormatException ex)
+                {
+                    throw new ModificationLoadException($"Error occured reading software type feature dependency, doc: {x}", ex);
+                }
             }).ToList();
         }
 
         private IList<SoftwareTypeCategory> LoadCategories(XElement element)
         {
-            return element?.Elements().Select(x => new SoftwareTypeCategory
+            return element?.Elements().Select(x =>
             {
-                Name = x.Attribute("Name")?.Value,
-                Description = x.Element("Description")?.Value,
-                Popularity = Convert.ToDouble(x.Element("Popularity")?.Value),
-                Retention = Convert.ToDouble(x.Element("Retention")?.Value),
-                Iterative = Convert.ToDouble(x.Element("Iterative")?.Value),
-                TimeScale = Convert.ToDouble(x.Element("TimeScale")?.Value),
-                Unlock = Convert.ToInt32(x.Element("Unlock")?.Value),
-                NameGenerator = x.Element("NameGenerator")?.Value,
-
+                try
+                {
+                    var category = new SoftwareTypeCategory
+                    {
+                        Name = x.Attribute("Name")?.Value,
+                        Description = x.Element("Description")?.Value,
+                        Popularity = Convert.ToDouble(x.Element("Popularity")?.Value),
+                        Retention = Convert.ToDouble(x.Element("Retention")?.Value),
+                        Iterative = Convert.ToDouble(x.Element("Iterative")?.Value),
+                        TimeScale = Convert.ToDouble(x.Element("TimeScale")?.Value),
+                        Unlock = Convert.ToInt32(x.Element("Unlock")?.Value),
+                        NameGenerator = x.Element("NameGenerator")?.Value,
+                    };
+                    return category;
+                }
+                catch (FormatException ex)
+                {
+                    throw new ModificationLoadException($"Error occured reading software type category, doc: {x}", ex);
+                }
             }).ToList();
         }
 
@@ -109,26 +150,33 @@ namespace SoftwareincValidator.Serialization.Impl
 
         public SoftwareType Deserialize(XDocument doc)
         {
-            SoftwareType sw = new SoftwareType
+            try
             {
-                Name = doc.Root.Element("Name")?.Value,
-                Category = doc.Root.Element("Category")?.Value,
-                Description = doc.Root.Element("Description")?.Value,
-                Random = Convert.ToDouble(doc.Root.Element("Random")?.Value),
-                Popularity = Convert.ToDouble(doc.Root.Element("Popularity")?.Value),
-                Retention = Convert.ToDouble(doc.Root.Element("Retention")?.Value),
-                Iterative = Convert.ToDouble(doc.Root.Element("Iterative")?.Value),
-                OSSpecific = MapBoolean(doc.Root.Element("OSSpecific").Value),
-                OneClient = MapBoolean(doc.Root.Element("OneClient").Value),
-                InHouse = MapBoolean(doc.Root.Element("InHouse").Value),
-                NameGenerator = doc.Root.Element("NameGenerator")?.Value,
-                Categories = LoadCategories(doc.Root.Element("Categories")),
-                CategoriesDefined = doc.Root.Element("Categories") != null,
-                Unlock = Convert.ToInt32(doc.Root.Element("Unlock")?.Value),
-                Features = LoadFeatures(doc.Root.Element("Features")),
-            };
+                SoftwareType sw = new SoftwareType
+                {
+                    Name = doc.Root.Element("Name")?.Value,
+                    Category = doc.Root.Element("Category")?.Value,
+                    Description = doc.Root.Element("Description")?.Value,
+                    Random = Convert.ToDouble(doc.Root.Element("Random")?.Value),
+                    Popularity = Convert.ToDouble(doc.Root.Element("Popularity")?.Value),
+                    Retention = Convert.ToDouble(doc.Root.Element("Retention")?.Value),
+                    Iterative = Convert.ToDouble(doc.Root.Element("Iterative")?.Value),
+                    OSSpecific = MapBoolean(doc.Root.Element("OSSpecific").Value),
+                    OneClient = MapBoolean(doc.Root.Element("OneClient").Value),
+                    InHouse = MapBoolean(doc.Root.Element("InHouse").Value),
+                    NameGenerator = doc.Root.Element("NameGenerator")?.Value,
+                    Categories = LoadCategories(doc.Root.Element("Categories")),
+                    CategoriesDefined = doc.Root.Element("Categories") != null,
+                    Unlock = Convert.ToInt32(doc.Root.Element("Unlock")?.Value),
+                    Features = LoadFeatures(doc.Root.Element("Features")),
+                };
 
-            return sw;
+                return sw;
+            }
+            catch (FormatException ex)
+            {
+                throw new ModificationLoadException($"Error occured reading software type, doc: {doc}", ex);
+            }
         }
 
         public void Serialize(Stream stream, SoftwareType component)

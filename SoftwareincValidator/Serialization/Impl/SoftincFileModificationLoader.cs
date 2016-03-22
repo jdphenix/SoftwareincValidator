@@ -124,7 +124,16 @@ namespace SoftwareincValidator.Serialization.Impl
                         using (var reader = file.OpenText())
                         {
                             var doc = new XmlDocument();
-                            doc.Load(reader);
+
+                            try
+                            {
+                                doc.Load(reader);
+                            }
+                            catch (XmlException ex)
+                            {
+                                throw new ModificationLoadException($"XML parsing error occured while parsing {file.Name}, {ex.Message}", ex);
+                            }
+
                             _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                             var component = _softwareTypeSerializer.Deserialize(doc);
                             _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
@@ -199,22 +208,31 @@ namespace SoftwareincValidator.Serialization.Impl
 
             var mod = new SoftincModification(GetModName(absolutePath));
 
-            foreach (var softwareType in LoadSoftwareTypes(absolutePath))
+            try
             {
-                mod.SoftwareTypes.Add(softwareType);
-            }
+                foreach (var softwareType in LoadSoftwareTypes(absolutePath))
+                {
+                    mod.SoftwareTypes.Add(softwareType);
+                }
 
-            foreach (var scenario in LoadScenarios(absolutePath))
+                foreach (var scenario in LoadScenarios(absolutePath))
+                {
+                    mod.Scenarios.Add(scenario);
+                }
+
+                foreach (var companyType in LoadCompanyTypes(absolutePath))
+                {
+                    mod.CompanyTypes.Add(companyType);
+                }
+
+                mod.Personalities = LoadPersonalityGraph(location);
+            }
+            catch (ModificationLoadException ex)
             {
-                mod.Scenarios.Add(scenario);
+                OnXmlValidation(this, new ValidationResult(
+                    $"Fatal mod loading error: {ex.Message}"));
+                return null;
             }
-
-            foreach (var companyType in LoadCompanyTypes(absolutePath))
-            {
-                mod.CompanyTypes.Add(companyType);
-            }
-
-            mod.Personalities = LoadPersonalityGraph(location);
 
             return mod;
         }
