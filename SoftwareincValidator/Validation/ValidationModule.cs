@@ -19,6 +19,8 @@ namespace SoftwareincValidator.Validation
                 .As(typeof(IModComponentValidator<>));
 
             builder.RegisterType<SoftwareTypeValidator>().As<IModComponentValidator<SoftwareType>>();
+            builder.RegisterType<BaseFeaturesValidator>()
+                .As<IModComponentValidator<BaseFeatures>>();
         }
     }
 }

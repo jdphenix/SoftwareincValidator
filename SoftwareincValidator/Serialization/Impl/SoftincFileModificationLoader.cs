@@ -20,6 +20,7 @@ namespace SoftwareincValidator.Serialization.Impl
         private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
         private readonly IXmlSerializer<CompanyType> _companyTypeSerializer;
         private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+        private readonly IXmlSerializer<BaseFeatures> _baseFeatureSerializer; 
         private readonly IModValidator _validator;
 
         public SoftincFileModificationLoader(
@@ -29,6 +30,7 @@ namespace SoftwareincValidator.Serialization.Impl
             IXmlSerializer<PersonalityGraph> personalityGraphSerializer, 
             IXmlSerializer<CompanyType> companyTypeSerializer, 
             IXmlSerializer<SoftwareType> softwareTypeSerializer,
+            IXmlSerializer<BaseFeatures> baseFeatureSerializer,
             IModValidator validator)
         {
             if (fileSystem == null)
@@ -61,6 +63,11 @@ namespace SoftwareincValidator.Serialization.Impl
                 throw new ArgumentNullException(nameof(softwareTypeSerializer));
             }
 
+            if (baseFeatureSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(baseFeatureSerializer));
+            }
+
             if (validator == null)
             {
                 throw new ArgumentNullException(nameof(validator));
@@ -72,6 +79,7 @@ namespace SoftwareincValidator.Serialization.Impl
             _personalityGraphSerializer = personalityGraphSerializer;
             _companyTypeSerializer = companyTypeSerializer;
             _softwareTypeSerializer = softwareTypeSerializer;
+            _baseFeatureSerializer = baseFeatureSerializer;
             _validator = validator;
         }
 
@@ -106,6 +114,37 @@ namespace SoftwareincValidator.Serialization.Impl
                 doc.Load(reader);
                 _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                 var component = _personalityGraphSerializer.Deserialize(doc);
+                _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
+                return component;
+            }
+        }
+
+        private BaseFeatures LoadBaseFeatures(string absolutePath)
+        {
+            var directory = _directoryFactory(_fileSystem.PathCombine(absolutePath, "SoftwareTypes"));
+
+            if (!directory.Exists) return null;
+
+            var features = directory
+                .GetFiles()
+                // todo: refactor, magic string
+                .SingleOrDefault(f => f.Name.Equals("Base.xml", StringComparison.OrdinalIgnoreCase));
+
+            using (var reader = features.OpenText())
+            {
+                var doc = new XmlDocument();
+
+                try
+                {
+                    doc.Load(reader);
+                }
+                catch (XmlException ex)
+                {
+                    throw new ModificationLoadException($"XML parsing error occured while parsing {features.Name}, {ex.Message}", ex);
+                }
+
+                _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
+                var component = _baseFeatureSerializer.Deserialize(doc);
                 _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                 return component;
             }
@@ -225,7 +264,8 @@ namespace SoftwareincValidator.Serialization.Impl
                     mod.CompanyTypes.Add(companyType);
                 }
 
-                mod.Personalities = LoadPersonalityGraph(location);
+                mod.Personalities = LoadPersonalityGraph(absolutePath);
+                mod.BaseFeatures = LoadBaseFeatures(absolutePath);
             }
             catch (ModificationLoadException ex)
             {

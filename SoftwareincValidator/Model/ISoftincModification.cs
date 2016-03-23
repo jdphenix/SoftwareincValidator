@@ -29,5 +29,10 @@ namespace SoftwareincValidator.Model
         /// The personality graph, if present, associated with this modification.
         /// </summary>
         PersonalityGraph Personalities { get; }
+
+        /// <summary>
+        /// The base features, if present, associated with this modification.
+        /// </summary>
+        BaseFeatures BaseFeatures { get; }
     }
 }

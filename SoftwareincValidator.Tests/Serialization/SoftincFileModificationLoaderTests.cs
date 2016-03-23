@@ -25,6 +25,7 @@ namespace SoftwareincValidator.Tests.Serialization
         private IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
         private IXmlSerializer<CompanyType> _companyTypeSerializer;
         private IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+        private IXmlSerializer<BaseFeatures> _baseFeatureSerializer;
         private IModValidator _validator;
 
         [TestInitialize]
@@ -45,6 +46,8 @@ namespace SoftwareincValidator.Tests.Serialization
 
             _softwareTypeSerializer = Substitute.For<IXmlSerializer<SoftwareType>>();
 
+            _baseFeatureSerializer = Substitute.For<IXmlSerializer<BaseFeatures>>();
+
             _validator = Substitute.For<IModValidator>();
 
             _modificationLoader = new SoftincFileModificationLoader(
@@ -54,6 +57,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _personalityGraphSerializer, 
                 _companyTypeSerializer,
                 _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 _validator);
         }
 
@@ -67,7 +71,8 @@ namespace SoftwareincValidator.Tests.Serialization
                 _scenarioSerializer, 
                 _personalityGraphSerializer, 
                 _companyTypeSerializer, 
-                _softwareTypeSerializer, 
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 _validator);
         }
 
@@ -81,7 +86,8 @@ namespace SoftwareincValidator.Tests.Serialization
                 _scenarioSerializer, 
                 _personalityGraphSerializer, 
                 _companyTypeSerializer, 
-                _softwareTypeSerializer, 
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 _validator);
         }
 
@@ -95,7 +101,8 @@ namespace SoftwareincValidator.Tests.Serialization
                 null, 
                 _personalityGraphSerializer, 
                 _companyTypeSerializer, 
-                _softwareTypeSerializer, 
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 _validator);
         }
 
@@ -109,7 +116,8 @@ namespace SoftwareincValidator.Tests.Serialization
                 _scenarioSerializer, 
                 null, 
                 _companyTypeSerializer, 
-                _softwareTypeSerializer, 
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 _validator);
         }
 
@@ -123,7 +131,8 @@ namespace SoftwareincValidator.Tests.Serialization
                 _scenarioSerializer, 
                 _personalityGraphSerializer, 
                 null, 
-                _softwareTypeSerializer, 
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 _validator);
         }
 
@@ -137,7 +146,23 @@ namespace SoftwareincValidator.Tests.Serialization
                 _scenarioSerializer, 
                 _personalityGraphSerializer, 
                 _companyTypeSerializer, 
-                null, 
+                null,
+                _baseFeatureSerializer,
+                _validator);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_PassedNullBaseFeaturesValidator_ThrowsException()
+        {
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem,
+                _directoryFactory,
+                _scenarioSerializer,
+                _personalityGraphSerializer,
+                _companyTypeSerializer,
+                _softwareTypeSerializer,
+                null,
                 _validator);
         }
 
@@ -151,7 +176,8 @@ namespace SoftwareincValidator.Tests.Serialization
                 _scenarioSerializer, 
                 _personalityGraphSerializer, 
                 _companyTypeSerializer, 
-                _softwareTypeSerializer, 
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 null);
         }
 

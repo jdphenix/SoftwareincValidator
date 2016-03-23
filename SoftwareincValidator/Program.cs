@@ -4,6 +4,7 @@ using SoftwareincValidator.Proxy.Impl;
 using SoftwareincValidator.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace SoftwareincValidator
             loader.XmlValidation += (s, e) => Console.WriteLine(e);
 
             var mod = loader.Load(@"C:\Users\jdphe\Downloads\resmod");
+            Console.WriteLine($"{mod.Name} loaded.");
         }
     }
 }

@@ -55,6 +55,16 @@ namespace SoftwareincValidator.Validation.Impl
             }
         }
 
-        public XmlSchema Schema(Type type) => _keyedSchemata[type];
+        public XmlSchema Schema(Type type)
+        {
+            try
+            {
+                return _keyedSchemata[type];
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new InvalidOperationException($"Schema of {type} not loaded. This is a programmer error. If {type} has a custom validator not using a schema, ensure you use an instance of that implementation.");
+            }
+        } 
     }
 }

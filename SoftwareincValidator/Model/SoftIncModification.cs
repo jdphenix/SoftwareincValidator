@@ -35,13 +35,18 @@ namespace SoftwareincValidator.Model
         public IList<CompanyType> CompanyTypes { get; }
 
         /// <summary>
+        ///     All software types defined in this modification.
+        /// </summary>
+        public IList<SoftwareType> SoftwareTypes { get; }
+
+        /// <summary>
         ///     The Personality Graph, if exists, associated with this modification.
         /// </summary>
         public PersonalityGraph Personalities { get; set; }
 
         /// <summary>
-        ///     All software types defined in this modification.
+        /// The base features, if present, associated with this modification.
         /// </summary>
-        public IList<SoftwareType> SoftwareTypes { get; }
+        public BaseFeatures BaseFeatures { get; set; }
     }
 }

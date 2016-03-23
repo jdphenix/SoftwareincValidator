@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SoftwareincValidator.Model.Generated;
-using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator.Validation.Impl
 {
-    public class SoftwareTypeValidator : IModComponentValidator<SoftwareType>
+    class BaseFeaturesValidator : IModComponentValidator<BaseFeatures>
     {
-        public IEnumerable<ValidationResult> Validate(SoftwareType component)
+        public IEnumerable<ValidationResult> Validate(BaseFeatures component)
         {
             var results = new List<ValidationResult>();
 
@@ -26,33 +24,28 @@ namespace SoftwareincValidator.Validation.Impl
             return results;
         }
 
+        public IEnumerable<ValidationResult> Validate(XmlDocument component)
+        {
+            using (var reader = new XmlNodeReader(component))
+            {
+                reader.MoveToContent();
+                return Validate(XDocument.Load(reader));
+            }
+        }
+
         public IEnumerable<ValidationResult> Validate(XDocument component)
         {
             var results = new List<ValidationResult>();
             var root = component.Root;
-            var mustBePresent = new[]
-            {
-                "Name", "Category", "Description", "Random", "OneClient", "OSSpecific", "OneClient", "InHouse", "Features"
-            };
-            var mayBePresent = new List<string>
-            {
-                "Delete", "Unlock", "Categories", "NameGenerator", "Popularity", "Retention", "Iterative", "OSLimit", "OSNeed", "Needs"
-            };
-            mayBePresent.AddRange(mustBePresent);
 
-            ValidateRequired(root, results, mustBePresent);
-            ValidateAllowed(root, results, mayBePresent);
-
-            if (root.Element("Categories") == null)
+            if (root.Name != "Features")
             {
-                ValidateWithNoCategories(component, results);
+                results.Add(new ValidationResult($"Base features document has unexpected root element {root.Name}, expected Features, doc: {component}"));
             }
             else
             {
-                ValidateCategories(root.Element("Categories").Elements(), results);
+                ValidateFeatures(root.Elements(), results);
             }
-
-            ValidateFeatures(root.Element("Features").Elements(), results);
 
             return results;
         }
@@ -60,10 +53,10 @@ namespace SoftwareincValidator.Validation.Impl
         private void ValidateFeatures(IEnumerable<XElement> component, List<ValidationResult> results)
         {
             // todo: refactor out to common type
-            var attrMayBePresent = new[] {"Vital", "Forced", "From", "Research"};
-            var mustBePresent = new[] {"Name", "Description", "DevTime", "Innovation", "Usability", "Stability", "CodeArt"};
+            var attrMayBePresent = new[] { "Vital", "Forced", "From", "Research" };
+            var mustBePresent = new[] { "Name", "Description", "DevTime", "Innovation", "Usability", "Stability", "CodeArt" };
             var mayBePresent = mustBePresent.ToList();
-            mayBePresent.AddRange(new [] {"Category", "Unlock", "Dependency", "SoftwareCategory", "Server", "Dependencies"});
+            mayBePresent.AddRange(new[] { "Category", "Unlock", "Dependency", "SoftwareCategory", "Server", "Dependencies" });
 
             foreach (var feature in component)
             {
@@ -86,40 +79,6 @@ namespace SoftwareincValidator.Validation.Impl
             }
         }
 
-        private static void ValidateCategories(IEnumerable<XElement> component, List<ValidationResult> results)
-        {
-            var mustBePresent = new[] {"Description", "Popularity", "Retention", "TimeScale", "Iterative"};
-            var mayBePresent = mustBePresent.ToList();
-            mayBePresent.AddRange(new [] {"Unlock", "NameGenerator"});
-
-            foreach (var category in component)
-            {
-                if (category.Attribute("Name") == null)
-                {
-                    results.Add(new ValidationResult(
-                        $"Category doesn't have a Name attribute defined, doc: {category}"));    
-                }
-
-                ValidateRequired(category, results, mustBePresent);
-                ValidateAllowed(category, results, mayBePresent);
-            }
-        }
-
-        private static void ValidateWithNoCategories(XDocument component, List<ValidationResult> results)
-        {
-            var mustBePresent = new[] {"Popularity", "Retention", "Iterative"};
-            ValidateRequired(component.Root, results, mustBePresent);
-        }
-
-        public IEnumerable<ValidationResult> Validate(XmlDocument component)
-        {
-            using (var reader = new XmlNodeReader(component))
-            {
-                reader.MoveToContent();
-                return Validate(XDocument.Load(reader));
-            }
-        }
-
         private static void ValidateAllowed(XElement component, List<ValidationResult> results, IEnumerable<string> allowed)
         {
             // todo: refactor out to common type
@@ -138,7 +97,7 @@ namespace SoftwareincValidator.Validation.Impl
             {
                 if (component.Element(tagName) == null)
                     results.Add(new ValidationResult(
-                        $"No {tagName} element defined., doc: {component.ToString().Substring(0, 100)}"));
+                        $"No {tagName} element defined., doc: {component}"));
             }
         }
     }

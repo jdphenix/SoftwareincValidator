@@ -17,12 +17,14 @@ namespace SoftwareincValidator.Validation.Impl
         private readonly IModComponentValidator<PersonalityGraph> _personalitiesValidator;
         private readonly IModComponentValidator<CompanyType> _companyTypeValidator;
         private readonly IModComponentValidator<SoftwareType> _softwareTypeValidator;
+        private readonly IModComponentValidator<BaseFeatures> _baseFeaturesValidator;
 
         public ModValidator(
             IModComponentValidator<PersonalityGraph> personalitiesValidator,
             IModComponentValidator<Scenario> scenarioValidator,
             IModComponentValidator<CompanyType> companyTypeValidator,
-            IModComponentValidator<SoftwareType> softwareTypeValidator)
+            IModComponentValidator<SoftwareType> softwareTypeValidator, 
+            IModComponentValidator<BaseFeatures> baseFeaturesValidator)
         {
             if (personalitiesValidator == null)
             {
@@ -44,12 +46,20 @@ namespace SoftwareincValidator.Validation.Impl
                 throw new ArgumentNullException(nameof(softwareTypeValidator));
             }
 
+            if (baseFeaturesValidator == null)
+            {
+                throw new ArgumentNullException(nameof(baseFeaturesValidator));
+            }
+
             _personalitiesValidator = personalitiesValidator;
             _scenarioValidator = scenarioValidator;
             _companyTypeValidator = companyTypeValidator;
             _softwareTypeValidator = softwareTypeValidator;
+            _baseFeaturesValidator = baseFeaturesValidator;
+
             _validations = new Dictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>>
             {
+                { "Features", document => _baseFeaturesValidator.Validate(document) },
                 { "SoftwareType", document => _softwareTypeValidator.Validate(document) },
                 { "CompanyType", document => _companyTypeValidator.Validate(document) },
                 { "PersonalityGraph", document => _personalitiesValidator.Validate(document) },
@@ -104,6 +114,11 @@ namespace SoftwareincValidator.Validation.Impl
         public IEnumerable<ValidationResult> Validate(PersonalityGraph component)
         {
             return _personalitiesValidator.Validate(component);
+        }
+
+        public IEnumerable<ValidationResult> Validate(BaseFeatures component)
+        {
+            return _baseFeaturesValidator.Validate(component);
         }
     }
 }

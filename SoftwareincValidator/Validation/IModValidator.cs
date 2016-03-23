@@ -13,5 +13,6 @@ namespace SoftwareincValidator.Validation
         IEnumerable<ValidationResult> Validate(SoftwareType component);
         IEnumerable<ValidationResult> Validate(Scenario component);
         IEnumerable<ValidationResult> Validate(PersonalityGraph component);
+        IEnumerable<ValidationResult> Validate(BaseFeatures component);
     }
 }
