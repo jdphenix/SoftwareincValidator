@@ -18,13 +18,15 @@ namespace SoftwareincValidator.Validation.Impl
         private readonly IModComponentValidator<CompanyType> _companyTypeValidator;
         private readonly IModComponentValidator<SoftwareType> _softwareTypeValidator;
         private readonly IModComponentValidator<BaseFeatures> _baseFeaturesValidator;
+        private readonly IModComponentValidator<CompanyTypes> _companyTypesValidator; 
 
         public ModValidator(
             IModComponentValidator<PersonalityGraph> personalitiesValidator,
             IModComponentValidator<Scenario> scenarioValidator,
             IModComponentValidator<CompanyType> companyTypeValidator,
             IModComponentValidator<SoftwareType> softwareTypeValidator, 
-            IModComponentValidator<BaseFeatures> baseFeaturesValidator)
+            IModComponentValidator<BaseFeatures> baseFeaturesValidator,
+            IModComponentValidator<CompanyTypes> companyTypesValidator)
         {
             if (personalitiesValidator == null)
             {
@@ -51,11 +53,17 @@ namespace SoftwareincValidator.Validation.Impl
                 throw new ArgumentNullException(nameof(baseFeaturesValidator));
             }
 
+            if (companyTypesValidator == null)
+            {
+                throw new ArgumentNullException(nameof(companyTypesValidator));
+            }
+
             _personalitiesValidator = personalitiesValidator;
             _scenarioValidator = scenarioValidator;
             _companyTypeValidator = companyTypeValidator;
             _softwareTypeValidator = softwareTypeValidator;
             _baseFeaturesValidator = baseFeaturesValidator;
+            _companyTypesValidator = companyTypesValidator;
 
             _validations = new Dictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>>
             {
@@ -63,7 +71,8 @@ namespace SoftwareincValidator.Validation.Impl
                 { "SoftwareType", document => _softwareTypeValidator.Validate(document) },
                 { "CompanyType", document => _companyTypeValidator.Validate(document) },
                 { "PersonalityGraph", document => _personalitiesValidator.Validate(document) },
-                { "Scenario", document => _scenarioValidator.Validate(document) }
+                { "Scenario", document => _scenarioValidator.Validate(document) },
+                { "CompanyTypes", document => _companyTypesValidator.Validate(document) }
             };
         }
 
@@ -119,6 +128,11 @@ namespace SoftwareincValidator.Validation.Impl
         public IEnumerable<ValidationResult> Validate(BaseFeatures component)
         {
             return _baseFeaturesValidator.Validate(component);
+        }
+
+        public IEnumerable<ValidationResult> Validate(CompanyTypes component)
+        {
+            return _companyTypesValidator.Validate(component);
         }
     }
 }

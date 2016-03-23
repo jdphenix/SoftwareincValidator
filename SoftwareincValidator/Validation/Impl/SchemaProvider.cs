@@ -28,7 +28,8 @@ namespace SoftwareincValidator.Validation.Impl
             {
                 { typeof(Scenario), Load("xsd\\scenario.xsd")},
                 { typeof(PersonalityGraph), Load("xsd\\personalities.xsd") },
-                { typeof(CompanyType), Load("xsd\\company-type.xsd") }
+                { typeof(CompanyType), Load("xsd\\company-type.xsd") },
+                { typeof(CompanyTypes), Load("xsd\\company-type-delete.xsd") }
             };
         }
 

@@ -20,7 +20,8 @@ namespace SoftwareincValidator.Serialization.Impl
         private readonly IXmlSerializer<PersonalityGraph> _personalityGraphSerializer;
         private readonly IXmlSerializer<CompanyType> _companyTypeSerializer;
         private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
-        private readonly IXmlSerializer<BaseFeatures> _baseFeatureSerializer; 
+        private readonly IXmlSerializer<BaseFeatures> _baseFeatureSerializer;
+        private readonly IXmlSerializer<CompanyTypes> _companyTypesSerializer;
         private readonly IModValidator _validator;
 
         public SoftincFileModificationLoader(
@@ -31,6 +32,7 @@ namespace SoftwareincValidator.Serialization.Impl
             IXmlSerializer<CompanyType> companyTypeSerializer, 
             IXmlSerializer<SoftwareType> softwareTypeSerializer,
             IXmlSerializer<BaseFeatures> baseFeatureSerializer,
+            IXmlSerializer<CompanyTypes> companyTypesSerializer,
             IModValidator validator)
         {
             if (fileSystem == null)
@@ -68,6 +70,11 @@ namespace SoftwareincValidator.Serialization.Impl
                 throw new ArgumentNullException(nameof(baseFeatureSerializer));
             }
 
+            if (companyTypesSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(companyTypesSerializer));
+            }
+
             if (validator == null)
             {
                 throw new ArgumentNullException(nameof(validator));
@@ -80,6 +87,7 @@ namespace SoftwareincValidator.Serialization.Impl
             _companyTypeSerializer = companyTypeSerializer;
             _softwareTypeSerializer = softwareTypeSerializer;
             _baseFeatureSerializer = baseFeatureSerializer;
+            _companyTypesSerializer = companyTypesSerializer;
             _validator = validator;
         }
 
@@ -129,6 +137,8 @@ namespace SoftwareincValidator.Serialization.Impl
                 .GetFiles()
                 // todo: refactor, magic string
                 .SingleOrDefault(f => f.Name.Equals("Base.xml", StringComparison.OrdinalIgnoreCase));
+
+            if (features == null) return null;
 
             using (var reader = features.OpenText())
             {
@@ -183,6 +193,31 @@ namespace SoftwareincValidator.Serialization.Impl
             }
         }
 
+        private CompanyTypes LoadDeletedCompanyTypes(string location)
+        {
+            // todo: refactor, magic string
+            var directory = _directoryFactory(_fileSystem.PathCombine(location, "CompanyTypes"));
+
+            if (!directory.Exists) return null;
+
+            var deletedCompanyTypes = directory
+                .GetFiles()
+                // todo: refactor, magic string
+                .SingleOrDefault(f => f.Name.Equals("Delete.xml", StringComparison.OrdinalIgnoreCase));
+
+            if (deletedCompanyTypes == null) return null;
+
+            using (var reader = deletedCompanyTypes.OpenText())
+            {
+                var doc = new XmlDocument();
+                doc.Load(reader);
+                _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
+                var component = _companyTypesSerializer.Deserialize(doc);
+                _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
+                return component;
+            }
+        }
+
         private IEnumerable<Scenario> LoadScenarios(string location)
         {
             // todo: refactor, magic string
@@ -214,7 +249,7 @@ namespace SoftwareincValidator.Serialization.Impl
 
             if (directory.Exists)
             {
-                foreach (var file in directory.GetFiles())
+                foreach (var file in directory.GetFiles().Where(x => !x.Name.Equals("Delete.xml", StringComparison.OrdinalIgnoreCase)))
                 {
                     {
                         using (var reader = file.OpenText())
@@ -266,10 +301,18 @@ namespace SoftwareincValidator.Serialization.Impl
 
                 mod.Personalities = LoadPersonalityGraph(absolutePath);
                 mod.BaseFeatures = LoadBaseFeatures(absolutePath);
+                mod.DeletedCompanyTypes = LoadDeletedCompanyTypes(absolutePath);
+            }
+            catch (InvalidOperationException ex)
+            {
+                OnXmlValidation(this, new ValidationResult(
+                    $"Fatal mod loading error: {ex.Message}, {ex.InnerException?.Message}"));
+                return null;
             }
             catch (ModificationLoadException ex)
             {
                 OnXmlValidation(this, new ValidationResult(
+
                     $"Fatal mod loading error: {ex.Message}"));
                 return null;
             }

@@ -26,6 +26,7 @@ namespace SoftwareincValidator.Tests.Serialization
         private IXmlSerializer<CompanyType> _companyTypeSerializer;
         private IXmlSerializer<SoftwareType> _softwareTypeSerializer;
         private IXmlSerializer<BaseFeatures> _baseFeatureSerializer;
+        private IXmlSerializer<CompanyTypes> _companyTypesSerializer; 
         private IModValidator _validator;
 
         [TestInitialize]
@@ -48,6 +49,8 @@ namespace SoftwareincValidator.Tests.Serialization
 
             _baseFeatureSerializer = Substitute.For<IXmlSerializer<BaseFeatures>>();
 
+            _companyTypesSerializer = Substitute.For<IXmlSerializer<CompanyTypes>>();
+
             _validator = Substitute.For<IModValidator>();
 
             _modificationLoader = new SoftincFileModificationLoader(
@@ -58,6 +61,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer,
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -73,6 +77,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer, 
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -88,6 +93,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer, 
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -103,6 +109,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer, 
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -118,6 +125,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer, 
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -133,6 +141,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 null, 
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -148,6 +157,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer, 
                 null,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 _validator);
         }
 
@@ -162,6 +172,23 @@ namespace SoftwareincValidator.Tests.Serialization
                 _personalityGraphSerializer,
                 _companyTypeSerializer,
                 _softwareTypeSerializer,
+                null,
+                _companyTypesSerializer,
+                _validator);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_PassedNullCompanyTypesValidator_ThrowsException()
+        {
+            _modificationLoader = new SoftincFileModificationLoader(
+                _fileSystem,
+                _directoryFactory,
+                _scenarioSerializer,
+                _personalityGraphSerializer,
+                _companyTypeSerializer,
+                _softwareTypeSerializer,
+                _baseFeatureSerializer,
                 null,
                 _validator);
         }
@@ -178,6 +205,7 @@ namespace SoftwareincValidator.Tests.Serialization
                 _companyTypeSerializer, 
                 _softwareTypeSerializer,
                 _baseFeatureSerializer,
+                _companyTypesSerializer,
                 null);
         }
 

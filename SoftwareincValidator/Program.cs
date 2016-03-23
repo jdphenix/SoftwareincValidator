@@ -35,14 +35,22 @@ namespace SoftwareincValidator
         }
 
         private static void Main(string[] args)
-            {
+        {
             var loader = _container.Resolve<ISoftincModificationLoader>();
 
             loader.ModComponentValidation += (s, e) => Console.WriteLine(e);
             loader.XmlValidation += (s, e) => Console.WriteLine(e);
 
             var mod = loader.Load(@"C:\Users\jdphe\Downloads\resmod");
-            Console.WriteLine($"{mod.Name} loaded.");
+
+            if (mod != null)
+            {
+                Console.WriteLine($"{mod.Name} loaded.");
+            }
+            else
+            {
+                Console.WriteLine("Failed to load modification.");
+            }
         }
     }
 }

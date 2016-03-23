@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Generated\company-type-delete.cs" />
     <Compile Include="Model\Generated\company-type.cs" />
     <Compile Include="Model\Generated\BaseFeatures.cs" />
     <Compile Include="Model\Generated\personalities.cs" />
@@ -96,6 +97,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="xsd\company-type-delete.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="xsd\company-type.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -131,6 +136,7 @@
     <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
     <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
     <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type-delete.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

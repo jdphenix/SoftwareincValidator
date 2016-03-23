@@ -40,6 +40,11 @@ namespace SoftwareincValidator.Model
         public IList<SoftwareType> SoftwareTypes { get; }
 
         /// <summary>
+        ///     A list of all deleted company types, kayed by CompanyType.Name.
+        /// </summary>
+        public CompanyTypes DeletedCompanyTypes { get; set; }
+
+        /// <summary>
         ///     The Personality Graph, if exists, associated with this modification.
         /// </summary>
         public PersonalityGraph Personalities { get; set; }
