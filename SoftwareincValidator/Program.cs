@@ -36,12 +36,29 @@ namespace SoftwareincValidator
 
         private static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Expected a single argument, a path to a modification folder.");
+            }
+
+            var fileSystem = _container.Resolve<IFileSystem>();
+
+            if (!fileSystem.DirectoryExists(args[0]))
+            {
+                Console.WriteLine($"Provided path {args[0]} doesn't exist.");
+            }
+
             var loader = _container.Resolve<ISoftincModificationLoader>();
+            loader.ModComponentValidation += (s, e) =>
+            {
+                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+            };
+            loader.XmlValidation += (s, e) =>
+            {
+                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+            };
 
-            loader.ModComponentValidation += (s, e) => Console.WriteLine(e);
-            loader.XmlValidation += (s, e) => Console.WriteLine(e);
-
-            var mod = loader.Load(@"C:\Users\jdphe\Downloads\resmod");
+            var mod = loader.Load(args[0]);
 
             if (mod != null)
             {
