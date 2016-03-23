@@ -4,6 +4,7 @@ using SoftwareincValidator.Proxy.Impl;
 using SoftwareincValidator.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -34,52 +35,39 @@ namespace SoftwareincValidator
         }
 
         private static void Main(string[] args)
-            {
-            var ser = _container.Resolve<ISoftincModificationSerializer>();
-            var loader = _container.Resolve<ISoftincModificationLoader>();
-
-            RegisterBaseXmlMutations(ser);
-
-            var mod = loader.Load(@"D:\SteamLibrary\steamapps\common\Software Inc\Mods\Mo' Stuff Mod (v0.1.6)");
-
-            ser.Serialize(mod);
-        }
-
-        private static void RegisterBaseXmlMutations(ISoftincModificationSerializer ser)
         {
-            // TODO: Refactor these out to a.. plugin? 
-            ser.Serializing += (s, e) =>
+            if (args.Length == 0)
             {
-                // Hackish removing of XML declaration.
-                if (e.Document.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    e.Document.RemoveChild(e.Document.FirstChild);
-                }
+                Console.WriteLine("Expected a single argument, a path to a modification folder.");
+            }
+
+            var fileSystem = _container.Resolve<IFileSystem>();
+
+            if (!fileSystem.DirectoryExists(args[0]))
+            {
+                Console.WriteLine($"Provided path {args[0]} doesn't exist.");
+            }
+
+            var loader = _container.Resolve<ISoftincModificationLoader>();
+            loader.ModComponentValidation += (s, e) =>
+            {
+                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+            };
+            loader.XmlValidation += (s, e) =>
+            {
+                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
             };
 
-            // TODO: Refactor these out to a.. plugin? 
-            ser.Serializing += (s, e) =>
+            var mod = loader.Load(args[0]);
+
+            if (mod != null)
             {
-                Action<XmlNode> addTextnodeIfEmpty = null;
-                addTextnodeIfEmpty = node =>
-                {
-                    if (node.NodeType == XmlNodeType.Text) return;
-
-                    if (node.HasChildNodes)
-                    {
-                        foreach (XmlNode child in node.ChildNodes)
-                        {
-                            addTextnodeIfEmpty(child);
-                        }
-                    }
-                    else
-                    {
-                        node.AppendChild(node.OwnerDocument.CreateTextNode(string.Empty));
-                    }
-                };
-
-                addTextnodeIfEmpty(e.Document);
-            };
+                Console.WriteLine($"{mod.Name} loaded.");
+            }
+            else
+            {
+                Console.WriteLine("Failed to load modification.");
+            }
         }
     }
 }

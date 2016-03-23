@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Proxy;
+using SoftwareincValidator.Proxy.Impl;
 using SoftwareincValidator.Validation;
 using SoftwareincValidator.Validation.Impl;
 
@@ -12,7 +15,17 @@ namespace SoftwareincValidator.Tests.Validation
     [TestClass]
     public class ScenarioValidatorTests
     {
-        private static readonly ScenarioValidator Validator = new ScenarioValidator();
+        private ModComponentValidator<Scenario> _validator;
+        private ISchemaProvider _schemaProvider;
+
+        [TestInitialize]
+        public void Init()
+        {
+            // Concrete dependencies are passed in because these are tests of the xsd schema.
+            _schemaProvider = new SchemaProvider(new FileSystemProxy());
+
+            _validator = new ModComponentValidator<Scenario>(_schemaProvider);
+        }
 
         [TestMethod]
         public void Validate_PassedMissingEvents_FailsValidation()
@@ -31,7 +44,7 @@ namespace SoftwareincValidator.Tests.Validation
                 ForceEnvironmentSpecified = true,
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -57,7 +70,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -83,7 +96,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -109,7 +122,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -135,7 +148,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -148,7 +161,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedEmptyGoals_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
+            const string expectedMessage = "[Scenario] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",
@@ -162,7 +175,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -176,7 +189,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedValidScenario_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
+            const string expectedMessage = "[Scenario] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",
@@ -190,7 +203,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -215,7 +228,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -239,7 +252,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -263,7 +276,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -287,7 +300,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -300,7 +313,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedLowRangeEnvironmentScenario_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
+            const string expectedMessage = "[Scenario] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",
@@ -312,7 +325,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 
@@ -326,7 +339,7 @@ namespace SoftwareincValidator.Tests.Validation
         public void Validate_PassedHighRangeEnvironmentScenario_PassesValidation()
         {
             const int expectedCount = 1;
-            const string expectedMessage = "[Scenario] [Low Money Test] Valid.";
+            const string expectedMessage = "[Scenario] Valid.";
             var scenario = new Scenario
             {
                 Name = "Low Money Test",
@@ -338,7 +351,7 @@ namespace SoftwareincValidator.Tests.Validation
                 Events = new string[0]
             };
 
-            var actual = Validator.Validate(scenario);
+            var actual = _validator.Validate(scenario);
 
             var validationResults = actual as ValidationResult[] ?? actual.ToArray();
 

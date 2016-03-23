@@ -14,5 +14,30 @@ namespace SoftwareincValidator.Model
         /// All Scenarios defined in this modification.
         /// </summary>
         IList<Scenario> Scenarios { get; }
+
+        /// <summary>
+        /// All company types defined in this modification.
+        /// </summary>
+        IList<CompanyType> CompanyTypes { get; }
+
+        /// <summary>
+        /// All company types defined in this modification.
+        /// </summary>
+        IList<SoftwareType> SoftwareTypes { get; }
+
+        /// <summary>
+        /// A list of all deleted company types, kayed by CompanyType.Name.
+        /// </summary>
+        CompanyTypes DeletedCompanyTypes { get; }
+
+            /// <summary>
+        /// The personality graph, if present, associated with this modification.
+        /// </summary>
+        PersonalityGraph Personalities { get; }
+
+        /// <summary>
+        /// The base features, if present, associated with this modification.
+        /// </summary>
+        BaseFeatures BaseFeatures { get; }
     }
 }

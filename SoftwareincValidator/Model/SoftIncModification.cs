@@ -15,6 +15,8 @@ namespace SoftwareincValidator.Model
 
             Name = name;
             Scenarios = new List<Scenario>();
+            CompanyTypes = new List<CompanyType>();
+            SoftwareTypes = new List<SoftwareType>();
         }
 
         /// <summary>
@@ -26,5 +28,30 @@ namespace SoftwareincValidator.Model
         ///     All Scenarios defined in this modification.
         /// </summary>
         public IList<Scenario> Scenarios { get; }
+
+        /// <summary>
+        ///     All company types defined in this modification.
+        /// </summary>
+        public IList<CompanyType> CompanyTypes { get; }
+
+        /// <summary>
+        ///     All software types defined in this modification.
+        /// </summary>
+        public IList<SoftwareType> SoftwareTypes { get; }
+
+        /// <summary>
+        ///     A list of all deleted company types, kayed by CompanyType.Name.
+        /// </summary>
+        public CompanyTypes DeletedCompanyTypes { get; set; }
+
+        /// <summary>
+        ///     The Personality Graph, if exists, associated with this modification.
+        /// </summary>
+        public PersonalityGraph Personalities { get; set; }
+
+        /// <summary>
+        /// The base features, if present, associated with this modification.
+        /// </summary>
+        public BaseFeatures BaseFeatures { get; set; }
     }
 }

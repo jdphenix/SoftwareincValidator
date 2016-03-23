@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoftwareincValidator.Validation
 {
-    public struct ValidationResult : IEquatable<ValidationResult>
+    public class ValidationResult : EventArgs, IEquatable<ValidationResult>
     {
         public static bool operator ==(ValidationResult left, ValidationResult right)
         {
@@ -55,7 +55,7 @@ namespace SoftwareincValidator.Validation
 
         public override string ToString()
         {
-            return $"Message: {Message}, Level: {Level}, Source: {Source}";
+            return $"{Level}: {Message}, Source: {Source}";
         }
     }
 }

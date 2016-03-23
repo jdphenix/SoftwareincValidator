@@ -12,7 +12,15 @@ namespace SoftwareincValidator.Validation
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ScenarioValidator>().As<IModComponentValidator<Scenario>>();
+            builder.RegisterType<SchemaProvider>().As<ISchemaProvider>();
+            builder.RegisterType<ModValidator>().As<IModValidator>();
+
+            builder.RegisterGeneric(typeof(ModComponentValidator<>))
+                .As(typeof(IModComponentValidator<>));
+
+            builder.RegisterType<SoftwareTypeValidator>().As<IModComponentValidator<SoftwareType>>();
+            builder.RegisterType<BaseFeaturesValidator>()
+                .As<IModComponentValidator<BaseFeatures>>();
         }
     }
 }
