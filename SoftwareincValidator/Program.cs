@@ -1,87 +1,72 @@
-﻿using System;
+﻿using SoftwareincValidator.Model;
+using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Proxy.Impl;
+using SoftwareincValidator.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Autofac;
+using SoftwareincValidator.Proxy;
+using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator
 {
-    class Program
+    [ExcludeFromCodeCoverage]
+    internal class Program
     {
-        static void AddTextnodeIfEmpty(XmlNode node)
-        {
-            if (node.NodeType == XmlNodeType.Text) return;
+        private static readonly IContainer _container;
 
-            if (node.HasChildNodes)
+        static Program()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<ValidationModule>();
+            builder.RegisterModule<ModelModule>();
+            builder.RegisterModule<ProxyModule>();
+            builder.RegisterModule<SerializationModule>();
+
+            _container = builder.Build();
+        }
+
+        private static void Main(string[] args)
+        {
+            if (args.Length == 0)
             {
-                foreach (XmlNode child in node.ChildNodes)
-                {
-                    AddTextnodeIfEmpty(child);
-                }
+                Console.WriteLine("Expected a single argument, a path to a modification folder.");
+            }
+
+            var fileSystem = _container.Resolve<IFileSystem>();
+
+            if (!fileSystem.DirectoryExists(args[0]))
+            {
+                Console.WriteLine($"Provided path {args[0]} doesn't exist.");
+            }
+
+            var loader = _container.Resolve<ISoftincModificationLoader>();
+            loader.ModComponentValidation += (s, e) =>
+            {
+                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+            };
+            loader.XmlValidation += (s, e) =>
+            {
+                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+            };
+
+            var mod = loader.Load(args[0]);
+
+            if (mod != null)
+            {
+                Console.WriteLine($"{mod.Name} loaded.");
             }
             else
             {
-                node.AppendChild(node.OwnerDocument.CreateTextNode(string.Empty));
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            Scenario scen = new Scenario
-            {
-                Name = "Test",
-                Money = new uint[] { 5000, 15000, 35000 },
-                Goals = new[] { "Money 200000" },
-                Years = new ushort[] { 1976, 1978 },
-                Simulation = ScenarioSimulation.TRUE,
-                SimulationSpecified = true, 
-                Trees = ScenarioTrees.FALSE,
-                TreesSpecified = true, 
-                ForceEnvironment = 3,
-                ForceEnvironmentSpecified = true, 
-                Events = new string[0]
-            };
-
-            XmlSerializer ser = new XmlSerializer(scen.GetType());
-            XmlDocument doc = null;
-            XmlReaderSettings readerSettings = new XmlReaderSettings
-            {
-                IgnoreWhitespace = true
-            };
-            XmlWriterSettings writerSettings = new XmlWriterSettings
-            {
-                OmitXmlDeclaration = true,
-                NewLineChars = "\r\n",
-                NewLineHandling = NewLineHandling.Replace,
-                Indent = true, 
-                IndentChars = "\t"
-
-            };
-
-            using (var memoryStream = new MemoryStream())
-            using (var xmlReader = XmlReader.Create(memoryStream, readerSettings))
-            {
-                ser.Serialize(memoryStream, scen);
-                memoryStream.Position = 0;
-                doc = new XmlDocument();
-                doc.Load(memoryStream);
-
-                // Hackish removing of XML declaration.
-                if (doc.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
-                {
-                    doc.RemoveChild(doc.FirstChild);
-                }
-
-                // Hackish ensuring there's no self-closing tags.
-                AddTextnodeIfEmpty(doc);
-            }
-
-            using (var writer = new StreamWriter($@"b:\out\Scenarios\{scen.Name}.xml"))
-            using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
-            {
-                doc.Save(xmlWriter);
+                Console.WriteLine("Failed to load modification.");
             }
         }
     }

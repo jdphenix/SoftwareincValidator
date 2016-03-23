@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SoftwareincValidator</RootNamespace>
-    <AssemblyName>SoftwareincValidator</AssemblyName>
+    <AssemblyName>modval</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <XsdPath>NotSet</XsdPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,24 +47,91 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gen\scenario.cs" />
+    <Compile Include="Model\Generated\company-type-delete.cs" />
+    <Compile Include="Model\Generated\company-type.cs" />
+    <Compile Include="Model\Generated\BaseFeatures.cs" />
+    <Compile Include="Model\Generated\personalities.cs" />
+    <Compile Include="Model\Generated\scenario.cs" />
+    <Compile Include="Model\Generated\SoftwareType.cs" />
+    <Compile Include="Model\Generated\SoftwareTypeFeature.cs" />
+    <Compile Include="Model\ISoftincModification.cs" />
+    <Compile Include="Model\ModelModule.cs" />
+    <Compile Include="Model\SoftincModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\IDirectoryInfo.cs" />
+    <Compile Include="Proxy\IFileInfo.cs" />
+    <Compile Include="Proxy\IFileSystem.cs" />
+    <Compile Include="Proxy\Impl\DirectoryInfoProxy.cs" />
+    <Compile Include="Proxy\Impl\FileBackedWriterProvider.cs" />
+    <Compile Include="Proxy\Impl\FileInfoProxy.cs" />
+    <Compile Include="Proxy\Impl\FileSystemProxy.cs" />
+    <Compile Include="Proxy\Impl\XmlSerializerProxy.cs" />
+    <Compile Include="Proxy\IWriterProvider.cs" />
+    <Compile Include="Proxy\ProxyModule.cs" />
+    <Compile Include="Serialization\Impl\BaseFeaturesXmlSerializer.cs" />
+    <Compile Include="Validation\IModValidator.cs" />
+    <Compile Include="Serialization\ISoftincModificationLoader.cs" />
+    <Compile Include="Proxy\IXmlSerializer.cs" />
+    <Compile Include="Serialization\ModificationLoadException.cs" />
+    <Compile Include="Serialization\SerializationModule.cs" />
+    <Compile Include="Serialization\SerializingEventArgs.cs" />
+    <Compile Include="Serialization\Impl\SoftincFileModificationLoader.cs" />
+    <Compile Include="Serialization\Impl\SoftincModificationXmlSerializer.cs" />
+    <Compile Include="Serialization\Impl\SoftwareTypeXmlSerializer.cs" />
+    <Compile Include="Validation\IModComponentValidator.cs" />
+    <Compile Include="Validation\Impl\ModComponentValidator.cs" />
+    <Compile Include="Validation\Impl\BaseFeaturesValidator.cs" />
+    <Compile Include="Validation\Impl\ModValidator.cs" />
+    <Compile Include="Validation\Impl\SchemaProvider.cs" />
+    <Compile Include="Validation\Impl\SoftwareTypeValidator.cs" />
+    <Compile Include="Validation\ISchemaProvider.cs" />
+    <Compile Include="Validation\ValidationLevel.cs" />
+    <Compile Include="Validation\ValidationModule.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
+    <Compile Include="Validation\ValidationSource.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Serialization\ISoftincModificationSerializer.cs" />
+    <None Include="packages.config" />
+    <None Include="xsd\company-type-delete.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="xsd\company-type.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="xsd\personalities.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="xsd\scenario.xsd">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="ex\OperatingSystems.xml" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets. -->
+  <Target Name="GetXsdPath" BeforeTargets="BeforeBuild">
+    <GetFrameworkSdkPath>
+      <Output TaskParameter="Path" PropertyName="WindowsSdkPath" />
+    </GetFrameworkSdkPath>
+    <PropertyGroup>
+      <XsdPath>$(WindowsSdkPath)bin\xsd.exe</XsdPath>
+    </PropertyGroup>
+    <PropertyGroup>
+      <XsdPath Condition="!Exists($(XsdPath))">$(WindowsSdkPath)bin\NETFX 4.6.1 Tools\xsd.exe</XsdPath>
+    </PropertyGroup>
+  </Target>
   <Target Name="BeforeBuild">
+    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type-delete.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
 </Project>
