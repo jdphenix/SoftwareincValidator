@@ -6,16 +6,16 @@ using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Validation.Mod
 {
-    class ResearchedFeaturesMustHaveUnlockDate : IModComponentValidator<SoftwareType>
+    class ResearchedFeaturesDefinedFeaturePart : IModComponentValidator<SoftwareType>
     {
         public IEnumerable<ValidationResult> Validate(SoftwareType component)
         {
             return component.Features
                 .Where(x => !string.IsNullOrEmpty(x.Research))
-                .Where(x => x.Unlock < 1970)
+                .Where(x => !component.Features.Any(y => y.Name.Equals(x.Research, StringComparison.Ordinal)))
                 .Select(x => new ValidationResult(
-                    $"Software type {component.Name} defines a researched feature {x.Name} with an invalid unlock date.",
-                    ValidationLevel.Error));
+                    $"Software type {component.Name} has researched feature {x.Name} that doesn't define itself as part of a feature on the same software type.",
+                    ValidationLevel.Warning));
         }
     }
 }

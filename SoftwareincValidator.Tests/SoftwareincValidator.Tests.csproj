@@ -197,6 +197,9 @@
     <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-invalid-unlock-researched.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-research-feature-with-invalid-part.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-wrong-forced.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
