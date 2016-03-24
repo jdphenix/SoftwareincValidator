@@ -56,7 +56,7 @@
 			<CodeArt>1</CodeArt>
 			<Dependency Software="2D Editor">Pixel manipulation</Dependency>
 		</Feature>
-		<Feature Research="Image effects">
+		<Feature Research="">
 			<Name>Cinematic filter</Name>
 			<Unlock>1993</Unlock>
 			<Description>Instant professionalism</Description>
