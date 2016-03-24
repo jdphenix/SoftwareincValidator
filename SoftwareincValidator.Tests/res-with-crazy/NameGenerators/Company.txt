@@ -1,0 +1,78 @@
+-start(base)
+-base(smallsecond,largesecond,ext)
+Macro
+Super
+Punch
+Alley
+Stab
+Fist
+Tango
+Treat
+Fringe
+Slide
+Smile
+Stick
+Throw
+Drive
+Flash
+Sick
+Kick
+Alpha
+Beta
+Theta
+Shadow
+Slide
+Time
+Fly
+Shine
+Age
+Eye
+Man
+Giant
+Cloud
+Dock
+-smallsecond(ext,largesecond,stop)
+hard
+blow
+throw
+back
+top
+spin
+slam
+book
+ware
+trap
+clap
+tap
+breeze
+like
+trip
+swing
+hook
+soft
+-largesecond(ext,stop)
+ Blade
+ Camp
+ Face
+ Delight
+ Show
+ Style
+ Reach
+ Monday
+ Kingdom
+ Garden
+ Street
+ Trials
+ Cell
+ Digital
+ Interactive
+ Reality
+-ext(stop)
+ Inc.
+ Corp.
+ Ltd.
+ LLC
+ Studios
+ Studio
+ Industries
+ Productions

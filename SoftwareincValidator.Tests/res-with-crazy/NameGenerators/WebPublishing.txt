@@ -1,0 +1,19 @@
+-start(base)
+-base(base2,ext,stop)
+Word
+Community
+Open
+World
+Network
+Net
+Web
+-base2(ext,stop)
+Press
+Stage
+Publisher
+Show
+ Manager
+-ext(stop)
+ Pro
+ Suite
+ Lite

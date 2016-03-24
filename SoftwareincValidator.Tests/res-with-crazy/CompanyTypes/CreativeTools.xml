@@ -1,0 +1,11 @@
+<CompanyType>
+	<Specialization>Creative tools</Specialization>
+	<PerYear>0.2</PerYear>
+	<Min>2</Min>
+	<Max>4</Max>
+	<Types>
+		<Type Software="Audio Tool">1</Type>
+		<Type Software="2D Editor">1</Type>
+		<Type Software="3D Editor">1</Type>
+	</Types>
+</CompanyType>

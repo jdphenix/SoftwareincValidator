@@ -1,0 +1,12 @@
+	<Features>
+		<Feature>
+			<Name>QA</Name>
+			<Description>Use Quality Assurance to release a more stable product or fix the bugs as your customers irritably stumble into them</Description>
+			<DevTime>3</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>2</Usability>
+			<Stability>5</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependencies></Dependencies>
+		</Feature>
+	</Features>

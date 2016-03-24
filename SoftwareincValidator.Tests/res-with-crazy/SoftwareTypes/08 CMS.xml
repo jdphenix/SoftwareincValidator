@@ -1,0 +1,180 @@
+<SoftwareType>
+<Name>CMS</Name>
+	<Category>Computing</Category>
+	<Description>A Content Management System is mostly used for the very specific task of managing content</Description>
+	<Random>0</Random>
+	<Categories>
+		<Category Name="Web Publishing">
+			<Description>To avoid forcing bloggers to do backend webprograming</Description>
+			<Popularity>0.3</Popularity>
+			<Retention>0.6</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>1</Iterative>
+			<Unlock>1992</Unlock>
+			<NameGenerator>WebPublishing</NameGenerator>
+		</Category>
+		<Category Name="Financial">
+			<Description>Help businesses keep track of their money</Description>
+			<Popularity>0.5</Popularity>
+			<Retention>0.95</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>1</Iterative>
+			<NameGenerator>Financial</NameGenerator>
+		</Category>
+		<Category Name="Workflow">
+			<Description>The virtual whiteboard</Description>
+			<Popularity>0.3</Popularity>
+			<Retention>0.8</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>1</Iterative>
+			<NameGenerator>Workflow</NameGenerator>
+		</Category>
+	</Categories>
+	<OSSpecific>False</OSSpecific>
+	<OneClient>False</OneClient>
+	<InHouse>False</InHouse>
+	<Features>
+		<Feature Forced="TRUE">
+			<Name>File management</Name>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Visualization tools</Name>
+			<Category>2D</Category>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.5</CodeArt>
+		</Feature>
+		<Feature Vital="True">
+			<Name>WYSIWYG</Name>
+			<Category>2D</Category>
+			<Description>What You See Is probably What You Get</Description>
+			<DevTime>6</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>4</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.8</CodeArt>
+			<SoftwareCategory Category="Web Publishing">0</SoftwareCategory>
+			<Dependency Software="2D Editor">Pixel manipulation</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Community</Name>
+			<Description>The internet needs more comment sections</Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Web Publishing">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Widgets</Name>
+			<Description>Also known as social media buttons</Description>
+			<DevTime>4</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Web Publishing">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Themes</Name>
+			<Category>2D</Category>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>4</Usability>
+			<Stability>2</Stability>
+			<CodeArt>0</CodeArt>
+			<Dependency Software="2D Editor">Pixel manipulation</Dependency>
+			<Dependency Software="CMS">WYSIWYG</Dependency>
+			<SoftwareCategory Category="Web Publishing">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>GUI</Name>
+			<Category>2D</Category>
+			<Description>Graphical User Interface</Description>
+			<DevTime>6</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>4</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.5</CodeArt>
+			<SoftwareCategory Category="Financial">0</SoftwareCategory>
+			<SoftwareCategory Category="Workflow">0</SoftwareCategory>
+			<Dependency Software="2D Editor">Pixel manipulation</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Bank integration</Name>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Financial">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Document generation</Name>
+			<Description>Invoices for everyone</Description>
+			<DevTime>2</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.75</CodeArt>
+			<Dependency Software="CMS">GUI</Dependency>
+			<SoftwareCategory Category="Financial">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Statistics</Name>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>4</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="CMS">GUI</Dependency>
+			<SoftwareCategory Category="Financial">0</SoftwareCategory>
+			<SoftwareCategory Category="Workflow">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>User hierarchy</Name>
+			<Description></Description>
+			<DevTime>3</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>4</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Workflow">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Work delegation</Name>
+			<Description>Alternatively, run around the office screaming tasks at people</Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="CMS">User hierarchy</Dependency>
+			<SoftwareCategory Category="Workflow">0</SoftwareCategory>
+		</Feature>
+		<Feature Vital="True">
+			<Name>Synchronization</Name>
+			<Description>Or send floppy disk around once in a while</Description>
+			<DevTime>6</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<Server>0.001</Server>
+			<SoftwareCategory Category="Workflow">0</SoftwareCategory>
+		</Feature>
+	</Features>
+</SoftwareType>
