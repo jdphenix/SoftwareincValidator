@@ -80,12 +80,14 @@
     <Compile Include="Serialization\Impl\SoftincModificationXmlSerializer.cs" />
     <Compile Include="Serialization\Impl\SoftwareTypeXmlSerializer.cs" />
     <Compile Include="Validation\IModComponentValidator.cs" />
-    <Compile Include="Validation\Impl\ModComponentValidator.cs" />
-    <Compile Include="Validation\Impl\BaseFeaturesValidator.cs" />
+    <Compile Include="Validation\Impl\XmlBaseFeaturesValidator.cs" />
     <Compile Include="Validation\Impl\ModValidator.cs" />
     <Compile Include="Validation\Impl\SchemaProvider.cs" />
-    <Compile Include="Validation\Impl\SoftwareTypeValidator.cs" />
+    <Compile Include="Validation\Impl\XmlSoftwareTypeValidator.cs" />
+    <Compile Include="Validation\Impl\XmlComponentValidator.cs" />
     <Compile Include="Validation\ISchemaProvider.cs" />
+    <Compile Include="Validation\IXmlComponentValidator.cs" />
+    <Compile Include="Validation\Mod\TestModComponentValidator.cs" />
     <Compile Include="Validation\ValidationLevel.cs" />
     <Compile Include="Validation\ValidationModule.cs" />
     <Compile Include="Validation\ValidationResult.cs" />

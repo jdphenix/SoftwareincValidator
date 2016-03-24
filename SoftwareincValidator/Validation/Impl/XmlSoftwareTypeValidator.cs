@@ -10,22 +10,8 @@ using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator.Validation.Impl
 {
-    public class SoftwareTypeValidator : IModComponentValidator<SoftwareType>
+    public class XmlSoftwareTypeValidator : IXmlComponentValidator<SoftwareType>
     {
-        public IEnumerable<ValidationResult> Validate(SoftwareType component)
-        {
-            var results = new List<ValidationResult>();
-
-            if (!results.Any())
-            {
-                results.Add(new ValidationResult(
-                    message: $"[{component.GetType().Name}] TODO: Validation for model objects.",
-                    level: ValidationLevel.Success));
-            }
-
-            return results;
-        }
-
         public IEnumerable<ValidationResult> Validate(XDocument component)
         {
             var results = new List<ValidationResult>();

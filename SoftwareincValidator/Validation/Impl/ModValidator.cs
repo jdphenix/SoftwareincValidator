@@ -13,66 +13,114 @@ namespace SoftwareincValidator.Validation.Impl
     {
         private IDictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>> _validations;
 
-        private readonly IModComponentValidator<Scenario> _scenarioValidator;
-        private readonly IModComponentValidator<PersonalityGraph> _personalitiesValidator;
-        private readonly IModComponentValidator<CompanyType> _companyTypeValidator;
-        private readonly IModComponentValidator<SoftwareType> _softwareTypeValidator;
-        private readonly IModComponentValidator<BaseFeatures> _baseFeaturesValidator;
-        private readonly IModComponentValidator<CompanyTypes> _companyTypesValidator; 
+        private readonly IXmlComponentValidator<Scenario> _xmlScenarioValidator;
+        private readonly IXmlComponentValidator<PersonalityGraph> _xmlPersonalitiesValidator;
+        private readonly IXmlComponentValidator<CompanyType> _xmlCompanyTypeValidator;
+        private readonly IXmlComponentValidator<SoftwareType> _xmlSoftwareTypeValidator;
+        private readonly IXmlComponentValidator<BaseFeatures> _xmlBaseFeaturesValidator;
+        private readonly IXmlComponentValidator<CompanyTypes> _xmlCompanyTypesValidator;
+        private readonly IEnumerable<IModComponentValidator<Scenario>>  _modScenarioValidator;
+        private readonly IEnumerable<IModComponentValidator<PersonalityGraph>> _modPersonalitiesValidator;
+        private readonly IEnumerable<IModComponentValidator<CompanyType>>  _modCompanyTypeValidator;
+        private readonly IEnumerable<IModComponentValidator<SoftwareType>>  _modSoftwareTypeValidator;
+        private readonly IEnumerable<IModComponentValidator<BaseFeatures>> _modBaseFeaturesValidator;
+        private readonly IEnumerable<IModComponentValidator<CompanyTypes>> _modCompanyTypesValidator;
 
         public ModValidator(
-            IModComponentValidator<PersonalityGraph> personalitiesValidator,
-            IModComponentValidator<Scenario> scenarioValidator,
-            IModComponentValidator<CompanyType> companyTypeValidator,
-            IModComponentValidator<SoftwareType> softwareTypeValidator, 
-            IModComponentValidator<BaseFeatures> baseFeaturesValidator,
-            IModComponentValidator<CompanyTypes> companyTypesValidator)
+            IXmlComponentValidator<PersonalityGraph> xmlPersonalitiesValidator,
+            IXmlComponentValidator<Scenario> xmlScenarioValidator,
+            IXmlComponentValidator<CompanyType> xmlCompanyTypeValidator,
+            IXmlComponentValidator<SoftwareType> xmlSoftwareTypeValidator, 
+            IXmlComponentValidator<BaseFeatures> xmlBaseFeaturesValidator,
+            IXmlComponentValidator<CompanyTypes> xmlCompanyTypesValidator,
+            IEnumerable<IModComponentValidator<Scenario>> modScenarioValidator,
+            IEnumerable<IModComponentValidator<PersonalityGraph>> modPersonalitiesValidator,
+            IEnumerable<IModComponentValidator<CompanyType>> modCompanyTypeValidator,
+            IEnumerable<IModComponentValidator<SoftwareType>> modSoftwareTypeValidator,
+            IEnumerable<IModComponentValidator<BaseFeatures>> modBaseFeaturesValidator,
+            IEnumerable<IModComponentValidator<CompanyTypes>> modCompanyTypesValidator)
         {
-            if (personalitiesValidator == null)
+            if (xmlPersonalitiesValidator == null)
             {
-                throw new ArgumentNullException(nameof(personalitiesValidator));
+                throw new ArgumentNullException(nameof(xmlPersonalitiesValidator));
             }
 
-            if (scenarioValidator == null)
+            if (xmlScenarioValidator == null)
             {
-                throw new ArgumentNullException(nameof(scenarioValidator));
+                throw new ArgumentNullException(nameof(xmlScenarioValidator));
             }
 
-            if (companyTypeValidator == null)
+            if (xmlCompanyTypeValidator == null)
             {
-                throw new ArgumentNullException(nameof(companyTypeValidator));
+                throw new ArgumentNullException(nameof(xmlCompanyTypeValidator));
             }
 
-            if (softwareTypeValidator == null)
+            if (xmlSoftwareTypeValidator == null)
             {
-                throw new ArgumentNullException(nameof(softwareTypeValidator));
+                throw new ArgumentNullException(nameof(xmlSoftwareTypeValidator));
             }
 
-            if (baseFeaturesValidator == null)
+            if (xmlBaseFeaturesValidator == null)
             {
-                throw new ArgumentNullException(nameof(baseFeaturesValidator));
+                throw new ArgumentNullException(nameof(xmlBaseFeaturesValidator));
             }
 
-            if (companyTypesValidator == null)
+            if (xmlCompanyTypesValidator == null)
             {
-                throw new ArgumentNullException(nameof(companyTypesValidator));
+                throw new ArgumentNullException(nameof(xmlCompanyTypesValidator));
             }
 
-            _personalitiesValidator = personalitiesValidator;
-            _scenarioValidator = scenarioValidator;
-            _companyTypeValidator = companyTypeValidator;
-            _softwareTypeValidator = softwareTypeValidator;
-            _baseFeaturesValidator = baseFeaturesValidator;
-            _companyTypesValidator = companyTypesValidator;
+            if (modPersonalitiesValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modPersonalitiesValidator));
+            }
+
+            if (modScenarioValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modScenarioValidator));
+            }
+
+            if (modCompanyTypeValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modCompanyTypeValidator));
+            }
+
+            if (modSoftwareTypeValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modSoftwareTypeValidator));
+            }
+
+            if (modBaseFeaturesValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modBaseFeaturesValidator));
+            }
+
+            if (modCompanyTypesValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modCompanyTypesValidator));
+            }
+
+            _xmlPersonalitiesValidator = xmlPersonalitiesValidator;
+            _xmlScenarioValidator = xmlScenarioValidator;
+            _xmlCompanyTypeValidator = xmlCompanyTypeValidator;
+            _xmlSoftwareTypeValidator = xmlSoftwareTypeValidator;
+            _xmlBaseFeaturesValidator = xmlBaseFeaturesValidator;
+            _xmlCompanyTypesValidator = xmlCompanyTypesValidator;
+            _modPersonalitiesValidator = modPersonalitiesValidator;
+            _modScenarioValidator = modScenarioValidator;
+            _modCompanyTypeValidator = modCompanyTypeValidator;
+            _modSoftwareTypeValidator = modSoftwareTypeValidator;
+            _modBaseFeaturesValidator = modBaseFeaturesValidator;
+            _modCompanyTypesValidator = modCompanyTypesValidator;
 
             _validations = new Dictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>>
             {
-                { "Features", document => _baseFeaturesValidator.Validate(document) },
-                { "SoftwareType", document => _softwareTypeValidator.Validate(document) },
-                { "CompanyType", document => _companyTypeValidator.Validate(document) },
-                { "PersonalityGraph", document => _personalitiesValidator.Validate(document) },
-                { "Scenario", document => _scenarioValidator.Validate(document) },
-                { "CompanyTypes", document => _companyTypesValidator.Validate(document) }
+                { "Features", document => _xmlBaseFeaturesValidator.Validate(document) },
+                { "SoftwareType", document => _xmlSoftwareTypeValidator.Validate(document) },
+                { "CompanyType", document => _xmlCompanyTypeValidator.Validate(document) },
+                { "PersonalityGraph", document => _xmlPersonalitiesValidator.Validate(document) },
+                { "Scenario", document => _xmlScenarioValidator.Validate(document) },
+                { "CompanyTypes", document => _xmlCompanyTypesValidator.Validate(document) }
             };
         }
 
@@ -107,32 +155,38 @@ namespace SoftwareincValidator.Validation.Impl
 
         public IEnumerable<ValidationResult> Validate(CompanyType component)
         {
-            return _companyTypeValidator.Validate(component);
+            return EnumerateResults(_modCompanyTypeValidator, component);
         }
 
         public IEnumerable<ValidationResult> Validate(SoftwareType component)
         {
-            return _softwareTypeValidator.Validate(component);
+            return EnumerateResults(_modSoftwareTypeValidator, component);
         }
 
         public IEnumerable<ValidationResult> Validate(Scenario component)
         {
-            return _scenarioValidator.Validate(component);
+            return EnumerateResults(_modScenarioValidator, component);
         }
 
         public IEnumerable<ValidationResult> Validate(PersonalityGraph component)
         {
-            return _personalitiesValidator.Validate(component);
+            return EnumerateResults(_modPersonalitiesValidator, component);
         }
 
         public IEnumerable<ValidationResult> Validate(BaseFeatures component)
         {
-            return _baseFeaturesValidator.Validate(component);
+            return EnumerateResults(_modBaseFeaturesValidator, component);
         }
 
         public IEnumerable<ValidationResult> Validate(CompanyTypes component)
         {
-            return _companyTypesValidator.Validate(component);
+            return EnumerateResults(_modCompanyTypesValidator, component);
+        }
+
+        private static IEnumerable<ValidationResult> EnumerateResults<T>(
+            IEnumerable<IModComponentValidator<T>> validators, T component)
+        {
+            return validators.SelectMany(validator => validator.Validate(component));
         }
     }
 }
