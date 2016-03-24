@@ -87,7 +87,7 @@
     <Compile Include="Validation\Impl\XmlComponentValidator.cs" />
     <Compile Include="Validation\ISchemaProvider.cs" />
     <Compile Include="Validation\IXmlComponentValidator.cs" />
-    <Compile Include="Validation\Mod\TestModComponentValidator.cs" />
+    <Compile Include="Validation\Mod\SoftwareTypeMustHaveForcedValidator.cs" />
     <Compile Include="Validation\ValidationLevel.cs" />
     <Compile Include="Validation\ValidationModule.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
