@@ -89,6 +89,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="res-with-crazy\CompanyTypes\Antivirus-broken.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="res-with-crazy\CompanyTypes\Antivirus.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
