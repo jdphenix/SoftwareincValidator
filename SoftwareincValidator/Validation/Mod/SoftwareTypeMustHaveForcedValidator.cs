@@ -14,9 +14,7 @@ namespace SoftwareincValidator.Validation.Mod
 
             if (!forcedFeatures.Any())
             {
-                yield return new ValidationResult(
-                    $"Software type {component.Name} doesn't have a Forced feature defined.", 
-                    ValidationLevel.Warning);
+                yield return new ValidationResult($"Software type {component.Name} doesn't have a Forced feature defined.");
             }
         }
     }
