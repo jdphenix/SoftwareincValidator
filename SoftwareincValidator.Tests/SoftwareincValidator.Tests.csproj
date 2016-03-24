@@ -191,6 +191,9 @@
     <Content Include="res-with-crazy\SoftwareTypes\01 Operating System.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-out-of-range-features.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-feature-with-research-dependency.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
