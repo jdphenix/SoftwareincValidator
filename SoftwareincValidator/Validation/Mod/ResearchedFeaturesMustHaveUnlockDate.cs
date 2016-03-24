@@ -14,8 +14,7 @@ namespace SoftwareincValidator.Validation.Mod
                 .Where(x => !string.IsNullOrEmpty(x.Research))
                 .Where(x => x.Unlock < 1970)
                 .Select(x => new ValidationResult(
-                    $"Software type {component.Name} defines a researched feature {x.Name} with an invalid unlock date.",
-                    ValidationLevel.Error));
+                    $"Software type {component.Name} defines a researched feature {x.Name} with an invalid unlock date."));
         }
     }
 }
