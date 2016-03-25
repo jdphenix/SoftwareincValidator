@@ -89,6 +89,7 @@
     <Compile Include="Validation\ISchemaProvider.cs" />
     <Compile Include="Validation\IXmlComponentValidator.cs" />
     <Compile Include="Validation\Mod\CompanyTypesMustDefineExistingSoftwareTypes.cs" />
+    <Compile Include="Validation\Mod\FeatureDependenciesMustExist.cs" />
     <Compile Include="Validation\Mod\ResearchedFeatureMustNotHaveBlankPart.cs" />
     <Compile Include="Validation\Mod\ResearchedFeaturesDefinedFeaturePart.cs" />
     <Compile Include="Validation\Mod\ResearchedFeaturesMustHaveUnlockDate.cs" />
