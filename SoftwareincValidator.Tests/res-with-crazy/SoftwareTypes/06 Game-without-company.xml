@@ -1,0 +1,262 @@
+<SoftwareType>
+	<Name>Game Without Company</Name>
+	<Category>Gaming</Category>
+	<Description>Interactive art.</Description>
+	<Random>0.6</Random>
+	<Categories>
+		<Category Name="RPG">
+			<Description>Role Playing Game</Description>
+			<Popularity>0.6</Popularity>
+			<Retention>0.7</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>0.8</Iterative>
+			<NameGenerator>GameRPG</NameGenerator>
+		</Category>
+		<Category Name="Adventure">
+			<Description></Description>
+			<Popularity>0.6</Popularity>
+			<Retention>0.3</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>0.8</Iterative>
+			<NameGenerator>GameAdventure</NameGenerator>
+		</Category>
+		<Category Name="Simulation">
+			<Description>You're playing one!</Description>
+			<Popularity>0.4</Popularity>
+			<Retention>0.5</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>0.7</Iterative>
+			<NameGenerator>GameSimulation</NameGenerator>
+		</Category>
+		<Category Name="Sports">
+			<Description></Description>
+			<Popularity>0.7</Popularity>
+			<Retention>0.2</Retention>
+			<TimeScale>0.75</TimeScale>
+			<Iterative>0.95</Iterative>
+			<NameGenerator>GameSport</NameGenerator>
+		</Category>
+		<Category Name="RTS">
+			<Description>Real Time Strategy</Description>
+			<Popularity>0.6</Popularity>
+			<Retention>0.6</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>0.95</Iterative>
+			<NameGenerator>GameRTS</NameGenerator>
+		</Category>
+		<Category Name="FPS">
+			<Description>First Person Shooter</Description>
+			<Popularity>0.75</Popularity>
+			<Retention>0.3</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>0.95</Iterative>
+			<Unlock>1990</Unlock>
+			<NameGenerator>GameFPS</NameGenerator>
+		</Category>
+	</Categories>
+	<OSSpecific>True</OSSpecific>
+	<OSNeed>Game Engine</OSNeed>
+	<OneClient>False</OneClient>
+	<InHouse>False</InHouse>
+	<Features>
+		<Feature Forced="TRUE">
+			<Name>Text-based</Name>
+			<Description>Make the player type a novel to complete the game</Description>
+			<DevTime>2</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>0</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+		<Feature From="Text-based" Vital="TRUE">
+			<Name>2D graphics</Name>
+			<Category>2D</Category>
+			<Description></Description>
+			<DevTime>8</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>2</Stability>
+			<CodeArt>0.5</CodeArt>
+			<Dependency Software="Game Engine">2D rendering</Dependency>
+			<Dependency Software="2D Editor">Pixel manipulation</Dependency>
+		</Feature>
+		<Feature From="2D graphics">
+			<Name>3D graphics</Name>
+			<Category>3D</Category>
+			<Description></Description>
+			<DevTime>12</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.3</CodeArt>
+			<Dependency Software="Game Engine">3D rendering</Dependency>
+			<Dependency Software="3D Editor">Vertex editing</Dependency>
+		</Feature>
+		<Feature>
+			<Name>VR</Name>
+			<Category>3D</Category>
+			<Description>Virtual Reality</Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>0</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Game">3D graphics</Dependency>
+			<Dependency Software="Game Engine">VR</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Physics</Name>
+			<Description>Bouncy stuff</Description>
+			<DevTime>2</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Game Engine">Physics</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Music</Name>
+			<Category>Audio</Category>
+			<Description></Description>
+			<DevTime>6</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0</CodeArt>
+			<Dependency Software="Game Engine">PC speaker</Dependency>
+			<Dependency Software="Audio Tool">Music editor</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Dialog</Name>
+			<Category>Audio</Category>
+			<Description></Description>
+			<DevTime>6</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>3</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0</CodeArt>
+			<Dependency Software="Game Engine">8-bit audio</Dependency>
+			<Dependency Software="Audio Tool">Recording</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Open world</Name>
+			<Unlock>1997</Unlock>
+			<Description></Description>
+			<DevTime>8</DevTime>
+			<Innovation>4</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.5</CodeArt>
+		</Feature>
+		<Feature>
+			<Name>AI</Name>
+			<Description></Description>
+			<DevTime>6</DevTime>
+			<Innovation>3</Innovation>
+			<Usability>3</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+		<Feature>
+			<Name>Local multiplayer</Name>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>3</Innovation>
+			<Usability>3</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+		<Feature>
+			<Name>Multiplayer</Name>
+			<Category>Network</Category>
+			<Unlock>1990</Unlock>
+			<Description>Facilitate the screaming of obscenities by teenagers from all over the world</Description>
+			<DevTime>8</DevTime>
+			<Innovation>4</Innovation>
+			<Usability>2</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Server>0.0003</Server>
+			<Dependency Software="Game Engine">Networking</Dependency>
+		</Feature>
+		<Feature From="Multiplayer">
+			<Name>MMO</Name>
+			<Category>Network</Category>
+			<Unlock>1998</Unlock>
+			<Description></Description>
+			<DevTime>18</DevTime>
+			<Innovation>6</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Server>0.002</Server>
+			<Dependency Software="Game Engine">Networking</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Mod support</Name>
+			<Description>You can mod this feature out of the game if you want</Description>
+			<DevTime>2</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Game Engine">Scripting</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Touch support</Name>
+			<Description></Description>
+			<DevTime>2</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>2</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Operating System">Touch</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Advanced input</Name>
+			<Category>System</Category>
+			<Description>Wheels, joysticks, etc.</Description>
+			<DevTime>4</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Operating System">Plug'n'Play</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Cutscenes</Name>
+			<Category>2D</Category>
+			<Description></Description>
+			<DevTime>3</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0</CodeArt>
+			<Dependency Software="2D Editor">Video editing</Dependency>
+		</Feature>
+		<Feature From="Cutscenes">
+			<Name>Advanced cutscenes</Name>
+			<Category>3D</Category>
+			<Description>Reflect player choices in the story by rendering cutscenes in realtime</Description>
+			<DevTime>5</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.1</CodeArt>
+			<Dependency Software="Game">3D graphics</Dependency>
+			<Dependency Software="3D Editor">Animation</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Motion capture</Name>
+			<Category>3D</Category>
+			<Description></Description>
+			<DevTime>6</DevTime>
+			<Innovation>3</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0</CodeArt>
+			<Dependency Software="Game">3D graphics</Dependency>
+			<Dependency Software="3D Editor">Animation</Dependency>
+		</Feature>
+	</Features>
+</SoftwareType>

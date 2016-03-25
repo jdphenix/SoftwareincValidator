@@ -308,6 +308,8 @@ namespace SoftwareincValidator.Serialization.Impl
                 mod.Personalities = LoadPersonalityGraph(absolutePath, mod);
                 mod.BaseFeatures = LoadBaseFeatures(absolutePath, mod);
                 mod.DeletedCompanyTypes = LoadDeletedCompanyTypes(absolutePath, mod);
+
+                _validator.Validate(mod).ToList().ForEach(x => OnModComponentValidation(this, x));
             }
             catch (InvalidOperationException ex)
             {

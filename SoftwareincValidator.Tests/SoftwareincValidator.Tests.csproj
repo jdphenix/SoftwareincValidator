@@ -221,6 +221,9 @@
     <Content Include="res-with-crazy\SoftwareTypes\05 Game Engine.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\06 Game-without-company.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="res-with-crazy\SoftwareTypes\06 Game.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

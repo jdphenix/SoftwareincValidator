@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Validation.Impl
@@ -25,6 +26,7 @@ namespace SoftwareincValidator.Validation.Impl
         private readonly IEnumerable<IModComponentValidator<SoftwareType>>  _modSoftwareTypeValidator;
         private readonly IEnumerable<IModComponentValidator<BaseFeatures>> _modBaseFeaturesValidator;
         private readonly IEnumerable<IModComponentValidator<CompanyTypes>> _modCompanyTypesValidator;
+        private readonly IEnumerable<IModComponentValidator<ISoftincModification>> _modificationValidator; 
 
         public ModValidator(
             IXmlComponentValidator<PersonalityGraph> xmlPersonalitiesValidator,
@@ -38,7 +40,8 @@ namespace SoftwareincValidator.Validation.Impl
             IEnumerable<IModComponentValidator<CompanyType>> modCompanyTypeValidator,
             IEnumerable<IModComponentValidator<SoftwareType>> modSoftwareTypeValidator,
             IEnumerable<IModComponentValidator<BaseFeatures>> modBaseFeaturesValidator,
-            IEnumerable<IModComponentValidator<CompanyTypes>> modCompanyTypesValidator)
+            IEnumerable<IModComponentValidator<CompanyTypes>> modCompanyTypesValidator,
+            IEnumerable<IModComponentValidator<ISoftincModification>> modificationValidator)
         {
             if (xmlPersonalitiesValidator == null)
             {
@@ -100,6 +103,11 @@ namespace SoftwareincValidator.Validation.Impl
                 throw new ArgumentNullException(nameof(modCompanyTypesValidator));
             }
 
+            if (modificationValidator == null)
+            {
+                throw new ArgumentNullException(nameof(modificationValidator));
+            }
+
             _xmlPersonalitiesValidator = xmlPersonalitiesValidator;
             _xmlScenarioValidator = xmlScenarioValidator;
             _xmlCompanyTypeValidator = xmlCompanyTypeValidator;
@@ -112,6 +120,7 @@ namespace SoftwareincValidator.Validation.Impl
             _modSoftwareTypeValidator = modSoftwareTypeValidator;
             _modBaseFeaturesValidator = modBaseFeaturesValidator;
             _modCompanyTypesValidator = modCompanyTypesValidator;
+            _modificationValidator = modificationValidator;
 
             _validations = new Dictionary<string, Func<XmlDocument, IEnumerable<ValidationResult>>>
             {
@@ -181,6 +190,11 @@ namespace SoftwareincValidator.Validation.Impl
         public IEnumerable<ValidationResult> Validate(CompanyTypes component)
         {
             return EnumerateResults(_modCompanyTypesValidator, component);
+        }
+
+        public IEnumerable<ValidationResult> Validate(ISoftincModification modification)
+        {
+            return EnumerateResults(_modificationValidator, modification);
         }
 
         private static IEnumerable<ValidationResult> EnumerateResults<T>(

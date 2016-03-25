@@ -96,6 +96,7 @@
     <Compile Include="Validation\Mod\SoftwareTypeFeaturesNumericValidator.cs" />
     <Compile Include="Validation\Mod\SoftwareTypeMustHaveForcedValidator.cs" />
     <Compile Include="Validation\Mod\SoftwareTypeNumericValidator.cs" />
+    <Compile Include="Validation\Mod\SoftwareTypesShouldHaveAICompany.cs" />
     <Compile Include="Validation\ValidationLevel.cs" />
     <Compile Include="Validation\ValidationModule.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
