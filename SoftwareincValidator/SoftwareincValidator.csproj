@@ -71,6 +71,7 @@
     <Compile Include="Proxy\IWriterProvider.cs" />
     <Compile Include="Proxy\ProxyModule.cs" />
     <Compile Include="Serialization\Impl\BaseFeaturesXmlSerializer.cs" />
+    <Compile Include="Utility\ExpressionComparer.cs" />
     <Compile Include="Validation\IModValidator.cs" />
     <Compile Include="Serialization\ISoftincModificationLoader.cs" />
     <Compile Include="Proxy\IXmlSerializer.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SoftwareincValidator.Model;
+using SoftwareincValidator.Utility;
 
 namespace SoftwareincValidator.Validation.Mod
 {
@@ -31,7 +32,7 @@ namespace SoftwareincValidator.Validation.Mod
                     Feature = dependency.Feature
                 };
 
-            var brokenDependencies = allDependencies.Except(allFeatures);
+            var brokenDependencies = allDependencies.Except(allFeatures, (l,r) => l.Software.Equals(r.Software) && l.Feature.Equals(r.Feature));
 
             return brokenDependencies.Select(x => new ValidationResult(
                 $"Software type {x.Parent} defines a feature with a dependency on {x.Software}:{x.Feature} which doesn't exist."));
