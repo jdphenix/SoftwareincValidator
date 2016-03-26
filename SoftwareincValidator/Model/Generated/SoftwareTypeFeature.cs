@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoftwareincValidator.Model.Generated
 {
-    public class SoftwareTypeFeature
+    public partial class SoftwareTypeFeature
     {
         public SoftwareTypeFeature()
         {

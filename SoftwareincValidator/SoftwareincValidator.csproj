@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Generated\company-type-delete.cs" />
+    <Compile Include="Model\Generated\gen.meta.cs" />
     <Compile Include="Model\Generated\company-type.cs" />
     <Compile Include="Model\Generated\BaseFeatures.cs" />
     <Compile Include="Model\Generated\personalities.cs" />
@@ -80,12 +81,23 @@
     <Compile Include="Serialization\Impl\SoftincModificationXmlSerializer.cs" />
     <Compile Include="Serialization\Impl\SoftwareTypeXmlSerializer.cs" />
     <Compile Include="Validation\IModComponentValidator.cs" />
-    <Compile Include="Validation\Impl\ModComponentValidator.cs" />
-    <Compile Include="Validation\Impl\BaseFeaturesValidator.cs" />
+    <Compile Include="Validation\Impl\XmlBaseFeaturesValidator.cs" />
     <Compile Include="Validation\Impl\ModValidator.cs" />
     <Compile Include="Validation\Impl\SchemaProvider.cs" />
-    <Compile Include="Validation\Impl\SoftwareTypeValidator.cs" />
+    <Compile Include="Validation\Impl\XmlSoftwareTypeValidator.cs" />
+    <Compile Include="Validation\Impl\XmlComponentValidator.cs" />
     <Compile Include="Validation\ISchemaProvider.cs" />
+    <Compile Include="Validation\IXmlComponentValidator.cs" />
+    <Compile Include="Validation\Mod\CompanyTypesMustDefineExistingSoftwareTypes.cs" />
+    <Compile Include="Validation\Mod\FeatureDependenciesMustExist.cs" />
+    <Compile Include="Validation\Mod\ResearchedFeatureMustNotHaveBlankPart.cs" />
+    <Compile Include="Validation\Mod\ResearchedFeaturesDefinedFeaturePart.cs" />
+    <Compile Include="Validation\Mod\ResearchedFeaturesMustHaveUnlockDate.cs" />
+    <Compile Include="Validation\Mod\ResearchedFeaturesMustNotHaveDependencies.cs" />
+    <Compile Include="Validation\Mod\SoftwareTypeFeaturesNumericValidator.cs" />
+    <Compile Include="Validation\Mod\SoftwareTypeMustHaveForcedValidator.cs" />
+    <Compile Include="Validation\Mod\SoftwareTypeNumericValidator.cs" />
+    <Compile Include="Validation\Mod\SoftwareTypesShouldHaveAICompany.cs" />
     <Compile Include="Validation\ValidationLevel.cs" />
     <Compile Include="Validation\ValidationModule.cs" />
     <Compile Include="Validation\ValidationResult.cs" />

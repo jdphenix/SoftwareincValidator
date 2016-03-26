@@ -103,7 +103,7 @@ namespace SoftwareincValidator.Serialization.Impl
             throw new ModificationLoadException($"Provided location {location} doesn't appear to be a mod directory.", null);
         }
 
-        private PersonalityGraph LoadPersonalityGraph(string location)
+        private PersonalityGraph LoadPersonalityGraph(string location, SoftincModification mod)
         {
             var directory = _directoryFactory(location);
 
@@ -122,12 +122,13 @@ namespace SoftwareincValidator.Serialization.Impl
                 doc.Load(reader);
                 _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                 var component = _personalityGraphSerializer.Deserialize(doc);
+                component.Modification = mod;
                 _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                 return component;
             }
         }
 
-        private BaseFeatures LoadBaseFeatures(string absolutePath)
+        private BaseFeatures LoadBaseFeatures(string absolutePath, SoftincModification mod)
         {
             var directory = _directoryFactory(_fileSystem.PathCombine(absolutePath, "SoftwareTypes"));
 
@@ -155,12 +156,13 @@ namespace SoftwareincValidator.Serialization.Impl
 
                 _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                 var component = _baseFeatureSerializer.Deserialize(doc);
+                component.Modification = mod;
                 _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                 return component;
             }
         }
 
-        private IEnumerable<SoftwareType> LoadSoftwareTypes(string location)
+        private IEnumerable<SoftwareType> LoadSoftwareTypes(string location, SoftincModification mod)
         {
             // todo: refactor, magic string
             var directory = _directoryFactory(_fileSystem.PathCombine(location, "SoftwareTypes"));
@@ -185,6 +187,7 @@ namespace SoftwareincValidator.Serialization.Impl
 
                             _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                             var component = _softwareTypeSerializer.Deserialize(doc);
+                            component.Modification = mod;
                             _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                             yield return component;
                         }
@@ -193,7 +196,7 @@ namespace SoftwareincValidator.Serialization.Impl
             }
         }
 
-        private CompanyTypes LoadDeletedCompanyTypes(string location)
+        private CompanyTypes LoadDeletedCompanyTypes(string location, SoftincModification mod)
         {
             // todo: refactor, magic string
             var directory = _directoryFactory(_fileSystem.PathCombine(location, "CompanyTypes"));
@@ -213,12 +216,13 @@ namespace SoftwareincValidator.Serialization.Impl
                 doc.Load(reader);
                 _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                 var component = _companyTypesSerializer.Deserialize(doc);
+                component.Modification = mod;
                 _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                 return component;
             }
         }
 
-        private IEnumerable<Scenario> LoadScenarios(string location)
+        private IEnumerable<Scenario> LoadScenarios(string location, SoftincModification mod)
         {
             // todo: refactor, magic string
             var directory = _directoryFactory(_fileSystem.PathCombine(location, "Scenarios"));
@@ -234,6 +238,7 @@ namespace SoftwareincValidator.Serialization.Impl
                             doc.Load(reader);
                             _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                             var component = _scenarioSerializer.Deserialize(doc);
+                            component.Modification = mod;
                             _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                             yield return component;
                         }
@@ -242,7 +247,7 @@ namespace SoftwareincValidator.Serialization.Impl
             }
         }
 
-        private IEnumerable<CompanyType> LoadCompanyTypes(string location)
+        private IEnumerable<CompanyType> LoadCompanyTypes(string location, SoftincModification mod)
         {
             // todo: refactor, magic string
             var directory = _directoryFactory(_fileSystem.PathCombine(location, "CompanyTypes"));
@@ -258,6 +263,7 @@ namespace SoftwareincValidator.Serialization.Impl
                             doc.Load(reader);
                             _validator.Validate(doc).ToList().ForEach(x => OnXmlValidation(this, x));
                             var component = _companyTypeSerializer.Deserialize(doc);
+                            component.Modification = mod;
                             _validator.Validate(component).ToList().ForEach(x => OnModComponentValidation(this, x));
                             yield return component;
                         }
@@ -284,24 +290,26 @@ namespace SoftwareincValidator.Serialization.Impl
 
             try
             {
-                foreach (var softwareType in LoadSoftwareTypes(absolutePath))
+                foreach (var softwareType in LoadSoftwareTypes(absolutePath, mod))
                 {
                     mod.SoftwareTypes.Add(softwareType);
                 }
 
-                foreach (var scenario in LoadScenarios(absolutePath))
+                foreach (var scenario in LoadScenarios(absolutePath, mod))
                 {
                     mod.Scenarios.Add(scenario);
                 }
 
-                foreach (var companyType in LoadCompanyTypes(absolutePath))
+                foreach (var companyType in LoadCompanyTypes(absolutePath, mod))
                 {
                     mod.CompanyTypes.Add(companyType);
                 }
 
-                mod.Personalities = LoadPersonalityGraph(absolutePath);
-                mod.BaseFeatures = LoadBaseFeatures(absolutePath);
-                mod.DeletedCompanyTypes = LoadDeletedCompanyTypes(absolutePath);
+                mod.Personalities = LoadPersonalityGraph(absolutePath, mod);
+                mod.BaseFeatures = LoadBaseFeatures(absolutePath, mod);
+                mod.DeletedCompanyTypes = LoadDeletedCompanyTypes(absolutePath, mod);
+
+                _validator.Validate(mod).ToList().ForEach(x => OnModComponentValidation(this, x));
             }
             catch (InvalidOperationException ex)
             {

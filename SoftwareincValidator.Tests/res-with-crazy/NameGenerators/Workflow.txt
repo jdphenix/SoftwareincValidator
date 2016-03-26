@@ -1,0 +1,20 @@
+-start(base)
+-base(base2,ext,stop)
+Task
+Do
+ToDo
+List
+Clip
+Delegatation
+-base2(ext,stop)
+Man
+Notes
+Stuff
+Viewer
+ Manager
+-ext(stop)
+ Pro
+ Suite
+ Studio
+ Premium
+ Lite

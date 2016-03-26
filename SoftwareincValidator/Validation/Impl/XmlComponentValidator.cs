@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 
 namespace SoftwareincValidator.Validation.Impl
 {
-    internal class ModComponentValidator<T> : IModComponentValidator<T>
+    public class XmlComponentValidator<T> : IXmlComponentValidator<T>
     {
         private static readonly IDictionary<XmlSeverityType, ValidationLevel> SeverityDictionary =
-            new Dictionary<XmlSeverityType, ValidationLevel>()
-            {
+    new Dictionary<XmlSeverityType, ValidationLevel>()
+    {
                 { XmlSeverityType.Error, ValidationLevel.Error },
                 { XmlSeverityType.Warning, ValidationLevel.Warning }
-            };
+    };
 
         private readonly ISchemaProvider _schemaProvider;
 
-        public ModComponentValidator(ISchemaProvider schemaProvider)
+        public XmlComponentValidator(ISchemaProvider schemaProvider)
         {
 
             if (schemaProvider == null)
@@ -27,22 +28,6 @@ namespace SoftwareincValidator.Validation.Impl
             }
 
             _schemaProvider = schemaProvider;
-        }
-
-        public IEnumerable<ValidationResult> Validate(T component)
-        {
-            var results = new List<ValidationResult>();
-
-            // TODO: Validation for model objects
-
-            if (!results.Any())
-            {
-                results.Add(new ValidationResult(
-                    message: $"[{component.GetType().Name}] TODO: Validation for model objects.", 
-                    level: ValidationLevel.Success));
-            }
-
-            return results;
         }
 
         public IEnumerable<ValidationResult> Validate(XmlDocument component)
