@@ -89,9 +89,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res-with-crazy\CompanyTypes\Antivirus-broken.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="Validation\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="res-with-crazy\CompanyTypes\Antivirus.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -191,22 +191,9 @@
     <Content Include="res-with-crazy\Personalities.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res-with-crazy\Scenarios\01-Test-NegativeMoney.xml" />
+    <Content Include="res-with-crazy\Scenarios\02-Test-BadGoals.xml" />
     <Content Include="res-with-crazy\SoftwareTypes\01 Operating System.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-out-of-range-features.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-feature-with-research-dependency.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-invalid-unlock-researched.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-research-feature-with-invalid-part.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor-wrong-forced.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor.xml">
@@ -219,9 +206,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="res-with-crazy\SoftwareTypes\05 Game Engine.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res-with-crazy\SoftwareTypes\06 Game-without-company.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="res-with-crazy\SoftwareTypes\06 Game.xml">
@@ -251,9 +235,6 @@
     <Content Include="res-with-crazy\SoftwareTypes\Base.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Validation\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
