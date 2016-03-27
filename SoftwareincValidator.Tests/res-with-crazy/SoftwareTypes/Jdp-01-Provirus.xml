@@ -1,0 +1,36 @@
+﻿<SoftwareType>
+  <Name>Provirus</Name>
+  <Description>Infects your user's computers with all the things.</Description>
+  <Category>Insanity</Category>
+  <Random>0.3</Random>
+  <Popularity>0.5</Popularity>
+  <Retention>0.5</Retention>
+  <OSSpecific>True</OSSpecific>
+  <OneClient>False</OneClient>
+  <InHouse>False</InHouse>
+  <Unlock>1985</Unlock>
+  <Iterative>1</Iterative>
+  <Features>
+    <Feature>
+      <Name>Virus</Name>
+      <Description>Make it easy for the user to infect their computer with a virus.</Description>
+      <DevTime>2</DevTime>
+      <Innovation>1</Innovation>
+      <Usability>3</Usability>
+      <Stability>-1</Stability>
+      <CodeArt>1</CodeArt>
+      <Dependency Software="Virus">Tree Walk</Dependency>
+    </Feature>
+    <Feature Research="">
+      <Name>Advanced Virus</Name>
+      <Category>Networks</Category>
+      <Description>Off-shore hackers would pay lovely for this.</Description>
+      <DevTime>2</DevTime>
+      <Innovation>1</Innovation>
+      <Usability>3</Usability>
+      <Stability>1</Stability>
+      <CodeArt>1</CodeArt>
+      <Dependency Software="Virus">Self Modifying Code</Dependency>
+    </Feature>
+  </Features>
+</SoftwareType>

@@ -55,7 +55,7 @@ namespace SoftwareincValidator.Validation
 
         public override string ToString()
         {
-            return $"{Level}: {Message}, Source: {Source}";
+            return $"{Level}: {Message}";
         }
     }
 }

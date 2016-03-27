@@ -65,9 +65,6 @@
     <Compile Include="Model\SoftincModificationTests.cs" />
     <Compile Include="Serialization\SoftincFileModificationLoaderTests.cs" />
     <Compile Include="Serialization\SoftincModificationXmlSerializerTests.cs" />
-    <Compile Include="Validation\CompanyTypeValidatorTests.cs" />
-    <Compile Include="Validation\PersonalityGraphValidatorTests.cs" />
-    <Compile Include="Validation\ScenarioValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoftwareincValidator\SoftwareincValidator.csproj">
@@ -91,7 +88,156 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Validation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res-with-crazy\CompanyTypes\Antivirus.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\ComputerOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\ConsoleOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\CreativeTools.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\EvilEmpire.xml" />
+    <Content Include="res-with-crazy\CompanyTypes\FinancialCMS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\GameEngine.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\Games.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\Office.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\PhoneOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\WebCMS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\CompanyTypes\WorkCMS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\2DEditor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\3DEditor.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Antivirus.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Audio.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Company.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\ContractCompany.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Distribution.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Engine.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Financial.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\GameAdventure.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\GameFPS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\GameRPG.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\GameRTS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\GameSimulation.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\GameSport.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\None.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Office.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\OS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\UMLNames.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\WebPublishing.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\NameGenerators\Workflow.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\Personalities.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\Scenarios\01-Test-NegativeMoney.xml" />
+    <Content Include="res-with-crazy\Scenarios\02-Test-BadGoals.xml" />
+    <Content Include="res-with-crazy\SoftwareTypes\01 Operating System.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\02 2D Editor.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\03 3D Editor.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\04 Audio Tool.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\05 Game Engine.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\06 Game.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\07 Office Software.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\08 CMS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\09 Antivirus.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\10 Logistics Application.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\11 Website.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\12 GameAssets.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\13 EmbeddedSystem.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\Base.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\Jdp-01-Provirus.xml" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

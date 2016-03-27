@@ -1,0 +1,64 @@
+<SoftwareType>
+	<Name>Website</Name>
+	<Category>The web</Category>
+	<Description></Description>
+	<Unlock>1990</Unlock>
+	<Random>0</Random>
+	<Popularity>0</Popularity>
+	<Retention>1</Retention>
+	<Iterative>1</Iterative>
+	<OSSpecific>False</OSSpecific>
+	<OneClient>True</OneClient>
+	<InHouse>False</InHouse>
+	<NameGenerator>None</NameGenerator>
+	<Features>
+		<Feature Forced="TRUE">
+			<Name>Static pages</Name>
+			<Description></Description>
+			<DevTime>1</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>1</Usability>
+			<Stability>2</Stability>
+			<CodeArt>0.25</CodeArt>
+		</Feature>
+		<Feature>
+			<Name>Image gallery</Name>
+			<Description></Description>
+			<Category>2D</Category>
+			<DevTime>1</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.1</CodeArt>
+		</Feature>
+		<Feature From="Static pages">
+			<Name>Dynamic pages</Name>
+			<Description></Description>
+			<DevTime>3</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.5</CodeArt>
+		</Feature>
+		<Feature>
+			<Name>Store</Name>
+			<Description></Description>
+			<DevTime>6</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Website">Dynamic pages</Dependency>
+		</Feature>
+		<Feature>
+			<Name>Database</Name>
+			<Category>System</Category>
+			<Description></Description>
+			<DevTime>3</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+	</Features>
+</SoftwareType>

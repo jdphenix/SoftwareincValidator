@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoftwareincValidator.Model.Generated
 {
-    public class BaseFeatures
+    public partial class BaseFeatures
     {
         public IList<SoftwareTypeFeature> Features { get; set; }
         public bool OverridesBaseFeatures { get; set; }

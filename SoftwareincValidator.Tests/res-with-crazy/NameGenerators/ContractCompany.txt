@@ -1,0 +1,26 @@
+-start(pre,base)
+-pre(base)
+Mc
+The 
+-base(smallsecond,largesecond,ext)
+Chicken
+Pit
+Cow
+Car
+Street
+City
+-smallsecond(ext,largesecond,stop)
+Fang
+Fat
+Dump
+Tweak
+-largesecond(ext,stop)
+ Sausage
+ Carrot
+ Fan
+ Stop
+ and Eat
+-ext(stop)
+ Inc.
+ Corp.
+ Ltd.

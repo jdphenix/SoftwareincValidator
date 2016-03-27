@@ -1,0 +1,199 @@
+<SoftwareType>
+	<Name>Operating System</Name>
+	<Category>Computing</Category>
+	<Description>The Operating System is the largest piece of software in Software Inc.
+Most software needs an Operating System to run on. When people stop buying a line of Operating Systems, they will also stop buying software for them.</Description>
+	<Random>0</Random>
+	<Categories>
+		<Category Name="Computer">
+			<Description>For the table</Description>
+			<Popularity>0.95</Popularity>
+			<Retention>0.9</Retention>
+			<TimeScale>1</TimeScale>
+			<Iterative>1</Iterative>
+		</Category>
+		<Category Name="Console">
+			<Description>For the TV</Description>
+			<Popularity>0.75</Popularity>
+			<Retention>0.9</Retention>
+			<TimeScale>0.75</TimeScale>
+			<Iterative>1</Iterative>
+		</Category>
+		<Category Name="Phone">
+			<Description>For the pocket</Description>
+			<Popularity>1</Popularity>
+			<Retention>0.8</Retention>
+			<TimeScale>0.6</TimeScale>
+			<Iterative>1</Iterative>
+			<Unlock>1995</Unlock>
+		</Category>
+	</Categories>
+	<OSSpecific>False</OSSpecific>
+	<OneClient>False</OneClient>
+	<InHouse>False</InHouse>
+	<NameGenerator>OS</NameGenerator>
+	<Features>
+		<Feature Forced="TRUE">
+			<Name>Terminal</Name>
+			<Description>The terminal is the classic text-based interface between the Operating System and the user.</Description>
+			<DevTime>8</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>1</Usability>
+			<Stability>4</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+		<Feature Vital="TRUE">
+			<Name>GUI</Name>
+			<Category>2D</Category>
+			<Unlock>1975</Unlock>
+			<Description>The Graphical User Interface allow users to actually visualize what they are doing. No longer will they be bound to inputting one line at a time.</Description>
+			<DevTime>16</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.7</CodeArt>
+		</Feature>
+		<Feature Vital="TRUE">
+			<Name>3D rendering</Name>
+			<Category>3D</Category>
+			<Description></Description>
+			<DevTime>16</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Operating System">GUI</Dependency>
+			<SoftwareCategory Category="Computer">1983</SoftwareCategory>
+			<SoftwareCategory Category="Console">1983</SoftwareCategory>
+			<SoftwareCategory Category="Phone">2000</SoftwareCategory>
+		</Feature>
+		<Feature Forced="TRUE">
+			<Name>Input system</Name>
+			<Description>Allow the user to interact with the operating system</Description>
+			<DevTime>2</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>2</Usability>
+			<Stability>1</Stability>
+			<CodeArt>1</CodeArt>
+		</Feature>
+		<Feature>
+			<Name Vital="TRUE">Plug'n'Play</Name>
+			<Description>Allow the user to interact with the operating system in any number of ways</Description>
+			<DevTime>4</DevTime>
+			<Innovation>0</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Operating System">Input system</Dependency>
+			<SoftwareCategory Category="Computer">1985</SoftwareCategory>
+			<SoftwareCategory Category="Console">1990</SoftwareCategory>
+		</Feature>
+		<Feature>
+			<Name>Touch</Name>
+			<Unlock>2000</Unlock>
+			<Description>You can never have enough greasy finger prints on a surface</Description>
+			<DevTime>4</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<Dependency Software="Operating System">Input system</Dependency>
+		</Feature>
+		<Feature Vital="TRUE">
+			<Name>Multithreading</Name>
+			<Category>System</Category>
+			<Description>Multithreading allows the Operating System to run mulitple threads at the same time by continually switching between them intelligently, speeding up applications and confusing developers to no end.</Description>
+			<DevTime>6</DevTime>
+			<Innovation>3</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Computer">0</SoftwareCategory>
+			<SoftwareCategory Category="Console">0</SoftwareCategory>
+			<SoftwareCategory Category="Phone">2000</SoftwareCategory>
+		</Feature>
+		<Feature Vital="TRUE">
+			<Name>Multitasking</Name>
+			<Category>System</Category>
+			<Description>Let your users pretend they can multitask by having several applications open at any one time.</Description>
+			<DevTime>6</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Computer">0</SoftwareCategory>
+			<SoftwareCategory Category="Console">2000</SoftwareCategory>
+			<SoftwareCategory Category="Phone">2000</SoftwareCategory>
+			<Dependency Software="Operating System">Multithreading</Dependency>
+		</Feature>
+		<Feature Vital="TRUE">
+			<Name>Networking</Name>
+			<Category>Network</Category>
+			<Description>How will anonymous people troll each other all over the world without this handy feature?</Description>
+			<DevTime>12</DevTime>
+			<Innovation>2</Innovation>
+			<Usability>1</Usability>
+			<Stability>0</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Computer">1985</SoftwareCategory>
+			<SoftwareCategory Category="Console">1985</SoftwareCategory>
+			<SoftwareCategory Category="Phone">2000</SoftwareCategory>
+		</Feature>
+		<Feature>
+			<Name>Auto-update</Name>
+			<Unlock>1991</Unlock>
+			<Description>Keep bugs and malware out, while annoying users with broken drivers and sudden restarts.</Description>
+			<DevTime>3</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>0</Usability>
+			<Stability>2</Stability>
+			<CodeArt>1</CodeArt>
+			<Server>0.0001</Server>
+			<Dependency Software="Operating System">Networking</Dependency>
+		</Feature>
+		<Feature Vital="TRUE">
+			<Name>64-bit</Name>
+			<Category>System</Category>
+			<Description>Doubles the size of bits per register, allowing for bigger numbers, more memory, larger files, the answer to life, etc.</Description>
+			<DevTime>3</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>2</Usability>
+			<Stability>3</Stability>
+			<CodeArt>1</CodeArt>
+			<SoftwareCategory Category="Computer">1993</SoftwareCategory>
+			<SoftwareCategory Category="Console">1995</SoftwareCategory>
+			<SoftwareCategory Category="Phone">2000</SoftwareCategory>
+		</Feature>
+		<Feature Forced="TRUE">
+			<Name>PC speaker</Name>
+			<Description>For all your beeping needs</Description>
+			<DevTime>2</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.9</CodeArt>
+		</Feature>
+		<Feature From="PC speaker" Vital="TRUE">
+			<Name>8-bit audio</Name>
+			<Category>Audio</Category>
+			<Unlock>1984</Unlock>
+			<Description></Description>
+			<DevTime>4</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.9</CodeArt>
+		</Feature>
+		<Feature From="8-bit audio" Vital="TRUE">
+			<Name>HD audio</Name>
+			<Category>Audio</Category>
+			<Unlock>1988</Unlock>
+			<Description>Like 8-bit audio, but with more bit</Description>
+			<DevTime>6</DevTime>
+			<Innovation>1</Innovation>
+			<Usability>1</Usability>
+			<Stability>1</Stability>
+			<CodeArt>0.9</CodeArt>
+		</Feature>
+	</Features>
+</SoftwareType>

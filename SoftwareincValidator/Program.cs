@@ -49,13 +49,14 @@ namespace SoftwareincValidator
             }
 
             var loader = _container.Resolve<ISoftincModificationLoader>();
+
             loader.ModComponentValidation += (s, e) =>
             {
-                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+                Console.WriteLine(e);
             };
             loader.XmlValidation += (s, e) =>
             {
-                if (e.Level < ValidationLevel.Success) Console.WriteLine(e);
+                Console.WriteLine(e);
             };
 
             var mod = loader.Load(args[0]);
@@ -63,6 +64,9 @@ namespace SoftwareincValidator
             if (mod != null)
             {
                 Console.WriteLine($"{mod.Name} loaded.");
+
+                Console.WriteLine("Specializations defined by mod: ");
+                mod.GetSpecializations().ToList().ForEach(Console.WriteLine);
             }
             else
             {

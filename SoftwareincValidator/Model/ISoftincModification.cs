@@ -11,6 +11,14 @@ namespace SoftwareincValidator.Model
         string Name { get; }
 
         /// <summary>
+        /// Gets a list of all specializations defined by this modification. Specializations are 
+        /// defined by &lt;Category&gt; on features. This is the 
+        /// sole way to added Specializations to Software Inc.
+        /// </summary>
+        /// <returns>A list of specializations.</returns>
+        IList<string> GetSpecializations();
+
+            /// <summary>
         /// All Scenarios defined in this modification.
         /// </summary>
         IList<Scenario> Scenarios { get; }

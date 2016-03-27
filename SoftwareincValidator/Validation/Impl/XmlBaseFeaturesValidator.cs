@@ -8,22 +8,8 @@ using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Validation.Impl
 {
-    class BaseFeaturesValidator : IModComponentValidator<BaseFeatures>
+    class XmlBaseFeaturesValidator : IXmlComponentValidator<BaseFeatures>
     {
-        public IEnumerable<ValidationResult> Validate(BaseFeatures component)
-        {
-            var results = new List<ValidationResult>();
-
-            if (!results.Any())
-            {
-                results.Add(new ValidationResult(
-                    message: $"[{component.GetType().Name}] TODO: Validation for model objects.",
-                    level: ValidationLevel.Success));
-            }
-
-            return results;
-        }
-
         public IEnumerable<ValidationResult> Validate(XmlDocument component)
         {
             using (var reader = new XmlNodeReader(component))

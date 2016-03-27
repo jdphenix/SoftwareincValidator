@@ -15,12 +15,16 @@ namespace SoftwareincValidator.Validation
             builder.RegisterType<SchemaProvider>().As<ISchemaProvider>();
             builder.RegisterType<ModValidator>().As<IModValidator>();
 
-            builder.RegisterGeneric(typeof(ModComponentValidator<>))
-                .As(typeof(IModComponentValidator<>));
+            builder.RegisterAssemblyTypes(typeof (IModComponentValidator<>).Assembly)
+                .Where(t => t.GetInterface("IModComponentValidator`1") != null)
+                .AsImplementedInterfaces();
 
-            builder.RegisterType<SoftwareTypeValidator>().As<IModComponentValidator<SoftwareType>>();
-            builder.RegisterType<BaseFeaturesValidator>()
-                .As<IModComponentValidator<BaseFeatures>>();
+            builder.RegisterGeneric(typeof(XmlComponentValidator<>))
+                .As(typeof(IXmlComponentValidator<>));
+
+            builder.RegisterType<XmlSoftwareTypeValidator>().As<IXmlComponentValidator<SoftwareType>>();
+            builder.RegisterType<XmlBaseFeaturesValidator>()
+                .As<IXmlComponentValidator<BaseFeatures>>();
         }
     }
 }

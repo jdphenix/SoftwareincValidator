@@ -1,0 +1,25 @@
+﻿<Scenario>
+  <Name>Test scenario</Name>
+  <Money>
+    <Amount>500</Amount>
+    <Amount>1000</Amount>
+  </Money>
+  <Goals>
+    <Goal>Money 1337,Date 5-1995</Goal>
+    <Goal>Money 1000000,Date 5-2012</Goal>
+    <Goal>Money -1337,Date 5-1995</Goal>
+    <Goal>Money 1000000,Date 12-2012</Goal>
+    <Goal>Money 1000000,Date 0-2012</Goal>
+    <Goal>Money malarkey,Date -9-2012</Goal>
+    <Goal>nokey 1000000,Date -9-2012</Goal>
+  </Goals>
+  <Years>
+    <Year>1980</Year>
+    <Year>1985</Year>
+    <Year>2023</Year>
+  </Years>
+  <Events>
+    <Event>Test</Event>
+  </Events>
+  <Simulation>TRUE</Simulation>
+</Scenario>

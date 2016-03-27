@@ -1,0 +1,16 @@
+-start(base)
+-base(smallsecond,largesecond)
+Super
+Mist
+Play
+Game
+Punch
+Sick
+Kick
+-smallsecond(largesecond,stop)
+play
+shop
+stop
+-largesecond(stop)
+ Store
+ Market
