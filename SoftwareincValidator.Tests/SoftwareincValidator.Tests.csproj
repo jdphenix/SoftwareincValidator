@@ -104,6 +104,7 @@
     <Content Include="res-with-crazy\CompanyTypes\CreativeTools.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res-with-crazy\CompanyTypes\EvilEmpire.xml" />
     <Content Include="res-with-crazy\CompanyTypes\FinancialCMS.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -235,6 +236,7 @@
     <Content Include="res-with-crazy\SoftwareTypes\Base.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="res-with-crazy\SoftwareTypes\Jdp-01-Provirus.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
