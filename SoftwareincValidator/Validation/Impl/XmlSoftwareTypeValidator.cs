@@ -35,16 +35,18 @@ namespace SoftwareincValidator.Validation.Impl
             }
             else
             {
-                ValidateCategories(root.Element("Categories").Elements(), results);
+                ValidateCategories(root.Element("Categories")?.Elements(), results);
             }
 
-            ValidateFeatures(root.Element("Features").Elements(), results);
+            ValidateFeatures(root.Element("Features")?.Elements(), results);
 
             return results;
         }
 
         private void ValidateFeatures(IEnumerable<XElement> component, List<ValidationResult> results)
         {
+            if (component == null) return;
+
             // todo: refactor out to common type
             var attrMayBePresent = new[] {"Vital", "Forced", "From", "Research"};
             var mustBePresent = new[] {"Name", "Description", "DevTime", "Innovation", "Usability", "Stability", "CodeArt"};
@@ -74,6 +76,8 @@ namespace SoftwareincValidator.Validation.Impl
 
         private static void ValidateCategories(IEnumerable<XElement> component, List<ValidationResult> results)
         {
+            if (component == null) return;
+
             var mustBePresent = new[] {"Description", "Popularity", "Retention", "TimeScale", "Iterative"};
             var mayBePresent = mustBePresent.ToList();
             mayBePresent.AddRange(new [] {"Unlock", "NameGenerator"});
@@ -93,12 +97,19 @@ namespace SoftwareincValidator.Validation.Impl
 
         private static void ValidateWithNoCategories(XDocument component, List<ValidationResult> results)
         {
+            if (component == null) return;
+
             var mustBePresent = new[] {"Popularity", "Retention", "Iterative"};
             ValidateRequired(component.Root, results, mustBePresent);
         }
 
         public IEnumerable<ValidationResult> Validate(XmlDocument component)
         {
+            if (component == null)
+            {
+                throw new ArgumentNullException(nameof(component));
+            }
+
             using (var reader = new XmlNodeReader(component))
             {
                 reader.MoveToContent();
@@ -108,6 +119,8 @@ namespace SoftwareincValidator.Validation.Impl
 
         private static void ValidateAllowed(XElement component, List<ValidationResult> results, IEnumerable<string> allowed)
         {
+            if (component == null) return;
+
             // todo: refactor out to common type
             foreach (var tagName in component.Elements().Select(t => t.Name))
             {
@@ -119,6 +132,8 @@ namespace SoftwareincValidator.Validation.Impl
 
         private static void ValidateRequired(XElement component, List<ValidationResult> results, IEnumerable<string> mustBePresent)
         {
+            if (component == null) return;
+
             // todo: refactor out to common type
             foreach (var tagName in mustBePresent)
             {
