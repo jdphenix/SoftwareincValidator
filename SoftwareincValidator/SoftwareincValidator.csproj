@@ -47,17 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Generated\company-type-delete.cs" />
-    <Compile Include="Model\Generated\gen.meta.cs" />
-    <Compile Include="Model\Generated\company-type.cs" />
-    <Compile Include="Model\Generated\BaseFeatures.cs" />
-    <Compile Include="Model\Generated\personalities.cs" />
-    <Compile Include="Model\Generated\scenario.cs" />
-    <Compile Include="Model\Generated\SoftwareType.cs" />
-    <Compile Include="Model\Generated\SoftwareTypeFeature.cs" />
-    <Compile Include="Model\ISoftincModification.cs" />
-    <Compile Include="Model\ModelModule.cs" />
-    <Compile Include="Model\SoftincModification.cs" />
+    <Compile Include="Dto\Generated\company-type-delete.cs" />
+    <Compile Include="Dto\Generated\gen.meta.cs" />
+    <Compile Include="Dto\Generated\company-type.cs" />
+    <Compile Include="Dto\Generated\BaseFeatures.cs" />
+    <Compile Include="Dto\Generated\personalities.cs" />
+    <Compile Include="Dto\Generated\scenario.cs" />
+    <Compile Include="Dto\Generated\SoftwareType.cs" />
+    <Compile Include="Dto\Generated\SoftwareTypeFeature.cs" />
+    <Compile Include="Dto\ISoftincModification.cs" />
+    <Compile Include="Dto\ModelModule.cs" />
+    <Compile Include="Dto\SoftincModification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\IDirectoryInfo.cs" />
@@ -142,10 +142,10 @@
     </PropertyGroup>
   </Target>
   <Target Name="BeforeBuild">
-    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
-    <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
-    <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
-    <Exec Command="&quot;$(XsdPath)&quot; company-type-delete.xsd /c /o:..\Model\Generated\ /n:SoftwareincValidator.Model.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; scenario.xsd /c /o:..\Dto\Generated\ /n:SoftwareincValidator.Dto.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; personalities.xsd /c /o:..\Dto\Generated\ /n:SoftwareincValidator.Dto.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type.xsd /c /o:..\Dto\Generated\ /n:SoftwareincValidator.Dto.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
+    <Exec Command="&quot;$(XsdPath)&quot; company-type-delete.xsd /c /o:..\Dto\Generated\ /n:SoftwareincValidator.Dto.Generated" WorkingDirectory="$(MSBuildProjectDirectory)\xsd" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

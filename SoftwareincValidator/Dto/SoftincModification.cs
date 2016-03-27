@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto.Generated;
 
-namespace SoftwareincValidator.Model
+namespace SoftwareincValidator.Dto
 {
     public sealed class SoftincModification : ISoftincModification
     {

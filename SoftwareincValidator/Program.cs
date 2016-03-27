@@ -1,6 +1,4 @@
-﻿using SoftwareincValidator.Model;
-using SoftwareincValidator.Model.Generated;
-using SoftwareincValidator.Proxy.Impl;
+﻿using SoftwareincValidator.Proxy.Impl;
 using SoftwareincValidator.Serialization;
 using System;
 using System.Collections.Generic;
@@ -12,6 +10,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Autofac;
+using SoftwareincValidator.Dto;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 

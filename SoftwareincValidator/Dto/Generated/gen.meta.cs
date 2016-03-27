@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SoftwareincValidator.Model.Generated
+namespace SoftwareincValidator.Dto.Generated
 {
     public partial class BaseFeatures
     {

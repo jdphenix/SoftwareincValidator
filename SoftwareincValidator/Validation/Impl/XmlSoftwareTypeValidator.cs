@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto.Generated;
 using SoftwareincValidator.Proxy;
 
 namespace SoftwareincValidator.Validation.Impl

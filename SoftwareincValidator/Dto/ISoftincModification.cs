@@ -1,7 +1,7 @@
-﻿using SoftwareincValidator.Model.Generated;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SoftwareincValidator.Dto.Generated;
 
-namespace SoftwareincValidator.Model
+namespace SoftwareincValidator.Dto
 {
     public interface ISoftincModification
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoftwareincValidator.Model;
+using SoftwareincValidator.Dto;
 using SoftwareincValidator.Utility;
 
 namespace SoftwareincValidator.Validation.Mod

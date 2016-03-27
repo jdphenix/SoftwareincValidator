@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Schema;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Serialization;
 

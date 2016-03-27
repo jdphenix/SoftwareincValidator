@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using SoftwareincValidator.Model;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto;
+using SoftwareincValidator.Dto.Generated;
 
 namespace SoftwareincValidator.Validation.Mod
 {

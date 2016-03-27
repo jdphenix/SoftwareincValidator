@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Autofac;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto.Generated;
 using SoftwareincValidator.Validation.Impl;
 
 namespace SoftwareincValidator.Validation

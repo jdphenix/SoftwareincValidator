@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SoftwareincValidator.Model;
+using SoftwareincValidator.Dto;
 
 namespace SoftwareincValidator.Tests.Model
 {

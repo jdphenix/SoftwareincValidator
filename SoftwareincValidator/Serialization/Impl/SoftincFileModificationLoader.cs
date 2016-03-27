@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
-using SoftwareincValidator.Model;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto;
+using SoftwareincValidator.Dto.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using SoftwareincValidator.Model;
+using SoftwareincValidator.Dto;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 

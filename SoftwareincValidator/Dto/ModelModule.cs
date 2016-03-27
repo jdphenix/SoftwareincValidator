@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Autofac;
 
-namespace SoftwareincValidator.Model
+namespace SoftwareincValidator.Dto
 {
     public class ModelModule : Module
     {

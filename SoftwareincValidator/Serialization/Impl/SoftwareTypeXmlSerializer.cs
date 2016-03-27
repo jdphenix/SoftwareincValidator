@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 

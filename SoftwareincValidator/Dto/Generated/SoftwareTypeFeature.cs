@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SoftwareincValidator.Model.Generated
+namespace SoftwareincValidator.Dto.Generated
 {
     public partial class SoftwareTypeFeature
     {

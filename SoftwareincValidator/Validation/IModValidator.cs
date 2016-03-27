@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
-using SoftwareincValidator.Model;
-using SoftwareincValidator.Model.Generated;
+using SoftwareincValidator.Dto;
+using SoftwareincValidator.Dto.Generated;
 
 namespace SoftwareincValidator.Validation
 {
