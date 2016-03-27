@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Model
@@ -23,6 +24,23 @@ namespace SoftwareincValidator.Model
         ///     The name of the modification, as displayed in the game.
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        ///     Gets a list of all specializations defined by this modification. Specializations are 
+        /// defined by &lt;Category&gt; on features. This is the 
+        /// sole way to added Specializations to Software Inc.
+        /// </summary>
+        /// <returns>A list of specializations.</returns>
+        public IList<string> GetSpecializations()
+        {
+            return SoftwareTypes
+                .SelectMany(t => t.Features)
+                .Select(f => f.Category)
+                .Select(c => c ?? "General")
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList();
+        }
 
         /// <summary>
         ///     All Scenarios defined in this modification.
