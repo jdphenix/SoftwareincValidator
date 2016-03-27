@@ -21,5 +21,16 @@
       <CodeArt>1</CodeArt>
       <Dependency Software="Virus">Tree Walk</Dependency>
     </Feature>
+    <Feature Research="">
+      <Name>Advanced Virus</Name>
+      <Category>Networks</Category>
+      <Description>Off-shore hackers would pay lovely for this.</Description>
+      <DevTime>2</DevTime>
+      <Innovation>1</Innovation>
+      <Usability>3</Usability>
+      <Stability>1</Stability>
+      <CodeArt>1</CodeArt>
+      <Dependency Software="Virus">Self Modifying Code</Dependency>
+    </Feature>
   </Features>
 </SoftwareType>
