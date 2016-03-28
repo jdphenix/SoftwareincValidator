@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using SoftwareincValidator.Model;
+using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
 using SoftwareincValidator.Validation;
 
@@ -12,16 +13,24 @@ namespace SoftwareincValidator.Serialization.Impl
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
+        private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer; 
 
         public SoftincModificationXmlSerializer(
-            IWriterProvider writerProvider)
+            IWriterProvider writerProvider,
+            IXmlSerializer<SoftwareType> softwareTypeSerializer)
         {
             if (writerProvider == null)
             {
                 throw new ArgumentNullException(nameof(writerProvider));
             }
 
+            if (softwareTypeSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(softwareTypeSerializer));
+            }
+
             _writerProvider = writerProvider;
+            _softwareTypeSerializer = softwareTypeSerializer;
         }
 
         public event EventHandler Serialized;
@@ -31,10 +40,54 @@ namespace SoftwareincValidator.Serialization.Impl
         {
             if (mod.Personalities != null)
             {
+                XmlDocument doc;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    var ser = new XmlSerializer(mod.Personalities.GetType());
+                    ser.Serialize(memoryStream, mod.Personalities);
+                    memoryStream.Position = 0;
+                    // todo: refactor concrete instantiation
+                    doc = new XmlDocument();
+                    // TODO: Refactor out filesystem dependency
+                    // todo: refactor magic string
+                    doc.Schemas.Add(null, "xsd\\personalities.xsd");
+                    doc.Load(memoryStream);
+                }
+
+                // todo: refactor magic string
+                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Personalities.xml"))
+                // todo: refactor out, writer provider? 
+                using (var xmlWriter = XmlWriter.Create(writer, GetSoftwareincWriterSettings()))
+                {
+                    OnSerializing(new SerializingEventArgs
+                    {
+                        Document = doc,
+                        Modification = mod
+                    });
+
+                    doc.Save(xmlWriter);
+
+                    OnSerialized(new EventArgs());
+                }
             }
 
             foreach (var softwareType in mod.SoftwareTypes)
             {
+                using (var stream = _softwareTypeSerializer.Serialize(softwareType))
+                using (var output = _writerProvider.GetOutputStream($@"{mod.Name}\SoftwareTypes\{softwareType.Name}.xml"))
+                {
+                    // todo: emit the document
+                    OnSerializing(new SerializingEventArgs
+                    {
+                        Document = null,
+                        Modification = mod
+                    });
+
+                    stream.CopyTo(output);
+
+                    OnSerialized(new EventArgs());
+                }
             }
 
             foreach (var companyType in mod.CompanyTypes)

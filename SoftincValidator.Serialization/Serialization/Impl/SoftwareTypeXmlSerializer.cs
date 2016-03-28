@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SoftwareincValidator.Model.Generated;
@@ -191,20 +192,101 @@ namespace SoftwareincValidator.Serialization.Impl
 
         public Stream Serialize(SoftwareType component)
         {
-            throw new NotImplementedException();
-
-            XElement softwareType = new XElement("SoftwareType", 
+            XElement softwareType = new XElement("SoftwareType",
                 new XElement("Name", component.Name), 
                 new XElement("Category", component.Category), 
-                new XElement("Description", component.Description));
+                new XElement("Description", component.Description), 
+                new XElement("Random", component.Random), 
+                new XElement("Popularity", component.Popularity), 
+                new XElement("Retention", component.Retention), 
+                new XElement("Iterative", component.Iterative), 
+                new XElement("OSSpecific", component.OSSpecific), 
+                new XElement("OneClient", component.OneClient), 
+                new XElement("InHouse", component.InHouse), 
+                new XElement("Unlock", component.Unlock));
 
-            var doc = new XDocument();
-            doc.Add(softwareType);
-            
+            if (component.NameGenerator != null) softwareType.Add(new XElement("NameGenerator", component.NameGenerator));
+
+            if (component.CategoriesDefined)
+            {
+                softwareType.Add(new XElement("Categories", 
+                    SerializeCategories(component.Categories))
+                );
+            }
+
+            softwareType.Add(new XElement("Features", SerializeFeatures(component.Features)));
+
+            var doc = new XDocument(
+                softwareType
+            );
+
             var stream = new MemoryStream();
-            doc.Save(stream);
+            var writer = XmlWriter.Create(stream, GetSoftwareincWriterSettings());
+            doc.WriteTo(writer);
+            writer.Flush();
             stream.Position = 0;
             return stream;
+        }
+
+        private IEnumerable<XElement> SerializeFeatures(IList<SoftwareTypeFeature> features)
+        {
+            foreach (var f in features)
+            {
+                var e = new XElement("Feature",
+                            new XAttribute("Forced", f.Forced),
+                            new XAttribute("Vital", f.Vital),
+                            new XElement("Name", f.Name ?? ""),
+                            new XElement("Description", f.Description ?? ""),
+                            new XElement("DevTime", f.DevTime),
+                            new XElement("Innovation", f.Innovation),
+                            new XElement("Usability", f.Usability),
+                            new XElement("Stability", f.Stability),
+                            new XElement("CodeArt", f.CodeArt));
+
+                if (f.From != null) e.Add(new XAttribute("From", f.From));
+                if (f.Research != null) e.Add(new XAttribute("Research", f.Research));
+
+                foreach (var dependency in f.Dependencies)
+                {
+                    e.Add(new XElement("Dependency", 
+                        new XAttribute("Software", dependency.SoftwareType), 
+                        dependency.Feature));
+                }
+
+                foreach (var categoryRestriction in f.SoftwareCategories)
+                {
+                    e.Add(new XElement("SoftwareCategory", 
+                        new XAttribute("Category", categoryRestriction.Category),
+                        categoryRestriction.Unlock));
+                }
+
+                yield return e;
+            }
+        }
+
+        private IEnumerable<XElement> SerializeCategories(IList<SoftwareTypeCategory> categories)
+        {
+            return categories.Select(cat => new XElement("Category", 
+                new XAttribute("Name", cat.Name), 
+                new XElement("Description", cat.Description),
+                new XElement("Popularity", cat.Popularity), 
+                new XElement("Retention", cat.Retention), 
+                new XElement("TimeScale", cat.TimeScale), 
+                new XElement("Iterative", cat.Iterative), 
+                new XElement("NameGenerator", cat.NameGenerator)
+            ));
+        }
+
+        private static XmlWriterSettings GetSoftwareincWriterSettings()
+        {
+            return new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                NewLineChars = "\r\n",
+                NewLineHandling = NewLineHandling.Replace,
+                Indent = true,
+                IndentChars = "\t"
+            };
         }
     }
 }

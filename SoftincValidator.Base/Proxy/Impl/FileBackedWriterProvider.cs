@@ -13,14 +13,20 @@ namespace SoftwareincValidator.Proxy.Impl
 
         public TextWriter GetWriter(string writerParameter)
         {
+            var fileStream = GetOutputStream(writerParameter);
+            var writer = new StreamWriter(fileStream);
+
+            return writer;
+        }
+
+        public Stream GetOutputStream(string writerParameter)
+        {
             var fullOutputPath = Path.Combine(OutPath, writerParameter);
             var fi = new FileInfo(fullOutputPath);
             fi.Directory?.Create();
 
             var fileStream = new FileStream(fullOutputPath, FileMode.Create);
-            var writer = new StreamWriter(fileStream);
-
-            return writer;
+            return fileStream;
         }
     }
 }
