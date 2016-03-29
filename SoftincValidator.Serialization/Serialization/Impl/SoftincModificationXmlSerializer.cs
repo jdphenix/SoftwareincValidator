@@ -13,7 +13,47 @@ namespace SoftwareincValidator.Serialization.Impl
     internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
-        private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer; 
+        private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+
+        private static void RegisterBaseXmlMutations(ISoftincModificationSerializer ser)
+        {
+            // TODO: Refactor these out to a.. plugin? 
+            ser.Serializing += (s, e) =>
+            {
+                // Hackish removing of XML declaration.
+                if (e.Document?.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
+                {
+                    e.Document.RemoveChild(e.Document.FirstChild);
+                }
+            };
+
+            // TODO: Refactor these out to a.. plugin? 
+            ser.Serializing += (s, e) =>
+            {
+                if (e.Document != null)
+                {
+                    Action<XmlNode> addTextnodeIfEmpty = null;
+                    addTextnodeIfEmpty = node =>
+                    {
+                        if (node.NodeType == XmlNodeType.Text) return;
+
+                        if (node.HasChildNodes)
+                        {
+                            foreach (XmlNode child in node.ChildNodes)
+                            {
+                                addTextnodeIfEmpty(child);
+                            }
+                        }
+                        else
+                        {
+                            node.AppendChild(node.OwnerDocument.CreateTextNode(string.Empty));
+                        }
+                    };
+
+                    addTextnodeIfEmpty(e.Document);
+                }
+            };
+        }
 
         public SoftincModificationXmlSerializer(
             IWriterProvider writerProvider,
@@ -31,6 +71,8 @@ namespace SoftwareincValidator.Serialization.Impl
 
             _writerProvider = writerProvider;
             _softwareTypeSerializer = softwareTypeSerializer;
+
+            RegisterBaseXmlMutations(this);
         }
 
         public event EventHandler Serialized;
