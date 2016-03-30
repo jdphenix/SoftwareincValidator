@@ -15,6 +15,7 @@ namespace SoftwareincValidator.Proxy
         string PathCombine(string path1, string path2);
         string PathGetDirectoryName(string path);
         string PathGetFullPath(string path);
+        string PathGetFileNameWithoutExtension(string path);
 
         bool FileExists(string path);
         TextReader FileOpenText(string location);

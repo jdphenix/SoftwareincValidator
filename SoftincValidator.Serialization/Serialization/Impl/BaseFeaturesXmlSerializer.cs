@@ -65,7 +65,51 @@ namespace SoftwareincValidator.Serialization.Impl
 
         public Stream Serialize(BaseFeatures component)
         {
-            throw new NotImplementedException();
+            XElement features = new XElement("Features", 
+                new XAttribute("Override", component.OverridesBaseFeatures));
+
+            foreach (var f in component.Features)
+            {
+                var e = new XElement("Feature",
+                    new XAttribute("Forced", f.Forced),
+                    new XAttribute("Vital", f.Vital),
+                    new XElement("Name", f.Name ?? ""),
+                    new XElement("Description", f.Description ?? ""),
+                    new XElement("DevTime", f.DevTime),
+                    new XElement("Innovation", f.Innovation),
+                    new XElement("Usability", f.Usability),
+                    new XElement("Stability", f.Stability),
+                    new XElement("CodeArt", f.CodeArt));
+
+                if (f.From != null) e.Add(new XAttribute("From", f.From));
+                if (f.Research != null) e.Add(new XAttribute("Research", f.Research));
+
+                foreach (var dependency in f.Dependencies)
+                {
+                    e.Add(new XElement("Dependency",
+                        new XAttribute("Software", dependency.SoftwareType),
+                        dependency.Feature));
+                }
+
+                foreach (var categoryRestriction in f.SoftwareCategories)
+                {
+                    e.Add(new XElement("SoftwareCategory",
+                        new XAttribute("Category", categoryRestriction.Category),
+                        categoryRestriction.Unlock));
+                }
+
+                features.Add(e);
+            }
+
+            var doc = new XDocument(
+                features
+            );
+            var stream = new MemoryStream();
+            var writer = XmlWriter.Create(stream, GetSoftwareincWriterSettings());
+            doc.WriteTo(writer);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
 
         private IList<SoftwareTypeFeature> LoadFeatures(XElement element)
@@ -153,6 +197,18 @@ namespace SoftwareincValidator.Serialization.Impl
         private static bool MapBoolean(string value)
         {
             return value != null && value.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static XmlWriterSettings GetSoftwareincWriterSettings()
+        {
+            return new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                NewLineChars = "\r\n",
+                NewLineHandling = NewLineHandling.Replace,
+                Indent = true,
+                IndentChars = "\t"
+            };
         }
     }
 }

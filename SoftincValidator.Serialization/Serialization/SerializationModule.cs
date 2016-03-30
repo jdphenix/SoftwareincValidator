@@ -15,7 +15,7 @@ namespace SoftwareincValidator.Serialization
         {
             builder.RegisterType<SoftincFileModificationLoader>().As<ISoftincModificationLoader>();
 
-            builder.RegisterType<SoftincModificationXmlSerializer>().As<ISoftincModificationSerializer>();
+            builder.RegisterType<SoftincModificationSerializer>().As<ISoftincModificationSerializer>();
 
             builder.RegisterType<SoftwareTypeXmlSerializer>().As<IXmlSerializer<SoftwareType>>();
             builder.RegisterType<BaseFeaturesXmlSerializer>().As<IXmlSerializer<BaseFeatures>>();

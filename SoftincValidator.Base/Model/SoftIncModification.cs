@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SoftincValidator.Base.Model.Generated;
 using SoftwareincValidator.Model.Generated;
 
 namespace SoftwareincValidator.Model
@@ -18,6 +19,7 @@ namespace SoftwareincValidator.Model
             Scenarios = new List<Scenario>();
             CompanyTypes = new List<CompanyType>();
             SoftwareTypes = new List<SoftwareType>();
+            NameGenerators = new List<NameGenerator>();
         }
 
         /// <summary>
@@ -41,6 +43,11 @@ namespace SoftwareincValidator.Model
                 .OrderBy(x => x)
                 .ToList();
         }
+
+        /// <summary>
+        ///     All Name Generators defined in this modification.
+        /// </summary>
+        public IList<NameGenerator> NameGenerators { get; } 
 
         /// <summary>
         ///     All Scenarios defined in this modification.
