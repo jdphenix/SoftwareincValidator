@@ -19,7 +19,8 @@ namespace SoftwareincValidator.Tests.Serialization
     {
         private SoftincModificationSerializer _ser;
         private IWriterProvider _writerProvider;
-        private IXmlSerializer<SoftwareType> _softwareTypeSerializer; 
+        private IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+        private IXmlSerializer<BaseFeatures> _baseFeaturesSerializer; 
         private TextWriter _writer;
 
         [TestInitialize]
@@ -31,14 +32,16 @@ namespace SoftwareincValidator.Tests.Serialization
 
             _softwareTypeSerializer = Substitute.For<IXmlSerializer<SoftwareType>>();
 
-            _ser = new SoftincModificationSerializer(_writerProvider, _softwareTypeSerializer);
+            _baseFeaturesSerializer = Substitute.For<IXmlSerializer<BaseFeatures>>();
+
+            _ser = new SoftincModificationSerializer(_writerProvider, _softwareTypeSerializer, _baseFeaturesSerializer);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_PassedNullWriterProvider_ThrowsException()
         {
-            _ser = new SoftincModificationSerializer(null, _softwareTypeSerializer);
+            _ser = new SoftincModificationSerializer(null, _softwareTypeSerializer, _baseFeaturesSerializer);
         }
 
         [TestMethod]

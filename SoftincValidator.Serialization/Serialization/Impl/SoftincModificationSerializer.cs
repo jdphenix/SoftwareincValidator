@@ -15,6 +15,7 @@ namespace SoftwareincValidator.Serialization.Impl
     {
         private readonly IWriterProvider _writerProvider;
         private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
+        private readonly IXmlSerializer<BaseFeatures> _baseFeaturesSerializer;
 
         private static void RegisterBaseXmlMutations(ISoftincModificationSerializer ser)
         {
@@ -58,7 +59,8 @@ namespace SoftwareincValidator.Serialization.Impl
 
         public SoftincModificationSerializer(
             IWriterProvider writerProvider,
-            IXmlSerializer<SoftwareType> softwareTypeSerializer)
+            IXmlSerializer<SoftwareType> softwareTypeSerializer,
+            IXmlSerializer<BaseFeatures> baseFeaturesSerializer)
         {
             if (writerProvider == null)
             {
@@ -70,8 +72,14 @@ namespace SoftwareincValidator.Serialization.Impl
                 throw new ArgumentNullException(nameof(softwareTypeSerializer));
             }
 
+            if (baseFeaturesSerializer == null)
+            {
+                throw new ArgumentNullException(nameof(baseFeaturesSerializer));
+            }
+
             _writerProvider = writerProvider;
             _softwareTypeSerializer = softwareTypeSerializer;
+            _baseFeaturesSerializer = baseFeaturesSerializer;
 
             RegisterBaseXmlMutations(this);
         }
@@ -81,6 +89,11 @@ namespace SoftwareincValidator.Serialization.Impl
 
         public void Serialize(ISoftincModification mod)
         {
+            if (mod.BaseFeatures != null)
+            {
+                SerializeBaseFeatures(mod);
+            }
+
             if (mod.DeletedCompanyTypes != null)
             {
                 SerializeDeletedCompanies(mod);
@@ -109,6 +122,24 @@ namespace SoftwareincValidator.Serialization.Impl
             foreach (var scen in mod.Scenarios)
             {
                 SerializeScenario(mod, scen);
+            }
+        }
+
+        private void SerializeBaseFeatures(ISoftincModification mod)
+        {
+            using (var stream = _baseFeaturesSerializer.Serialize(mod.BaseFeatures))
+            using (var output = _writerProvider.GetOutputStream($@"{mod.Name}\SoftwareTypes\base.xml"))
+            {
+                // todo: emit the document
+                OnSerializing(new SerializingEventArgs
+                {
+                    Document = null,
+                    Modification = mod
+                });
+
+                stream.CopyTo(output);
+
+                OnSerialized(new EventArgs());
             }
         }
 
