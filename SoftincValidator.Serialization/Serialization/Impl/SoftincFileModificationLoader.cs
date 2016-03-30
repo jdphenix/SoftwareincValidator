@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using SoftincValidator.Base.Model.Generated;
 using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
@@ -270,7 +272,27 @@ namespace SoftwareincValidator.Serialization.Impl
                     }
                 }
             }
-        } 
+        }
+
+        private IEnumerable<NameGenerator> LoadNameGenerators(string absolutePath, SoftincModification mod)
+        {
+            var directory = _directoryFactory(_fileSystem.PathCombine(absolutePath, "NameGenerators"));
+
+            if (directory.Exists)
+            {
+                foreach (var file in directory.GetFiles())
+                {
+                    using (var reader = file.OpenText())
+                    {
+                        yield return new NameGenerator
+                        {
+                            Name = _fileSystem.PathGetFileNameWithoutExtension(file.Name),
+                            GeneratorText = reader.ReadToEnd()
+                        };
+                    }
+                }
+            }
+        }
 
         public ISoftincModification Load(string location)
         {
@@ -290,6 +312,11 @@ namespace SoftwareincValidator.Serialization.Impl
 
             try
             {
+                foreach (var nameGenerator in LoadNameGenerators(absolutePath, mod))
+                {
+                    mod.NameGenerators.Add(nameGenerator);
+                }
+
                 foreach (var softwareType in LoadSoftwareTypes(absolutePath, mod))
                 {
                     mod.SoftwareTypes.Add(softwareType);

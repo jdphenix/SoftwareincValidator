@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SoftwareincValidator.Tests</RootNamespace>
     <AssemblyName>SoftwareincValidator.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,10 +35,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NSubstitute, Version=1.9.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.1.9.2.0\lib\net40\NSubstitute.dll</HintPath>
+    <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -67,24 +70,35 @@
     <Compile Include="Serialization\SoftincModificationXmlSerializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SoftwareincValidator\SoftwareincValidator.csproj">
+    <ProjectReference Include="..\SoftincValidator.Base\SoftincValidator.Base.csproj">
+      <Project>{f3f35b47-35e2-4d3a-b530-49d7d71bb999}</Project>
+      <Name>SoftincValidator.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoftincValidator.Serialization\SoftincValidator.Serialization.csproj">
+      <Project>{909bb096-0bb7-4280-b313-b07b2f3ffd47}</Project>
+      <Name>SoftincValidator.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoftwareincValidator\SoftwareincValidator.Cli.csproj">
       <Project>{cb5b60ad-c2d1-4c6d-a63d-dfd17cdb9667}</Project>
-      <Name>SoftwareincValidator</Name>
+      <Name>SoftwareincValidator.Cli</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SoftwareincValidator\xsd\company-type.xsd">
+    <None Include="..\SoftincValidator.Base\xsd\company-type-delete.xsd">
+      <Link>xsd\company-type-delete.xsd</Link>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\SoftincValidator.Base\xsd\company-type.xsd">
       <Link>xsd\company-type.xsd</Link>
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\SoftwareincValidator\xsd\personalities.xsd">
+    <None Include="..\SoftincValidator.Base\xsd\personalities.xsd">
       <Link>xsd\personalities.xsd</Link>
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\SoftwareincValidator\xsd\scenario.xsd">
+    <None Include="..\SoftincValidator.Base\xsd\scenario.xsd">
       <Link>xsd\scenario.xsd</Link>
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -94,6 +108,7 @@
   <ItemGroup>
     <Content Include="res-with-crazy\CompanyTypes\Antivirus.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="res-with-crazy\CompanyTypes\ComputerOS.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -104,7 +119,9 @@
     <Content Include="res-with-crazy\CompanyTypes\CreativeTools.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="res-with-crazy\CompanyTypes\EvilEmpire.xml" />
+    <Content Include="res-with-crazy\CompanyTypes\EvilEmpire.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="res-with-crazy\CompanyTypes\FinancialCMS.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -220,6 +237,7 @@
     </Content>
     <Content Include="res-with-crazy\SoftwareTypes\09 Antivirus.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="res-with-crazy\SoftwareTypes\10 Logistics Application.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
