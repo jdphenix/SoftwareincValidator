@@ -81,6 +81,11 @@ namespace SoftwareincValidator.Serialization.Impl
 
         public void Serialize(ISoftincModification mod)
         {
+            if (mod.DeletedCompanyTypes != null)
+            {
+                SerializeDeletedCompanies(mod);
+            }
+
             if (mod.Personalities != null)
             {
                 SerializePersonalityGraph(mod);
@@ -104,6 +109,40 @@ namespace SoftwareincValidator.Serialization.Impl
             foreach (var scen in mod.Scenarios)
             {
                 SerializeScenario(mod, scen);
+            }
+        }
+
+        private void SerializeDeletedCompanies(ISoftincModification mod)
+        {
+            XmlDocument doc;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                var ser = new XmlSerializer(mod.DeletedCompanyTypes.GetType());
+                ser.Serialize(memoryStream, mod.DeletedCompanyTypes);
+                memoryStream.Position = 0;
+                // todo: refactor concrete instantiation
+                doc = new XmlDocument();
+                // TODO: Refactor out filesystem dependency
+                // todo: refactor magic string
+                doc.Schemas.Add(null, "xsd\\company-type-delete.xsd");
+                doc.Load(memoryStream);
+            }
+
+            // todo: refactor magic string
+            using (var writer = _writerProvider.GetWriter($@"{mod.Name}\CompanyTypes\delete.xml"))
+            // todo: refactor out, writer provider? 
+            using (var xmlWriter = XmlWriter.Create(writer, GetSoftwareincWriterSettings()))
+            {
+                OnSerializing(new SerializingEventArgs
+                {
+                    Document = doc,
+                    Modification = mod
+                });
+
+                doc.Save(xmlWriter);
+
+                OnSerialized(new EventArgs());
             }
         }
 
