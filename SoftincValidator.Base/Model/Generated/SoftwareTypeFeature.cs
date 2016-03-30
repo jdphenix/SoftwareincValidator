@@ -10,6 +10,7 @@ namespace SoftwareincValidator.Model.Generated
         public SoftwareTypeFeature()
         {
             Dependencies = new List<FeatureDependency>();
+            SoftwareCategories = new List<FeatureSoftwareCategory>();
         }
 
         public string Name { get; set; }
