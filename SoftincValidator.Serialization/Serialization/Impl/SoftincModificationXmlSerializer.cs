@@ -82,124 +82,144 @@ namespace SoftwareincValidator.Serialization.Impl
         {
             if (mod.Personalities != null)
             {
-                XmlDocument doc;
-
-                using (var memoryStream = new MemoryStream())
-                {
-                    var ser = new XmlSerializer(mod.Personalities.GetType());
-                    ser.Serialize(memoryStream, mod.Personalities);
-                    memoryStream.Position = 0;
-                    // todo: refactor concrete instantiation
-                    doc = new XmlDocument();
-                    // TODO: Refactor out filesystem dependency
-                    // todo: refactor magic string
-                    doc.Schemas.Add(null, "xsd\\personalities.xsd");
-                    doc.Load(memoryStream);
-                }
-
-                // todo: refactor magic string
-                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Personalities.xml"))
-                // todo: refactor out, writer provider? 
-                using (var xmlWriter = XmlWriter.Create(writer, GetSoftwareincWriterSettings()))
-                {
-                    OnSerializing(new SerializingEventArgs
-                    {
-                        Document = doc,
-                        Modification = mod
-                    });
-
-                    doc.Save(xmlWriter);
-
-                    OnSerialized(new EventArgs());
-                }
+                SerializePersonalityGraph(mod);
             }
 
             foreach (var softwareType in mod.SoftwareTypes)
             {
-                using (var stream = _softwareTypeSerializer.Serialize(softwareType))
-                using (var output = _writerProvider.GetOutputStream($@"{mod.Name}\SoftwareTypes\{softwareType.Name}.xml"))
-                {
-                    // todo: emit the document
-                    OnSerializing(new SerializingEventArgs
-                    {
-                        Document = null,
-                        Modification = mod
-                    });
-
-                    stream.CopyTo(output);
-
-                    OnSerialized(new EventArgs());
-                }
+                SerializeSoftwareType(mod, softwareType);
             }
 
             foreach (var companyType in mod.CompanyTypes)
             {
-                var ser = new XmlSerializer(companyType.GetType());
-                var writerSettings = GetSoftwareincWriterSettings();
-                XmlDocument doc;
-
-                using (var memoryStream = new MemoryStream())
-                {
-                    ser.Serialize(memoryStream, companyType);
-                    memoryStream.Position = 0;
-                    // todo: refactor concrete instantiation
-                    doc = new XmlDocument();
-                    // TODO: Refactor out filesystem dependency
-                    // todo: refactor magic string
-                    doc.Schemas.Add(null, "xsd\\company-type.xsd");
-                    doc.Load(memoryStream);
-                }
-
-                // todo: refactor magic string
-                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\CompanyTypes\{companyType.Specialization}.xml"))
-                // todo: refactor out, writer provider? 
-                using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
-                {
-                    OnSerializing(new SerializingEventArgs
-                    {
-                        Document = doc,
-                        Modification = mod
-                    });
-
-                    doc.Save(xmlWriter);
-
-                    OnSerialized(new EventArgs());
-                }
+                SerialzeCompanyType(mod, companyType);
             }
 
             foreach (var scen in mod.Scenarios)
             {
-                var ser = new XmlSerializer(scen.GetType());
-                var writerSettings = GetSoftwareincWriterSettings();
-                XmlDocument doc;
+                SerializeScenario(mod, scen);
+            }
+        }
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    ser.Serialize(memoryStream, scen);
-                    memoryStream.Position = 0;
-                    // todo: refactor concrete instantiation
-                    doc = new XmlDocument();
-                    // TODO: Refactor out filesystem dependency
-                    // todo: refactor magic string
-                    doc.Schemas.Add(null, "xsd\\scenario.xsd");
-                    doc.Load(memoryStream);
-                }
+        private void SerializePersonalityGraph(ISoftincModification mod)
+        {
+            XmlDocument doc;
 
+            using (var memoryStream = new MemoryStream())
+            {
+                var ser = new XmlSerializer(mod.Personalities.GetType());
+                ser.Serialize(memoryStream, mod.Personalities);
+                memoryStream.Position = 0;
+                // todo: refactor concrete instantiation
+                doc = new XmlDocument();
+                // TODO: Refactor out filesystem dependency
                 // todo: refactor magic string
-                using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
-                    // todo: refactor out, writer provider? 
-                using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
+                doc.Schemas.Add(null, "xsd\\personalities.xsd");
+                doc.Load(memoryStream);
+            }
+
+            // todo: refactor magic string
+            using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Personalities.xml"))
+                // todo: refactor out, writer provider? 
+            using (var xmlWriter = XmlWriter.Create(writer, GetSoftwareincWriterSettings()))
+            {
+                OnSerializing(new SerializingEventArgs
                 {
-                    OnSerializing(new SerializingEventArgs
-                    {
-                        Document = doc,
-                        Modification = mod
-                    });
+                    Document = doc,
+                    Modification = mod
+                });
 
-                    doc.Save(xmlWriter);
+                doc.Save(xmlWriter);
 
-                    OnSerialized(new EventArgs());
-                }
+                OnSerialized(new EventArgs());
+            }
+        }
+
+        private void SerializeSoftwareType(ISoftincModification mod, SoftwareType softwareType)
+        {
+            using (var stream = _softwareTypeSerializer.Serialize(softwareType))
+            using (var output = _writerProvider.GetOutputStream($@"{mod.Name}\SoftwareTypes\{softwareType.Name}.xml"))
+            {
+                // todo: emit the document
+                OnSerializing(new SerializingEventArgs
+                {
+                    Document = null,
+                    Modification = mod
+                });
+
+                stream.CopyTo(output);
+
+                OnSerialized(new EventArgs());
+            }
+        }
+
+        private void SerializeScenario(ISoftincModification mod, Scenario scen)
+        {
+            var ser = new XmlSerializer(scen.GetType());
+            var writerSettings = GetSoftwareincWriterSettings();
+            XmlDocument doc;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                ser.Serialize(memoryStream, scen);
+                memoryStream.Position = 0;
+                // todo: refactor concrete instantiation
+                doc = new XmlDocument();
+                // TODO: Refactor out filesystem dependency
+                // todo: refactor magic string
+                doc.Schemas.Add(null, "xsd\\scenario.xsd");
+                doc.Load(memoryStream);
+            }
+
+            // todo: refactor magic string
+            using (var writer = _writerProvider.GetWriter($@"{mod.Name}\Scenarios\{scen.Name}.xml"))
+                // todo: refactor out, writer provider? 
+            using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
+            {
+                OnSerializing(new SerializingEventArgs
+                {
+                    Document = doc,
+                    Modification = mod
+                });
+
+                doc.Save(xmlWriter);
+
+                OnSerialized(new EventArgs());
+            }
+        }
+
+        private void SerialzeCompanyType(ISoftincModification mod, CompanyType companyType)
+        {
+            var ser = new XmlSerializer(companyType.GetType());
+            var writerSettings = GetSoftwareincWriterSettings();
+            XmlDocument doc;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                ser.Serialize(memoryStream, companyType);
+                memoryStream.Position = 0;
+                // todo: refactor concrete instantiation
+                doc = new XmlDocument();
+                // TODO: Refactor out filesystem dependency
+                // todo: refactor magic string
+                doc.Schemas.Add(null, "xsd\\company-type.xsd");
+                doc.Load(memoryStream);
+            }
+
+            // todo: refactor magic string
+            using (var writer = _writerProvider.GetWriter($@"{mod.Name}\CompanyTypes\{companyType.Specialization}.xml"))
+            // todo: refactor out, writer provider? 
+            using (var xmlWriter = XmlWriter.Create(writer, writerSettings))
+            {
+                OnSerializing(new SerializingEventArgs
+                {
+                    Document = doc,
+                    Modification = mod
+                });
+
+                doc.Save(xmlWriter);
+
+                OnSerialized(new EventArgs());
             }
         }
 
