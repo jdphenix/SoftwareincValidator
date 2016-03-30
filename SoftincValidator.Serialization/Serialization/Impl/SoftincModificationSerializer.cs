@@ -87,6 +87,13 @@ namespace SoftwareincValidator.Serialization.Impl
         public event EventHandler Serialized;
         public event EventHandler<SerializingEventArgs> Serializing;
 
+        public void Serialize(ISoftincModification mod, string path)
+        {
+            _writerProvider.OverrideLocation(path);
+            Serialize(mod);
+            _writerProvider.ResetLocation();
+        }
+
         public void Serialize(ISoftincModification mod)
         {
             if (mod.BaseFeatures != null)
