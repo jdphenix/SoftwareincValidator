@@ -1,5 +1,6 @@
 ﻿using SoftwareincValidator.Model.Generated;
 using System.Collections.Generic;
+using SoftincValidator.Base.Model.Generated;
 
 namespace SoftwareincValidator.Model
 {
@@ -17,6 +18,8 @@ namespace SoftwareincValidator.Model
         /// </summary>
         /// <returns>A list of specializations.</returns>
         IList<string> GetSpecializations();
+
+        IList<NameGenerator> NameGenerators { get; }
 
             /// <summary>
         /// All Scenarios defined in this modification.

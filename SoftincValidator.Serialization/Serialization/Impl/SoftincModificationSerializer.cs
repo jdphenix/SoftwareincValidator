@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using SoftincValidator.Base.Model.Generated;
 using SoftwareincValidator.Model;
 using SoftwareincValidator.Model.Generated;
 using SoftwareincValidator.Proxy;
@@ -10,7 +11,7 @@ using SoftwareincValidator.Validation;
 
 namespace SoftwareincValidator.Serialization.Impl
 {
-    internal sealed class SoftincModificationXmlSerializer : ISoftincModificationSerializer
+    internal sealed class SoftincModificationSerializer : ISoftincModificationSerializer
     {
         private readonly IWriterProvider _writerProvider;
         private readonly IXmlSerializer<SoftwareType> _softwareTypeSerializer;
@@ -55,7 +56,7 @@ namespace SoftwareincValidator.Serialization.Impl
             };
         }
 
-        public SoftincModificationXmlSerializer(
+        public SoftincModificationSerializer(
             IWriterProvider writerProvider,
             IXmlSerializer<SoftwareType> softwareTypeSerializer)
         {
@@ -85,6 +86,11 @@ namespace SoftwareincValidator.Serialization.Impl
                 SerializePersonalityGraph(mod);
             }
 
+            foreach (var nameGenerator in mod.NameGenerators)
+            {
+                SerializeNameGenerator(mod, nameGenerator);
+            }
+
             foreach (var softwareType in mod.SoftwareTypes)
             {
                 SerializeSoftwareType(mod, softwareType);
@@ -98,6 +104,14 @@ namespace SoftwareincValidator.Serialization.Impl
             foreach (var scen in mod.Scenarios)
             {
                 SerializeScenario(mod, scen);
+            }
+        }
+
+        private void SerializeNameGenerator(ISoftincModification mod, NameGenerator nameGenerator)
+        {
+            using (var writer = _writerProvider.GetWriter($@"{mod.Name}\NameGenerators\{nameGenerator.Name}.txt"))
+            {
+                writer.WriteLine(nameGenerator.GeneratorText);
             }
         }
 

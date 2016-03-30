@@ -48,7 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Impl\BaseFeaturesXmlSerializer.cs" />
     <Compile Include="Serialization\Impl\SoftincFileModificationLoader.cs" />
-    <Compile Include="Serialization\Impl\SoftincModificationXmlSerializer.cs" />
+    <Compile Include="Serialization\Impl\SoftincModificationSerializer.cs" />
     <Compile Include="Serialization\Impl\SoftwareTypeXmlSerializer.cs" />
     <Compile Include="Serialization\ISoftincModificationLoader.cs" />
     <Compile Include="Serialization\ISoftincModificationSerializer.cs" />

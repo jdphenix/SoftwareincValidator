@@ -50,6 +50,7 @@
     <Compile Include="Model\Generated\company-type-delete.cs" />
     <Compile Include="Model\Generated\company-type.cs" />
     <Compile Include="Model\Generated\gen.meta.cs" />
+    <Compile Include="Model\Generated\NameGenerator.cs" />
     <Compile Include="Model\Generated\personalities.cs" />
     <Compile Include="Model\Generated\scenario.cs" />
     <Compile Include="Model\Generated\SoftwareType.cs" />
